@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7vardgme2rjt"]
+
+[ext_resource type="Texture2D" uid="uid://udolnd7a1p0v" path="res://graphics/Terry_Layers_Better(2).png" id="1_3vyb7"]
+[ext_resource type="Script" uid="uid://dltcekx8us6ed" path="res://scenes/player.gd" id="1_qhqgy"]
+[ext_resource type="Texture2D" uid="uid://dmmg6mupt3iy5" path="res://graphics/Terry_Layers_Better.png" id="2_g2els"]
+
+[node name="Player" type="Node2D"]
+script = ExtResource("1_qhqgy")
+
+[node name="Terry" type="Sprite2D" parent="."]
+position = Vector2(627, 581)
+texture = ExtResource("1_3vyb7")
+
+[node name="Terry2" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(569, 226)
+texture = ExtResource("2_g2els")
