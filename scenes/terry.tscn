@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bgh761v2nh5bu"]
+
+[ext_resource type="Script" uid="uid://c7vnyuu0bjwpf" path="res://scenes/terry.gd" id="1_j10ga"]
+[ext_resource type="Texture2D" uid="uid://dmmg6mupt3iy5" path="res://graphics/Terry_Layers_Better.png" id="1_k4a76"]
+
+[node name="terry" type="Node2D" unique_id=592085347]
+script = ExtResource("1_j10ga")
+
+[node name="Terry1" type="Sprite2D" parent="." unique_id=1582274201]
+position = Vector2(618, 502)
+texture = ExtResource("1_k4a76")
