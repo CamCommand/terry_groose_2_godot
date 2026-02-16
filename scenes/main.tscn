@@ -2,23 +2,20 @@
 
 [ext_resource type="Script" uid="uid://3gknb1dmusfl" path="res://scenes/main.gd" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://bgh761v2nh5bu" path="res://scenes/terry.tscn" id="1_o5qli"]
+[ext_resource type="Texture2D" uid="uid://cukkha6a6edk8" path="res://graphics/horse.png" id="3_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://damfhewpw5kms" path="res://scenes/horse_coin.tscn" id="3_sugp2"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_7dm0k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sugp2"]
-size = Vector2(1293, 71)
+size = Vector2(7630, 71)
 
 [node name="level" type="Node2D" unique_id=1595950429]
 script = ExtResource("1_0wfyh")
-TrowlUpgradeCost = null
-TrowlCounter = null
-TrowlCheck = null
-SuperTrowlCheck = null
-PanUpgradeCost = null
-PanCounter = null
-PanCheck = null
-SuperPanCheck = null
+Sand_Total = 5.0
+Sand_Total_Eaten = 5.0
+listItems = [null, null, null, null, null]
+Coin_Spawn_Time = null
 
 [node name="BG" type="Sprite2D" parent="." unique_id=1892769247]
 position = Vector2(635.00006, 362.8237)
@@ -30,45 +27,89 @@ texture = SubResource("CanvasTexture_7dm0k")
 [node name="HorseCoin" parent="." unique_id=1391471603 instance=ExtResource("3_sugp2")]
 visible = false
 
+[node name="Horse" type="Sprite2D" parent="." unique_id=1165853027 groups=["horse_vars"]]
+visible = false
+position = Vector2(287, 382.5)
+scale = Vector2(0.5133333, 0.46333334)
+texture = ExtResource("3_jyhfs")
+
 [node name="Sand_Ate" type="Label" parent="." unique_id=1450036184]
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 132.0
+offset_bottom = 28.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Sand Ate: 800014.0 .lbs"
+text = "Sand Ate: 5.0.lbs"
 
 [node name="Sand_Dollar" type="Label" parent="." unique_id=1698664243]
-offset_top = 32.0
-offset_right = 102.0
-offset_bottom = 55.0
+offset_left = 5.0
+offset_top = 35.0
+offset_right = 143.0
+offset_bottom = 58.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Sand Dollars: $800014.0"
+text = "Sand Dollars: $5.0"
+
+[node name="Sand_Mult" type="Label" parent="." unique_id=327834747]
+offset_left = 5.0
+offset_top = 65.0
+offset_right = 191.0
+offset_bottom = 88.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Consumption Rate: 1x"
+
+[node name="HorseCoins" type="Label" parent="." unique_id=1300319836]
+visible = false
+offset_left = 5.0
+offset_top = 95.0
+offset_right = 191.0
+offset_bottom = 118.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Horse Coins:"
 
 [node name="SpoonButton" type="Button" parent="." unique_id=1645047945]
-offset_left = 1079.0
-offset_top = 41.0
-offset_right = 1210.0
-offset_bottom = 108.0
+offset_left = 1080.0
+offset_top = 40.0
+offset_right = 1235.0
+offset_bottom = 110.0
 disabled = true
 text = "Buy ???
 100"
 
 [node name="TrowlButton" type="Button" parent="." unique_id=359608672]
-offset_left = 1079.0
-offset_top = 147.0
-offset_right = 1210.0
-offset_bottom = 214.0
+offset_left = 1080.0
+offset_top = 140.0
+offset_right = 1235.0
+offset_bottom = 210.0
 disabled = true
 text = "Buy ???
 1000"
 
 [node name="PanButton" type="Button" parent="." unique_id=1457680434]
-offset_left = 1077.0
-offset_top = 261.0
-offset_right = 1208.0
-offset_bottom = 328.0
+offset_left = 1080.0
+offset_top = 240.0
+offset_right = 1235.0
+offset_bottom = 310.0
 disabled = true
 text = "Buy ???
 3000"
+
+[node name="ShovelButton" type="Button" parent="." unique_id=772327937]
+offset_left = 1080.0
+offset_top = 340.0
+offset_right = 1235.0
+offset_bottom = 410.0
+disabled = true
+text = "Buy ???
+10000"
+
+[node name="CLSButton" type="Button" parent="." unique_id=1890620323]
+offset_left = 1080.0
+offset_top = 440.0
+offset_right = 1235.0
+offset_bottom = 510.0
+disabled = true
+text = "Buy ???
+100000"
 
 [node name="SpoonTimer" type="Timer" parent="." unique_id=1660835332]
 wait_time = 0.25
@@ -82,19 +123,31 @@ autostart = true
 wait_time = 0.25
 autostart = true
 
+[node name="ShovelTimer" type="Timer" parent="." unique_id=1591489944]
+wait_time = 0.25
+autostart = true
+
+[node name="CLSTimer" type="Timer" parent="." unique_id=1684429265]
+wait_time = 0.25
+autostart = true
+
 [node name="CoinTimer" type="Timer" parent="." unique_id=2022307423]
-wait_time = 0.5
+autostart = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=126391987]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=179346120]
-position = Vector2(637, 775)
+position = Vector2(312, 850)
 shape = SubResource("RectangleShape2D_sugp2")
 
 [connection signal="pressed" from="SpoonButton" to="." method="_on_spoon_button_pressed"]
 [connection signal="pressed" from="TrowlButton" to="." method="_on_trowl_button_pressed"]
 [connection signal="pressed" from="PanButton" to="." method="_on_pan_button_pressed"]
+[connection signal="pressed" from="ShovelButton" to="." method="_on_shovel_button_pressed"]
+[connection signal="pressed" from="CLSButton" to="." method="_on_cls_button_pressed"]
 [connection signal="timeout" from="SpoonTimer" to="." method="_on_spoon_timer_timeout"]
 [connection signal="timeout" from="TrowlTimer" to="." method="_on_trowl_timer_timeout"]
 [connection signal="timeout" from="PanTimer" to="." method="_on_pan_timer_timeout"]
+[connection signal="timeout" from="ShovelTimer" to="." method="_on_shovel_timer_timeout"]
+[connection signal="timeout" from="CLSTimer" to="." method="_on_cls_timer_timeout"]
 [connection signal="timeout" from="CoinTimer" to="." method="_on_coin_timer_timeout"]
