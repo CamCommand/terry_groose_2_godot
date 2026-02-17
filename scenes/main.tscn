@@ -12,10 +12,10 @@ size = Vector2(7630, 71)
 
 [node name="level" type="Node2D" unique_id=1595950429]
 script = ExtResource("1_0wfyh")
-Sand_Total = 5.0
-Sand_Total_Eaten = 5.0
+Sand_Total = 100000019.0
+Sand_Total_Eaten = 10017.0
 listItems = [null, null, null, null, null]
-Coin_Spawn_Time = null
+Coin_Spawn_Time = 351.61080488883704
 
 [node name="BG" type="Sprite2D" parent="." unique_id=1892769247]
 position = Vector2(635.00006, 362.8237)
@@ -39,7 +39,7 @@ offset_top = 5.0
 offset_right = 132.0
 offset_bottom = 28.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Sand Ate: 5.0.lbs"
+text = "Sand Ate: 10016.0.lbs"
 
 [node name="Sand_Dollar" type="Label" parent="." unique_id=1698664243]
 offset_left = 5.0
@@ -47,7 +47,7 @@ offset_top = 35.0
 offset_right = 143.0
 offset_bottom = 58.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Sand Dollars: $5.0"
+text = "Sand Dollars: $100000018.0"
 
 [node name="Sand_Mult" type="Label" parent="." unique_id=327834747]
 offset_left = 5.0
@@ -132,6 +132,7 @@ wait_time = 0.25
 autostart = true
 
 [node name="CoinTimer" type="Timer" parent="." unique_id=2022307423]
+wait_time = 1.0159999999999998
 autostart = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=126391987]

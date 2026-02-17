@@ -101,6 +101,11 @@ func _on_spoon_timer_timeout() -> void:
 		$SpoonButton.text = "Buy " + "\n" + "Super Spoon " + "\n" +  str(SpoonUpgradeCost)
 		$SpoonButton.disabled = true
 		$SpoonButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
+			
+	elif SuperSpoonCheck == true && SpoonCounter == 21:
+		$SpoonButton.text = "Max Spoon" + "\n" + " Reached"
+		$SpoonButton.disabled = true
+		$SpoonButton.modulate = Color(0.0, 0.0, 0.0, 1.0)	
 
 func _on_spoon_button_pressed() -> void:
 	#$SpoonButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
@@ -243,6 +248,10 @@ func _on_trowl_timer_timeout() -> void:
 		$TrowlButton.text = "Buy " + "\n" + "Super Trowl " + "\n" + str(TrowlUpgradeCost)
 		$TrowlButton.disabled = true
 		$SpoonButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
+	elif SuperTrowlCheck == true && TrowlCounter == 26:
+		$TrowlButton.text = "Max Trowl" + "\n" + " Reached"
+		$TrowlButton.disabled = true
+		$TrowlButton.modulate = Color(0.0, 0.0, 0.0, 1.0)	
 
 func _on_pan_button_pressed() -> void:
 #$PanButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
@@ -327,6 +336,10 @@ func _on_pan_timer_timeout() -> void:
 		$PanButton.text = "Buy " + "\n" + "Super Pan " + "\n" +  str(PanUpgradeCost)
 		$PanButton.disabled = true
 		$PanButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
+	elif SuperPanCheck == true && PanCounter == 31:
+		$PanButton.text = "Max Pan" + "\n" + " Reached"
+		$PanButton.disabled = true
+		$PanButton.modulate = Color(0.0, 0.0, 0.0, 1.0)	
 
 func _on_shovel_timer_timeout() -> void:
 # checking and setting Shovel Button conditions
@@ -353,6 +366,10 @@ func _on_shovel_timer_timeout() -> void:
 		$ShovelButton.text = "Buy " + "\n" + "Super Shovel " + "\n" +  str(ShovelUpgradeCost)
 		$ShovelButton.disabled = true
 		$ShovelButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
+	elif SuperShovelCheck == true && ShovelCounter == 36:
+		$ShovelButton.text = "Max Shovel" + "\n" + " Reached"
+		$ShovelButton.disabled = true
+		$ShovelButton.modulate = Color(0.0, 0.0, 0.0, 1.0)	
 	
 func _on_shovel_button_pressed() -> void:
 #$ShovelButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
@@ -437,6 +454,10 @@ func _on_cls_timer_timeout() -> void:
 		$CLSButton.text = "Buy Funnier " + "\n" + "Comically Large" + "\n" + " SPOON " + "\n" + str(CLSUpgradeCost)
 		$CLSButton.disabled = true
 		$CLSButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
+	elif FCLSCheck == true && CLSCounter == 50:
+		$CLSButton.text = "Max Spoonage" + "\n" + " Reached"
+		$CLSButton.disabled = true
+		$CLSButton.modulate = Color(0.0, 0.0, 0.0, 1.0)	
 
 func _on_cls_button_pressed() -> void:
 #$CLSButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
