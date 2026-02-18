@@ -2,8 +2,8 @@
 extends Node2D
 
 @export var Sand: float = 1
-@export var Sand_Total: float = 0
-@export var Sand_Total_Eaten: float = 0
+@export var Sand_Total: float 
+@export var Sand_Total_Eaten: float 
 var next_input: bool = false
 @export var s_label: String
 @export var s_label_d: String
@@ -38,6 +38,8 @@ var coin_scene: PackedScene = load("res://scenes/horse_coin.tscn")
 @export var listItems: Array = []
 @export var Coin_Spawn_Time: float 
 
+var Horse_Sand_Eat: int
+var HorseCheck: bool = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Sand_Total = 0
@@ -45,8 +47,11 @@ func _ready() -> void:
 	# random coin drop time
 	var coin_drop:= RandomNumberGenerator.new()
 	randomize()
-	Coin_Spawn_Time = randf_range(100.05, 400.01)
+	Coin_Spawn_Time = randf_range(150.05, 400.05)
+	#Coin_Spawn_Time = randf_range(1, 5)
+	#Coin_Spawn_Time = randf_range(100.05, 400.01)
 	$CoinTimer.wait_time = Coin_Spawn_Time
+	print($CoinTimer.wait_time)
 	
 	$Sand_Ate.text = "Sand Ate: " + str(snapped(Sand_Total_Eaten, 0.01)) + ".lbs"
 	$Sand_Dollar.text = "Sand Dollars: $" + str(snapped(Sand_Total, 0.01))
@@ -75,7 +80,14 @@ func _process(delta: float) -> void:
 		$Sand_Dollar.text = "Sand Dollars: $" + str(snapped(Sand_Total, 0.01))
 		
 		next_input = false
-
+	
+	# code to change color of Sand_Ate label based on how much sand you ate	
+	#match Sand_Total_Eaten:
+		#Sand_Total_Eaten when Sand_Total_Eaten >= 10 && Sand_Total_Eaten < 20:
+			#$Sand_Ate.add_theme_color_override("font_color", Color.hex(12))
+		#Sand_Total_Eaten when Sand_Total_Eaten >= 20:
+			#$Sand_Ate.add_theme_color_override("font_color", Color.DARK_BLUE)
+			
 func _on_spoon_timer_timeout() -> void:
 	# checking and setting Spoon Button conditions
 	if Sand_Total >= 100 && !listItems.has("Spoon"):
@@ -520,3 +532,10 @@ func _on_cls_button_pressed() -> void:
 func _on_coin_timer_timeout() -> void:
 	var coin = coin_scene.instantiate()
 	add_child(coin)
+
+func _on_horse_timer_timeout() -> void:
+	Sand_Total += Horse_Sand_Eat
+	Sand_Total_Eaten += Horse_Sand_Eat
+
+	$Sand_Ate.text = "Sand Ate: " + str(snapped(Sand_Total_Eaten, 0.01)) + ".lbs"
+	$Sand_Dollar.text = "Sand Dollars: $" + str(snapped(Sand_Total, 0.01))

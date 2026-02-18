@@ -2,25 +2,22 @@
 
 [ext_resource type="Script" uid="uid://3gknb1dmusfl" path="res://scenes/main.gd" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://bgh761v2nh5bu" path="res://scenes/terry.tscn" id="1_o5qli"]
+[ext_resource type="Texture2D" uid="uid://bnqw0e81kmeeq" path="res://graphics/Beach_background.png" id="2_tbgi4"]
 [ext_resource type="Texture2D" uid="uid://cukkha6a6edk8" path="res://graphics/horse.png" id="3_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://damfhewpw5kms" path="res://scenes/horse_coin.tscn" id="3_sugp2"]
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_7dm0k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sugp2"]
 size = Vector2(7630, 71)
 
-[node name="level" type="Node2D" unique_id=1595950429]
+[node name="level" type="Node2D" unique_id=1595950429 groups=["main"]]
 script = ExtResource("1_0wfyh")
-Sand_Total = 100000019.0
-Sand_Total_Eaten = 10017.0
+Sand_Total = 102.0
+Sand_Total_Eaten = 24.0
 listItems = [null, null, null, null, null]
-Coin_Spawn_Time = 351.61080488883704
 
-[node name="BG" type="Sprite2D" parent="." unique_id=1892769247]
-position = Vector2(635.00006, 362.8237)
-scale = Vector2(1330, 743.64746)
-texture = SubResource("CanvasTexture_7dm0k")
+[node name="Background" type="Sprite2D" parent="." unique_id=699113158]
+position = Vector2(640, 360)
+texture = ExtResource("2_tbgi4")
 
 [node name="terry" parent="." unique_id=592085347 instance=ExtResource("1_o5qli")]
 
@@ -39,7 +36,7 @@ offset_top = 5.0
 offset_right = 132.0
 offset_bottom = 28.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Sand Ate: 10016.0.lbs"
+text = "Sand Ate: 24.0.lbs"
 
 [node name="Sand_Dollar" type="Label" parent="." unique_id=1698664243]
 offset_left = 5.0
@@ -47,7 +44,7 @@ offset_top = 35.0
 offset_right = 143.0
 offset_bottom = 58.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Sand Dollars: $100000018.0"
+text = "Sand Dollars: $102.0"
 
 [node name="Sand_Mult" type="Label" parent="." unique_id=327834747]
 offset_left = 5.0
@@ -74,6 +71,7 @@ offset_bottom = 110.0
 disabled = true
 text = "Buy ???
 100"
+icon_alignment = 1
 
 [node name="TrowlButton" type="Button" parent="." unique_id=359608672]
 offset_left = 1080.0
@@ -132,10 +130,15 @@ wait_time = 0.25
 autostart = true
 
 [node name="CoinTimer" type="Timer" parent="." unique_id=2022307423]
-wait_time = 1.0159999999999998
+wait_time = 30.0
+autostart = true
+
+[node name="HorseTimer" type="Timer" parent="." unique_id=1290690363]
+wait_time = 0.25
 autostart = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=126391987]
+position = Vector2(10, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=179346120]
 position = Vector2(312, 850)
@@ -152,3 +155,4 @@ shape = SubResource("RectangleShape2D_sugp2")
 [connection signal="timeout" from="ShovelTimer" to="." method="_on_shovel_timer_timeout"]
 [connection signal="timeout" from="CLSTimer" to="." method="_on_cls_timer_timeout"]
 [connection signal="timeout" from="CoinTimer" to="." method="_on_coin_timer_timeout"]
+[connection signal="timeout" from="HorseTimer" to="." method="_on_horse_timer_timeout"]

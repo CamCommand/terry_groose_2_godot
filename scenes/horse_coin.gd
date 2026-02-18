@@ -9,6 +9,7 @@ var direction_x: float
 var speed
 
 @export var HorseCheck: bool
+@export var Horse_Sand_Eat: int
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -33,15 +34,17 @@ func _process(delta: float) -> void:
 	position += Vector2(direction_x, 1.0) * speed * delta
 
 func _on_button_pressed() -> void:
-		
+	var main = get_tree().get_first_node_in_group("main")
 	var horse = get_tree().get_first_node_in_group("horse_vars")
 	if HorseCheck == false:
 		HorseCheck = true
 		horse.visible = true
-
-	Horse_Coin_Total = 1 # not adding properly, it's their own instance of the variable
-	# delete the coin
-	$".".queue_free()
+	if main:
+		if main.Horse_Sand_Eat == 0:
+			main.Horse_Sand_Eat = 1
+		else:
+			main.Horse_Sand_Eat *= 2
+	queue_free()
 	
 
 func _on_body_entered(body: Node2D) -> void:
