@@ -16,18 +16,12 @@ func _ready() -> void:
 	# setting the coin location at top of screen with random x valye 
 	coin_rng.randomize()
 	var width = get_viewport().get_visible_rect().size[0]
-	coin_pos_x = coin_rng.randi_range(300, width)
+	coin_pos_x = coin_rng.randi_range(300, width-300)
 	coin_pos_y = -120 #coin_rng.randi_range(-100, 0)
 	position = Vector2(coin_pos_x, coin_pos_y)
 	# set coin speed and direction
 	speed = coin_rng.randi_range(350, 450)
-	direction_x = coin_rng.randf_range(-1, 1)
-	# check if horse has been bought already
-	#var horse = get_tree().get_first_node_in_group("horse_vars")
-	#if HorseCheck == false:
-		#horse.visible = false
-	#else:
-		#horse.visible = true
+	direction_x = coin_rng.randf_range(-0.3, 0.3)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

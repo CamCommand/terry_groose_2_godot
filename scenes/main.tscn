@@ -11,22 +11,24 @@ size = Vector2(7630, 71)
 
 [node name="level" type="Node2D" unique_id=1595950429 groups=["main"]]
 script = ExtResource("1_0wfyh")
-Sand_Total = 102.0
-Sand_Total_Eaten = 24.0
+Sand_Total = 839.0
+Sand_Total_Eaten = 839.0
 listItems = [null, null, null, null, null]
+Coin_Spawn_Time = 197.02713997145185
 
 [node name="Background" type="Sprite2D" parent="." unique_id=699113158]
 position = Vector2(640, 360)
 texture = ExtResource("2_tbgi4")
 
 [node name="terry" parent="." unique_id=592085347 instance=ExtResource("1_o5qli")]
+position = Vector2(0, 5)
 
 [node name="HorseCoin" parent="." unique_id=1391471603 instance=ExtResource("3_sugp2")]
 visible = false
 
 [node name="Horse" type="Sprite2D" parent="." unique_id=1165853027 groups=["horse_vars"]]
 visible = false
-position = Vector2(287, 382.5)
+position = Vector2(287.00003, 392.50003)
 scale = Vector2(0.5133333, 0.46333334)
 texture = ExtResource("3_jyhfs")
 
@@ -36,7 +38,9 @@ offset_top = 5.0
 offset_right = 132.0
 offset_bottom = 28.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Sand Ate: 24.0.lbs"
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 5
+text = "Sand Ate: 0.0.lbs"
 
 [node name="Sand_Dollar" type="Label" parent="." unique_id=1698664243]
 offset_left = 5.0
@@ -44,7 +48,9 @@ offset_top = 35.0
 offset_right = 143.0
 offset_bottom = 58.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Sand Dollars: $102.0"
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 5
+text = "Sand Dollars: $0.0"
 
 [node name="Sand_Mult" type="Label" parent="." unique_id=327834747]
 offset_left = 5.0
@@ -52,6 +58,8 @@ offset_top = 65.0
 offset_right = 191.0
 offset_bottom = 88.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 5
 text = "Consumption Rate: 1x"
 
 [node name="HorseCoins" type="Label" parent="." unique_id=1300319836]
@@ -65,9 +73,9 @@ text = "Horse Coins:"
 
 [node name="SpoonButton" type="Button" parent="." unique_id=1645047945]
 offset_left = 1080.0
-offset_top = 40.0
+offset_top = 60.0
 offset_right = 1235.0
-offset_bottom = 110.0
+offset_bottom = 130.0
 disabled = true
 text = "Buy ???
 100"
@@ -75,39 +83,48 @@ icon_alignment = 1
 
 [node name="TrowlButton" type="Button" parent="." unique_id=359608672]
 offset_left = 1080.0
-offset_top = 140.0
+offset_top = 160.0
 offset_right = 1235.0
-offset_bottom = 210.0
+offset_bottom = 230.0
 disabled = true
 text = "Buy ???
 1000"
 
 [node name="PanButton" type="Button" parent="." unique_id=1457680434]
 offset_left = 1080.0
-offset_top = 240.0
+offset_top = 260.0
 offset_right = 1235.0
-offset_bottom = 310.0
+offset_bottom = 330.0
 disabled = true
 text = "Buy ???
 3000"
 
 [node name="ShovelButton" type="Button" parent="." unique_id=772327937]
 offset_left = 1080.0
-offset_top = 340.0
+offset_top = 360.0
 offset_right = 1235.0
-offset_bottom = 410.0
+offset_bottom = 430.0
 disabled = true
 text = "Buy ???
 10000"
 
 [node name="CLSButton" type="Button" parent="." unique_id=1890620323]
 offset_left = 1080.0
-offset_top = 440.0
+offset_top = 460.0
 offset_right = 1235.0
-offset_bottom = 510.0
+offset_bottom = 530.0
 disabled = true
 text = "Buy ???
 100000"
+
+[node name="DozerButton" type="Button" parent="." unique_id=1995904189]
+offset_left = 1080.0
+offset_top = 560.0
+offset_right = 1235.0
+offset_bottom = 630.0
+disabled = true
+text = "Buy ???
+1000000"
 
 [node name="SpoonTimer" type="Timer" parent="." unique_id=1660835332]
 wait_time = 0.25
@@ -129,8 +146,11 @@ autostart = true
 wait_time = 0.25
 autostart = true
 
+[node name="DozerTimer" type="Timer" parent="." unique_id=365149269]
+wait_time = 0.25
+autostart = true
+
 [node name="CoinTimer" type="Timer" parent="." unique_id=2022307423]
-wait_time = 30.0
 autostart = true
 
 [node name="HorseTimer" type="Timer" parent="." unique_id=1290690363]
@@ -149,10 +169,12 @@ shape = SubResource("RectangleShape2D_sugp2")
 [connection signal="pressed" from="PanButton" to="." method="_on_pan_button_pressed"]
 [connection signal="pressed" from="ShovelButton" to="." method="_on_shovel_button_pressed"]
 [connection signal="pressed" from="CLSButton" to="." method="_on_cls_button_pressed"]
+[connection signal="pressed" from="DozerButton" to="." method="_on_dozer_button_pressed"]
 [connection signal="timeout" from="SpoonTimer" to="." method="_on_spoon_timer_timeout"]
 [connection signal="timeout" from="TrowlTimer" to="." method="_on_trowl_timer_timeout"]
 [connection signal="timeout" from="PanTimer" to="." method="_on_pan_timer_timeout"]
 [connection signal="timeout" from="ShovelTimer" to="." method="_on_shovel_timer_timeout"]
 [connection signal="timeout" from="CLSTimer" to="." method="_on_cls_timer_timeout"]
+[connection signal="timeout" from="DozerTimer" to="." method="_on_dozer_timer_timeout"]
 [connection signal="timeout" from="CoinTimer" to="." method="_on_coin_timer_timeout"]
 [connection signal="timeout" from="HorseTimer" to="." method="_on_horse_timer_timeout"]
