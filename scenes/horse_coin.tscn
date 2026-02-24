@@ -1,30 +1,49 @@
 [gd_scene format=3 uid="uid://damfhewpw5kms"]
 
 [ext_resource type="Script" uid="uid://cr66y243mv1d4" path="res://scenes/horse_coin.gd" id="1_upcyp"]
-[ext_resource type="Texture2D" uid="uid://b0aw2nsngpqhj" path="res://graphics/horse_coin.png" id="1_y5d6g"]
+[ext_resource type="Shader" uid="uid://rhwn2tj6m1dt" path="res://scenes/horse_coin.gdshader" id="2_bt4pi"]
+[ext_resource type="Texture2D" uid="uid://pac3voytpk2q" path="res://graphics/coin.png" id="2_hn3i8"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y5d6g"]
-radius = 103.0
-height = 252.0
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mhqlt"]
+shader = ExtResource("2_bt4pi")
+shader_parameter/glow_strength = 0.6
+shader_parameter/pulse_speed = 2.0
+shader_parameter/glow_color = Color(1, 1, 0.5, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hn3i8"]
+shader = ExtResource("2_bt4pi")
+shader_parameter/glow_strength = 0.6
+shader_parameter/pulse_speed = 2.0
+shader_parameter/glow_color = Color(1, 1, 0.5, 1)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_upcyp"]
+load_path = "res://.godot/imported/horse_coin.png-fdce9047a549a01b333d9ba0d5f561cc.ctex"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bt4pi"]
+radius = 51.0
 
 [node name="HorseCoin" type="Area2D" unique_id=1391471603]
 script = ExtResource("1_upcyp")
 
 [node name="Button" type="Button" parent="." unique_id=1475927575]
-offset_left = -124.0
-offset_top = -135.0
-offset_right = 134.0
-offset_bottom = 123.0
-icon = ExtResource("1_y5d6g")
+material = SubResource("ShaderMaterial_mhqlt")
+offset_left = -50.0
+offset_top = -48.0
+offset_right = 958.0
+offset_bottom = 960.0
+scale = Vector2(0.1, 0.1)
+icon = ExtResource("2_hn3i8")
 flat = true
 
 [node name="CoinSprite" type="Sprite2D" parent="." unique_id=583159888]
 visible = false
-texture = ExtResource("1_y5d6g")
+material = SubResource("ShaderMaterial_hn3i8")
+texture = SubResource("CompressedTexture2D_upcyp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1679810736]
-position = Vector2(-18, -3)
-shape = SubResource("CapsuleShape2D_y5d6g")
+visible = false
+position = Vector2(0, 2)
+shape = SubResource("CircleShape2D_bt4pi")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

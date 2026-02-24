@@ -29,10 +29,13 @@ func _process(delta: float) -> void:
 
 func _on_button_pressed() -> void:
 	var main = get_tree().get_first_node_in_group("main")
-	var horse = get_tree().get_first_node_in_group("horse_vars")
+	var horse = get_tree().get_first_node_in_group("horse_vars") as AnimatedSprite2D
 	if HorseCheck == false:
 		HorseCheck = true
 		horse.visible = true
+		var horse_tween := create_tween().bind_node(horse).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		horse_tween.tween_property(horse, "position", Vector2(300, 392), 0.5)#.from(Vector2(0,0))
+		#horse_tween.tween_property(horse, 'scale', Vector2(1,1), 0.1).from(Vector2(0,0))
 	if main:
 		if main.Horse_Sand_Eat == 0:
 			main.Horse_Sand_Eat = 1

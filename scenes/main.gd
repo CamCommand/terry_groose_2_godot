@@ -645,14 +645,16 @@ func _on_coin_timer_timeout() -> void:
 	# random coin drop time
 	var coin_drop:= RandomNumberGenerator.new()
 	randomize()
-	Coin_Spawn_Time = randf_range(150.05, 300.05)
+	#Coin_Spawn_Time = randf_range(150.05, 300.05)
 	#Coin_Spawn_Time = randf_range(1, 2)
+	Coin_Spawn_Time = randf_range(5, 8)
 	#Coin_Spawn_Time = randf_range(100.05, 400.01)
 	$CoinTimer.wait_time = Coin_Spawn_Time
 	print($CoinTimer.wait_time)
 	
 	var coin = coin_scene.instantiate()
 	add_child(coin)
+	
 
 func _on_horse_timer_timeout() -> void:
 	Sand_Total += Horse_Sand_Eat
