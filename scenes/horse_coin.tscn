@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cr66y243mv1d4" path="res://scenes/horse_coin.gd" id="1_upcyp"]
 [ext_resource type="Shader" uid="uid://rhwn2tj6m1dt" path="res://scenes/horse_coin.gdshader" id="2_bt4pi"]
 [ext_resource type="Texture2D" uid="uid://pac3voytpk2q" path="res://graphics/coin.png" id="2_hn3i8"]
+[ext_resource type="PackedScene" uid="uid://bln7yaea3mo3j" path="res://scenes/+1.tscn" id="4_bt4pi"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mhqlt"]
 shader = ExtResource("2_bt4pi")
@@ -17,7 +18,6 @@ shader_parameter/pulse_speed = 2.0
 shader_parameter/glow_color = Color(1, 1, 0.5, 1)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_upcyp"]
-load_path = "res://.godot/imported/horse_coin.png-fdce9047a549a01b333d9ba0d5f561cc.ctex"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bt4pi"]
 radius = 51.0
@@ -44,6 +44,9 @@ texture = SubResource("CompressedTexture2D_upcyp")
 visible = false
 position = Vector2(0, 2)
 shape = SubResource("CircleShape2D_bt4pi")
+
+[node name="+1" parent="." unique_id=1286893037 instance=ExtResource("4_bt4pi")]
+visible = false
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

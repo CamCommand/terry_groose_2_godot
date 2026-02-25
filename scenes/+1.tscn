@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://bln7yaea3mo3j"]
+
+[ext_resource type="Texture2D" uid="uid://b7c6ych6jn8ic" path="res://graphics/Plus_one.png" id="1_msj57"]
+[ext_resource type="Script" uid="uid://dc8igmssgc8x7" path="res://scenes/+1.gd" id="2_3pdk3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6h1xi"]
+size = Vector2(171, 108)
+
+[node name="+1" type="Area2D" unique_id=1286893037]
+
+[node name="PlusOne" type="Sprite2D" parent="." unique_id=1223502970]
+position = Vector2(9.536743e-07, 4.7683716e-07)
+scale = Vector2(0.015999997, 0.015999997)
+texture = ExtResource("1_msj57")
+script = ExtResource("2_3pdk3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=961757]
+visible = false
+position = Vector2(21, 15)
+shape = SubResource("RectangleShape2D_6h1xi")
+
+[node name="DeleteOneTimer" type="Timer" parent="." unique_id=2125220224]
+wait_time = 10.0
+autostart = true
+
+[connection signal="timeout" from="DeleteOneTimer" to="PlusOne" method="_on_delete_one_timer_timeout"]

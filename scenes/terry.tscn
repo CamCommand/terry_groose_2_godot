@@ -2,10 +2,33 @@
 
 [ext_resource type="Script" uid="uid://c7vnyuu0bjwpf" path="res://scenes/terry.gd" id="1_j10ga"]
 [ext_resource type="Texture2D" uid="uid://dmmg6mupt3iy5" path="res://graphics/Terry_Layers_Better.png" id="1_k4a76"]
+[ext_resource type="Texture2D" uid="uid://dykqr43klf7f" path="res://graphics/Terry_Better1.png" id="2_nco34"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oiaki"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_nco34")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_k4a76")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
 
 [node name="terry" type="Node2D" unique_id=592085347]
 script = ExtResource("1_j10ga")
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1855880374]
+position = Vector2(635, 478)
+sprite_frames = SubResource("SpriteFrames_oiaki")
+autoplay = "default"
+frame = 1
+frame_progress = 0.05424162
+
 [node name="Terry1" type="Sprite2D" parent="." unique_id=1582274201]
+visible = false
 position = Vector2(635, 478)
 texture = ExtResource("1_k4a76")

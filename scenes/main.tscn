@@ -171,8 +171,8 @@ size = Vector2(7630, 71)
 
 [node name="level" type="Node2D" unique_id=1595950429 groups=["main"]]
 script = ExtResource("1_0wfyh")
-Sand_Total = 9.0
-Sand_Total_Eaten = 9.0
+Sand_Total = 418.0
+Sand_Total_Eaten = 418.0
 listItems = [null, null, null, null, null]
 Coin_Spawn_Time = 197.02713997145185
 
@@ -202,7 +202,7 @@ offset_bottom = 28.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 5
-text = "Sand Ate: 9.0.lbs"
+text = "Sand Ate: 104026.0.lbs"
 
 [node name="Sand_Dollar" type="Label" parent="." unique_id=1698664243]
 offset_left = 5.0
@@ -212,7 +212,7 @@ offset_bottom = 58.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 5
-text = "Sand Dollars: $9.0"
+text = "Sand Dollars: $104026.0"
 
 [node name="Sand_Mult" type="Label" parent="." unique_id=327834747]
 offset_left = 5.0
@@ -233,57 +233,51 @@ offset_bottom = 118.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Horse Coins:"
 
-[node name="SpoonButton" type="Button" parent="." unique_id=1645047945]
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=580623150]
 offset_left = 1080.0
-offset_top = 60.0
-offset_right = 1235.0
-offset_bottom = 130.0
+offset_top = 29.0
+offset_right = 1246.0
+offset_bottom = 706.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=113818901]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+
+[node name="SpoonButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=1645047945]
+layout_mode = 2
 disabled = true
 text = "Buy ???
 100"
 icon_alignment = 1
 
-[node name="TrowlButton" type="Button" parent="." unique_id=359608672]
-offset_left = 1080.0
-offset_top = 160.0
-offset_right = 1235.0
-offset_bottom = 230.0
+[node name="TrowlButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=359608672]
+layout_mode = 2
 disabled = true
 text = "Buy ???
 1000"
 
-[node name="PanButton" type="Button" parent="." unique_id=1457680434]
-offset_left = 1080.0
-offset_top = 260.0
-offset_right = 1235.0
-offset_bottom = 330.0
+[node name="PanButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=1457680434]
+layout_mode = 2
 disabled = true
 text = "Buy ???
 3000"
 
-[node name="ShovelButton" type="Button" parent="." unique_id=772327937]
-offset_left = 1080.0
-offset_top = 360.0
-offset_right = 1235.0
-offset_bottom = 430.0
+[node name="ShovelButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=772327937]
+layout_mode = 2
 disabled = true
 text = "Buy ???
 10000"
 
-[node name="CLSButton" type="Button" parent="." unique_id=1890620323]
-offset_left = 1080.0
-offset_top = 460.0
-offset_right = 1235.0
-offset_bottom = 530.0
+[node name="CLSButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=1890620323]
+layout_mode = 2
 disabled = true
 text = "Buy ???
 100000"
 
-[node name="DozerButton" type="Button" parent="." unique_id=1995904189]
-offset_left = 1080.0
-offset_top = 560.0
-offset_right = 1235.0
-offset_bottom = 630.0
+[node name="DozerButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=1995904189]
+layout_mode = 2
 disabled = true
 text = "Buy ???
 1000000"
@@ -320,19 +314,19 @@ autostart = true
 wait_time = 0.25
 autostart = true
 
-[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=126391987]
-position = Vector2(10, 0)
+[node name="StaticBody2D2" type="StaticBody2D" parent="." unique_id=384467109]
+position = Vector2(20, 0)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=179346120]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2" unique_id=1127238762]
 position = Vector2(312, 850)
 shape = SubResource("RectangleShape2D_sugp2")
 
-[connection signal="pressed" from="SpoonButton" to="." method="_on_spoon_button_pressed"]
-[connection signal="pressed" from="TrowlButton" to="." method="_on_trowl_button_pressed"]
-[connection signal="pressed" from="PanButton" to="." method="_on_pan_button_pressed"]
-[connection signal="pressed" from="ShovelButton" to="." method="_on_shovel_button_pressed"]
-[connection signal="pressed" from="CLSButton" to="." method="_on_cls_button_pressed"]
-[connection signal="pressed" from="DozerButton" to="." method="_on_dozer_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/SpoonButton" to="." method="_on_spoon_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/TrowlButton" to="." method="_on_trowl_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/PanButton" to="." method="_on_pan_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/ShovelButton" to="." method="_on_shovel_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/CLSButton" to="." method="_on_cls_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/DozerButton" to="." method="_on_dozer_button_pressed"]
 [connection signal="timeout" from="SpoonTimer" to="." method="_on_spoon_timer_timeout"]
 [connection signal="timeout" from="TrowlTimer" to="." method="_on_trowl_timer_timeout"]
 [connection signal="timeout" from="PanTimer" to="." method="_on_pan_timer_timeout"]
