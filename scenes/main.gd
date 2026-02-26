@@ -7,6 +7,7 @@ extends Node2D
 var next_input: bool = false
 @export var s_label: String
 @export var s_label_d: String
+@onready var button_click_sfx: AudioStreamPlayer2D = $ScrollContainer/VBoxContainer/ButtonClickSFX
 
 var coin_scene: PackedScene = load("res://scenes/horse_coin.tscn")
 
@@ -26,11 +27,13 @@ var coin_scene: PackedScene = load("res://scenes/horse_coin.tscn")
 @export var PanCounter: float
 @export var PanCheck: bool
 @export var SuperPanCheck: bool
+@onready var pan_audio: AudioStreamPlayer2D = $PanAudio
 
 @onready var ShovelUpgradeCost: float = 10000
 @export var ShovelCounter: float
 @export var ShovelCheck: bool
 @export var SuperShovelCheck: bool
+@onready var shovel_audio: AudioStreamPlayer2D = $ShovelAudio
 
 @onready var CLSUpgradeCost: float = 100000
 @export var CLSCounter: float
@@ -144,6 +147,8 @@ func _on_spoon_timer_timeout() -> void:
 
 func _on_spoon_button_pressed() -> void:
 	#$SpoonButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
+	
+	button_click_sfx.play()
 	if SpoonCheck == true && Sand_Total >= SpoonUpgradeCost && SpoonCounter < 11:
 		Sand_Total -= SpoonUpgradeCost
 		SpoonCounter += 1
@@ -208,6 +213,7 @@ func _on_spoon_button_pressed() -> void:
 	
 func _on_trowl_button_pressed() -> void:
 	#$ScrollContainer/VBoxContainer/TrowlButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
+	button_click_sfx.play()
 	if TrowlCheck == true && Sand_Total >= TrowlUpgradeCost && TrowlCounter < 11:
 		Sand_Total -= TrowlUpgradeCost
 		TrowlCounter += 1
@@ -303,6 +309,7 @@ func _on_trowl_timer_timeout() -> void:
 
 func _on_pan_button_pressed() -> void:
 #$ScrollContainer/VBoxContainer/PanButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
+	button_click_sfx.play()
 	if PanCheck == true && Sand_Total >= PanUpgradeCost && PanCounter < 11:
 		Sand_Total -= PanUpgradeCost
 		PanCounter += 1
@@ -323,6 +330,7 @@ func _on_pan_button_pressed() -> void:
 		listItems.append("Super Pan")		
 		SuperPanCheck = true
 		PanCheck = false	
+		$PanSprite.frame = 2
 		
 		#add on screen text and or menu to display items here
 		
@@ -350,6 +358,12 @@ func _on_pan_button_pressed() -> void:
 		
 		listItems.append("Pan")
 		PanCheck = true
+		
+		#spawn PanSprite
+		$PanSprite.visible = true
+		var pan_tween := create_tween().bind_node($PanSprite).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		pan_tween.tween_property($PanSprite, "position", Vector2(790.0, 690), 0.2)#.from(Vector2(0,0))
+		pan_audio.play()
 		
 		# update text with list of items here
 		Sand = Sand * 1.3
@@ -421,6 +435,7 @@ func _on_shovel_timer_timeout() -> void:
 	
 func _on_shovel_button_pressed() -> void:
 #$ScrollContainer/VBoxContainer/ShovelButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
+	button_click_sfx.play()
 	if ShovelCheck == true && Sand_Total >= ShovelUpgradeCost && ShovelCounter < 11:
 		Sand_Total -= ShovelUpgradeCost
 		ShovelCounter += 1
@@ -441,6 +456,7 @@ func _on_shovel_button_pressed() -> void:
 		listItems.append("Super Shovel")		
 		SuperShovelCheck = true
 		ShovelCheck = false	
+		$ShovelSprite.frame = 2
 		
 		#add on screen text and or menu to display items here
 		
@@ -468,6 +484,12 @@ func _on_shovel_button_pressed() -> void:
 		
 		listItems.append("Shovel")
 		ShovelCheck = true
+		
+		#spawn ShovelSprite
+		$ShovelSprite.visible = true
+		var shovel_tween := create_tween().bind_node($ShovelSprite).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		shovel_tween.tween_property($ShovelSprite, "position", Vector2(430.0, 540), 0.3)#.from(Vector2(0,0))
+		shovel_audio.play()
 		
 		# update text with list of items here
 		Sand = Sand * 1.5
@@ -509,6 +531,7 @@ func _on_cls_timer_timeout() -> void:
 
 func _on_cls_button_pressed() -> void:
 #$ScrollContainer/VBoxContainer/CLSButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
+	button_click_sfx.play()
 	if CLSCheck == true && Sand_Total >= CLSUpgradeCost && CLSCounter < 11:
 		Sand_Total -= CLSUpgradeCost
 		CLSCounter += 1
@@ -598,6 +621,7 @@ func _on_dozer_timer_timeout() -> void:
 	
 func _on_dozer_button_pressed() -> void:
 #$ScrollContainer/VBoxContainer/DozerButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
+	button_click_sfx.play()
 	if DozerCheck == true && Sand_Total >= DozerUpgradeCost && DozerCounter < 11:
 		Sand_Total -= DozerUpgradeCost
 		DozerCounter += 1
@@ -659,15 +683,14 @@ func _on_coin_timer_timeout() -> void:
 	#var coin_drop:= RandomNumberGenerator.new()
 	#randomize()
 	#Coin_Spawn_Time = randf_range(150.05, 300.05)
-	Coin_Spawn_Time = randf_range(1, 2)
-	#Coin_Spawn_Time = randf_range(5, 8)
+	#Coin_Spawn_Time = randf_range(1, 2)
+	Coin_Spawn_Time = randf_range(5, 8)
 	#Coin_Spawn_Time = randf_range(100.05, 400.01)
 	$CoinTimer.wait_time = Coin_Spawn_Time
-	print($CoinTimer.wait_time)
+	#print($CoinTimer.wait_time)
 	
 	var coin = coin_scene.instantiate()
 	add_child(coin)
-	
 
 func _on_horse_timer_timeout() -> void:
 	Sand_Total += Horse_Sand_Eat

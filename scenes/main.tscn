@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://3gknb1dmusfl" path="res://scenes/main.gd" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://bgh761v2nh5bu" path="res://scenes/terry.tscn" id="1_o5qli"]
 [ext_resource type="Texture2D" uid="uid://bnqw0e81kmeeq" path="res://graphics/Beach_background.png" id="2_tbgi4"]
-[ext_resource type="PackedScene" uid="uid://damfhewpw5kms" path="res://scenes/horse_coin.tscn" id="3_sugp2"]
 [ext_resource type="Texture2D" uid="uid://cjejcp6dm2cp4" path="res://graphics/009.png" id="12_dgi5k"]
 [ext_resource type="Texture2D" uid="uid://ukj25frxxebq" path="res://graphics/010.png" id="14_kmb1v"]
 [ext_resource type="Texture2D" uid="uid://ujoq4a2i8w1n" path="res://graphics/011.png" id="15_fuf3a"]
@@ -13,16 +12,26 @@
 [ext_resource type="Texture2D" uid="uid://xb4mbq0xcs5x" path="res://graphics/015.png" id="19_5poiv"]
 [ext_resource type="Texture2D" uid="uid://diq00stvp7p2a" path="res://graphics/016.png" id="20_2cjbq"]
 [ext_resource type="Texture2D" uid="uid://bjd0k2ypwwp3t" path="res://graphics/Trowl.png" id="20_jscy8"]
+[ext_resource type="PackedScene" uid="uid://dmuyv6xb3m76w" path="res://scenes/night.tscn" id="20_y6deb"]
 [ext_resource type="Texture2D" uid="uid://w37eqxxdjbyp" path="res://graphics/017.png" id="21_chjal"]
+[ext_resource type="AudioStream" uid="uid://b2ownsjihloyg" path="res://sfx/ButtonClick.ogg" id="21_fv21b"]
 [ext_resource type="Texture2D" uid="uid://bd1njfau5v0l" path="res://graphics/SuperTrowl.png" id="21_pm3ni"]
+[ext_resource type="Texture2D" uid="uid://dp0jpb3qk7wex" path="res://graphics/Spoon.png" id="21_yq6so"]
 [ext_resource type="Texture2D" uid="uid://brtbtje0n7e40" path="res://graphics/018.png" id="22_cjqg0"]
+[ext_resource type="Texture2D" uid="uid://cjnd46wdrhcso" path="res://graphics/SuperSpoon.png" id="22_fv21b"]
 [ext_resource type="AudioStream" uid="uid://dcqp8grpuj2n6" path="res://sfx/spoon.ogg" id="22_jscy8"]
 [ext_resource type="AudioStream" uid="uid://b5homgpb4bmft" path="res://sfx/trowl.ogg" id="23_pm3ni"]
 [ext_resource type="Texture2D" uid="uid://dniejlldajlqj" path="res://graphics/019.png" id="23_vchkt"]
 [ext_resource type="Texture2D" uid="uid://wpsjycccu5s5" path="res://graphics/020.png" id="24_txyw0"]
 [ext_resource type="Texture2D" uid="uid://bc5v14idkny3s" path="res://graphics/021.png" id="25_vc5cj"]
+[ext_resource type="Texture2D" uid="uid://coka0faata34n" path="res://graphics/Pan.png" id="25_vxglm"]
+[ext_resource type="Texture2D" uid="uid://di6aoa8bjxcnr" path="res://graphics/SuperPan.png" id="26_2f3dj"]
 [ext_resource type="Texture2D" uid="uid://bfb6d8725ensh" path="res://graphics/022.png" id="26_nvyfr"]
 [ext_resource type="Texture2D" uid="uid://c2v5xfwv1et6o" path="res://graphics/023.png" id="27_ty1g6"]
+[ext_resource type="AudioStream" uid="uid://ciqyykhwvpluk" path="res://sfx/pan.mp3" id="27_yq6so"]
+[ext_resource type="Texture2D" uid="uid://ooy1pp6hcu7s" path="res://graphics/Shovel.png" id="31_5q0nq"]
+[ext_resource type="Texture2D" uid="uid://dv35t3gncp7c7" path="res://graphics/SuperShovel.png" id="32_dgi5k"]
+[ext_resource type="AudioStream" uid="uid://csxtrpk4q1n2h" path="res://sfx/Shovel.ogg" id="33_j8jky"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_85g3d"]
 animations = [{
@@ -173,6 +182,20 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sugp2"]
 size = Vector2(7630, 71)
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_tel4y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("21_yq6so")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_fv21b")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_yc10j"]
 animations = [{
 "frames": [{
@@ -181,10 +204,41 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("21_pm3ni")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_yq6so")
 }],
 "loop": false,
 "name": &"default",
 "speed": 2.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fv21b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("25_vxglm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_2f3dj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kmb1v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("31_5q0nq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_dgi5k")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
 }]
 
 [node name="level" type="Node2D" unique_id=1595950429 groups=["main"]]
@@ -201,9 +255,6 @@ texture = ExtResource("2_tbgi4")
 [node name="terry" parent="." unique_id=592085347 instance=ExtResource("1_o5qli")]
 position = Vector2(0, 5)
 
-[node name="HorseCoin" parent="." unique_id=1391471603 instance=ExtResource("3_sugp2")]
-visible = false
-
 [node name="AnimatedHorse" type="AnimatedSprite2D" parent="." unique_id=500005642 groups=["horse_vars"]]
 position = Vector2(-100, 392)
 scale = Vector2(0.27638888, 0.1867448)
@@ -211,6 +262,9 @@ sprite_frames = SubResource("SpriteFrames_85g3d")
 autoplay = "default"
 frame = 42
 speed_scale = 0.5
+
+[node name="Night" parent="." unique_id=117235679 instance=ExtResource("20_y6deb")]
+position = Vector2(640, 360)
 
 [node name="Sand_Ate" type="Label" parent="." unique_id=1450036184]
 offset_left = 5.0
@@ -300,6 +354,10 @@ disabled = true
 text = "Buy ???
 1000000"
 
+[node name="ButtonClickSFX" type="AudioStreamPlayer2D" parent="ScrollContainer/VBoxContainer" unique_id=1411028935]
+stream = ExtResource("21_fv21b")
+volume_db = -15.0
+
 [node name="SpoonTimer" type="Timer" parent="." unique_id=1660835332]
 wait_time = 0.25
 autostart = true
@@ -336,14 +394,14 @@ autostart = true
 position = Vector2(20, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2" unique_id=1127238762]
-position = Vector2(312, 850)
+position = Vector2(140, 867)
 shape = SubResource("RectangleShape2D_sugp2")
 
-[node name="SpoonSprite" type="AnimatedSprite2D" parent="." unique_id=1553733115]
+[node name="SpoonSprite" type="AnimatedSprite2D" parent="." unique_id=1652217014]
 visible = false
-position = Vector2(512, 669)
-scale = Vector2(0.015644439, 0.014736481)
-sprite_frames = SubResource("SpriteFrames_yc10j")
+position = Vector2(512, 676)
+scale = Vector2(0.018234557, 0.01421637)
+sprite_frames = SubResource("SpriteFrames_tel4y")
 
 [node name="SpoonAudio" type="AudioStreamPlayer2D" parent="." unique_id=901050834]
 stream = ExtResource("22_jscy8")
@@ -356,6 +414,25 @@ sprite_frames = SubResource("SpriteFrames_yc10j")
 
 [node name="TrowlAudio" type="AudioStreamPlayer2D" parent="." unique_id=404804595]
 stream = ExtResource("23_pm3ni")
+
+[node name="PanSprite" type="AnimatedSprite2D" parent="." unique_id=655411607]
+visible = false
+position = Vector2(790, 665.665)
+scale = Vector2(0.30119997, 0.2152318)
+sprite_frames = SubResource("SpriteFrames_fv21b")
+
+[node name="PanAudio" type="AudioStreamPlayer2D" parent="." unique_id=1506157820]
+stream = ExtResource("27_yq6so")
+volume_db = -20.0
+
+[node name="ShovelSprite" type="AnimatedSprite2D" parent="." unique_id=3484668]
+visible = false
+position = Vector2(430, 500)
+scale = Vector2(0.11212227, 0.15195315)
+sprite_frames = SubResource("SpriteFrames_kmb1v")
+
+[node name="ShovelAudio" type="AudioStreamPlayer2D" parent="." unique_id=91529620]
+stream = ExtResource("33_j8jky")
 
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/SpoonButton" to="." method="_on_spoon_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/TrowlButton" to="." method="_on_trowl_button_pressed"]

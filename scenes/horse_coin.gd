@@ -10,8 +10,8 @@ var speed
 
 @export var HorseCheck: bool
 @export var Horse_Sand_Eat: int
-@onready var coin_sfx: AudioStreamPlayer2D = $CoinSFX
 @export var popup_one: PackedScene = load("res://scenes/+1.tscn")
+@export var one_pos_x: int
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -24,7 +24,6 @@ func _ready() -> void:
 	# set coin speed and direction
 	speed = coin_rng.randi_range(350, 650)
 	direction_x = coin_rng.randf_range(-0.3, 0.3)
-	
 
 # speed and direction of horse coin
 func _process(delta: float) -> void:
@@ -35,7 +34,8 @@ func _on_button_pressed() -> void:
 	var main = get_tree().get_first_node_in_group("main")
 	var horse = get_tree().get_first_node_in_group("horse_vars") as AnimatedSprite2D
 	#play sfx DOESN'T WORK
-	coin_sfx.play()
+	#currently plays when added to the scene
+	#$CoinSFX.play()
 	
 	if HorseCheck == false:
 		HorseCheck = true
@@ -47,9 +47,11 @@ func _on_button_pressed() -> void:
 		if main.Horse_Sand_Eat == 0:
 			main.Horse_Sand_Eat = 1
 		else:
-			# adds +1 image when horse upgrades
+			# adds +1 image when horse upgrades, randomizes position_x value 
+			coin_rng.randomize()
+			one_pos_x = coin_rng.randi_range(275, 320)
 			var instance = popup_one.instantiate()
-			instance.global_position = Vector2(325, 400)
+			instance.global_position = Vector2(one_pos_x, 400)
 			main.add_child(instance)
 			
 			main.Horse_Sand_Eat *= 2

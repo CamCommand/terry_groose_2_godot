@@ -20,7 +20,7 @@ position = Vector2(21, 15)
 shape = SubResource("RectangleShape2D_6h1xi")
 
 [node name="DeleteOneTimer" type="Timer" parent="." unique_id=2125220224]
-wait_time = 10.0
+wait_time = 5.0
 autostart = true
 
 [connection signal="timeout" from="DeleteOneTimer" to="PlusOne" method="_on_delete_one_timer_timeout"]

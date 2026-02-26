@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dmuyv6xb3m76w"]
+
+[ext_resource type="Script" uid="uid://byfqtgkx4ralo" path="res://scenes/night.gd" id="1_odwg0"]
+[ext_resource type="Texture2D" uid="uid://cgeek0vtrerjn" path="res://graphics/Darkness.png" id="1_w6rke"]
+
+[node name="Night" type="Node2D" unique_id=117235679]
+script = ExtResource("1_odwg0")
+
+[node name="NightTimer" type="Timer" parent="." unique_id=66254934]
+wait_time = 60.0
+autostart = true
+
+[node name="DarknessFilter" type="Sprite2D" parent="." unique_id=1408595177]
+self_modulate = Color(1, 1, 1, 0)
+texture = ExtResource("1_w6rke")
+
+[connection signal="timeout" from="NightTimer" to="." method="_on_night_timer_timeout"]

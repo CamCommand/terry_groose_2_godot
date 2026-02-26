@@ -51,7 +51,8 @@ visible = false
 
 [node name="CoinSFX" type="AudioStreamPlayer2D" parent="." unique_id=1458762376]
 stream = ExtResource("5_mhqlt")
-volume_db = 1.0
+volume_db = -15.0
+autoplay = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
