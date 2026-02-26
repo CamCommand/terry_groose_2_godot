@@ -4,6 +4,7 @@
 [ext_resource type="Shader" uid="uid://rhwn2tj6m1dt" path="res://scenes/horse_coin.gdshader" id="2_bt4pi"]
 [ext_resource type="Texture2D" uid="uid://pac3voytpk2q" path="res://graphics/coin.png" id="2_hn3i8"]
 [ext_resource type="PackedScene" uid="uid://bln7yaea3mo3j" path="res://scenes/+1.tscn" id="4_bt4pi"]
+[ext_resource type="AudioStream" uid="uid://btroxplm14aqm" path="res://sfx/pickupCoin.ogg" id="5_mhqlt"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mhqlt"]
 shader = ExtResource("2_bt4pi")
@@ -47,6 +48,10 @@ shape = SubResource("CircleShape2D_bt4pi")
 
 [node name="+1" parent="." unique_id=1286893037 instance=ExtResource("4_bt4pi")]
 visible = false
+
+[node name="CoinSFX" type="AudioStreamPlayer2D" parent="." unique_id=1458762376]
+stream = ExtResource("5_mhqlt")
+volume_db = 1.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

@@ -14,11 +14,13 @@ var coin_scene: PackedScene = load("res://scenes/horse_coin.tscn")
 @export var SpoonCounter: float
 @export var SpoonCheck: bool
 @export var SuperSpoonCheck: bool
+@onready var spoon_audio: AudioStreamPlayer2D = $SpoonAudio
 
 @onready var TrowlUpgradeCost: float = 1000
 @export var TrowlCounter: float
 @export var TrowlCheck: bool
 @export var SuperTrowlCheck: bool
+@onready var trowl_audio: AudioStreamPlayer2D = $TrowlAudio
 
 @onready var PanUpgradeCost: float = 3000
 @export var PanCounter: float
@@ -159,11 +161,11 @@ func _on_spoon_button_pressed() -> void:
 		Sand = Sand * 1.1
 		
 	elif SpoonCheck == true && Sand_Total >= SpoonUpgradeCost && SpoonCounter == 11:
+		#adding SuperSpoon
 		listItems.append("Super Spoon")		
 		SuperSpoonCheck = true
 		SpoonCheck = false	
-		
-		#add on screen text and or menu to display items here
+		$SpoonSprite.frame = 2
 		
 		Sand_Total -= SpoonUpgradeCost
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
@@ -189,6 +191,12 @@ func _on_spoon_button_pressed() -> void:
 		
 		listItems.append("Spoon")
 		SpoonCheck = true
+		
+		#spawn SpoonSprite
+		$SpoonSprite.visible = true
+		var spoon_tween := create_tween().bind_node($SpoonSprite).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		spoon_tween.tween_property($SpoonSprite, "position", Vector2(512, 700), 0.2)#.from(Vector2(0,0))
+		spoon_audio.play()
 		
 		# update text with list of items here
 		Sand = Sand * 1.1
@@ -220,6 +228,7 @@ func _on_trowl_button_pressed() -> void:
 		listItems.append("Super Trowl")		
 		SuperTrowlCheck = true
 		TrowlCheck = false	
+		$TrowlSprite.frame = 2
 		
 		#add on screen text and or menu to display items here
 		
@@ -247,6 +256,12 @@ func _on_trowl_button_pressed() -> void:
 		
 		listItems.append("Trowl")
 		TrowlCheck = true
+		
+		#spawn TrowlSprite
+		$TrowlSprite.visible = true
+		var trowl_tween := create_tween().bind_node($TrowlSprite).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		trowl_tween.tween_property($TrowlSprite, "position", Vector2(730.0, 680), 0.2)#.from(Vector2(0,0))
+		trowl_audio.play()
 		
 		# update text with list of items here
 		Sand = Sand * 1.2

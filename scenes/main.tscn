@@ -12,8 +12,12 @@
 [ext_resource type="Texture2D" uid="uid://db35o5yoh6fln" path="res://graphics/014.png" id="18_5he1u"]
 [ext_resource type="Texture2D" uid="uid://xb4mbq0xcs5x" path="res://graphics/015.png" id="19_5poiv"]
 [ext_resource type="Texture2D" uid="uid://diq00stvp7p2a" path="res://graphics/016.png" id="20_2cjbq"]
+[ext_resource type="Texture2D" uid="uid://bjd0k2ypwwp3t" path="res://graphics/Trowl.png" id="20_jscy8"]
 [ext_resource type="Texture2D" uid="uid://w37eqxxdjbyp" path="res://graphics/017.png" id="21_chjal"]
+[ext_resource type="Texture2D" uid="uid://bd1njfau5v0l" path="res://graphics/SuperTrowl.png" id="21_pm3ni"]
 [ext_resource type="Texture2D" uid="uid://brtbtje0n7e40" path="res://graphics/018.png" id="22_cjqg0"]
+[ext_resource type="AudioStream" uid="uid://dcqp8grpuj2n6" path="res://sfx/spoon.ogg" id="22_jscy8"]
+[ext_resource type="AudioStream" uid="uid://b5homgpb4bmft" path="res://sfx/trowl.ogg" id="23_pm3ni"]
 [ext_resource type="Texture2D" uid="uid://dniejlldajlqj" path="res://graphics/019.png" id="23_vchkt"]
 [ext_resource type="Texture2D" uid="uid://wpsjycccu5s5" path="res://graphics/020.png" id="24_txyw0"]
 [ext_resource type="Texture2D" uid="uid://bc5v14idkny3s" path="res://graphics/021.png" id="25_vc5cj"]
@@ -169,6 +173,20 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sugp2"]
 size = Vector2(7630, 71)
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_yc10j"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("20_jscy8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_pm3ni")
+}],
+"loop": false,
+"name": &"default",
+"speed": 2.0
+}]
+
 [node name="level" type="Node2D" unique_id=1595950429 groups=["main"]]
 script = ExtResource("1_0wfyh")
 Sand_Total = 418.0
@@ -320,6 +338,24 @@ position = Vector2(20, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2" unique_id=1127238762]
 position = Vector2(312, 850)
 shape = SubResource("RectangleShape2D_sugp2")
+
+[node name="SpoonSprite" type="AnimatedSprite2D" parent="." unique_id=1553733115]
+visible = false
+position = Vector2(512, 669)
+scale = Vector2(0.015644439, 0.014736481)
+sprite_frames = SubResource("SpriteFrames_yc10j")
+
+[node name="SpoonAudio" type="AudioStreamPlayer2D" parent="." unique_id=901050834]
+stream = ExtResource("22_jscy8")
+
+[node name="TrowlSprite" type="AnimatedSprite2D" parent="." unique_id=53951163]
+visible = false
+position = Vector2(730, 650)
+scale = Vector2(0.08603033, 0.09364168)
+sprite_frames = SubResource("SpriteFrames_yc10j")
+
+[node name="TrowlAudio" type="AudioStreamPlayer2D" parent="." unique_id=404804595]
+stream = ExtResource("23_pm3ni")
 
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/SpoonButton" to="." method="_on_spoon_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/TrowlButton" to="." method="_on_trowl_button_pressed"]
