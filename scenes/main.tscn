@@ -11,10 +11,12 @@
 [ext_resource type="Texture2D" uid="uid://db35o5yoh6fln" path="res://graphics/014.png" id="18_5he1u"]
 [ext_resource type="Texture2D" uid="uid://xb4mbq0xcs5x" path="res://graphics/015.png" id="19_5poiv"]
 [ext_resource type="Texture2D" uid="uid://diq00stvp7p2a" path="res://graphics/016.png" id="20_2cjbq"]
+[ext_resource type="Texture2D" uid="uid://d4ivawtdc7jtr" path="res://graphics/Dozer.png" id="20_j8jky"]
 [ext_resource type="Texture2D" uid="uid://bjd0k2ypwwp3t" path="res://graphics/Trowl.png" id="20_jscy8"]
 [ext_resource type="PackedScene" uid="uid://dmuyv6xb3m76w" path="res://scenes/night.tscn" id="20_y6deb"]
 [ext_resource type="Texture2D" uid="uid://w37eqxxdjbyp" path="res://graphics/017.png" id="21_chjal"]
 [ext_resource type="AudioStream" uid="uid://b2ownsjihloyg" path="res://sfx/ButtonClick.ogg" id="21_fv21b"]
+[ext_resource type="Texture2D" uid="uid://1xw4nx24s3gk" path="res://graphics/BiggerDozer.png" id="21_kmb1v"]
 [ext_resource type="Texture2D" uid="uid://bd1njfau5v0l" path="res://graphics/SuperTrowl.png" id="21_pm3ni"]
 [ext_resource type="Texture2D" uid="uid://dp0jpb3qk7wex" path="res://graphics/Spoon.png" id="21_yq6so"]
 [ext_resource type="Texture2D" uid="uid://brtbtje0n7e40" path="res://graphics/018.png" id="22_cjqg0"]
@@ -31,7 +33,9 @@
 [ext_resource type="AudioStream" uid="uid://ciqyykhwvpluk" path="res://sfx/pan.mp3" id="27_yq6so"]
 [ext_resource type="Texture2D" uid="uid://ooy1pp6hcu7s" path="res://graphics/Shovel.png" id="31_5q0nq"]
 [ext_resource type="Texture2D" uid="uid://dv35t3gncp7c7" path="res://graphics/SuperShovel.png" id="32_dgi5k"]
+[ext_resource type="AudioStream" uid="uid://d2r6oeo5nixcu" path="res://sfx/cspoon.ogg" id="33_5q0nq"]
 [ext_resource type="AudioStream" uid="uid://csxtrpk4q1n2h" path="res://sfx/Shovel.ogg" id="33_j8jky"]
+[ext_resource type="AudioStream" uid="uid://db6qopmkup2n7" path="res://sfx/dozer.ogg" id="36_kmb1v"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_85g3d"]
 animations = [{
@@ -182,7 +186,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sugp2"]
 size = Vector2(7630, 71)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_tel4y"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_dgi5k"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -204,9 +208,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("21_pm3ni")
-}, {
-"duration": 1.0,
-"texture": ExtResource("21_yq6so")
 }],
 "loop": false,
 "name": &"default",
@@ -241,15 +242,47 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_5q0nq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("21_yq6so")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_fv21b")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fuf3a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("20_j8jky")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_kmb1v")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="level" type="Node2D" unique_id=1595950429 groups=["main"]]
 script = ExtResource("1_0wfyh")
-Sand_Total = 418.0
-Sand_Total_Eaten = 418.0
+Sand_Total = 9.23372085477581e+15
+Sand_Total_Eaten = 9.223372e+18
+GolemCounter = null
+GolemCheck = null
+HelperGolemCheck = null
 listItems = [null, null, null, null, null]
 Coin_Spawn_Time = 197.02713997145185
 
 [node name="Background" type="Sprite2D" parent="." unique_id=699113158]
-position = Vector2(640, 360)
+position = Vector2(960.50006, 360)
+scale = Vector2(1.5007812, 1)
 texture = ExtResource("2_tbgi4")
 
 [node name="terry" parent="." unique_id=592085347 instance=ExtResource("1_o5qli")]
@@ -265,6 +298,7 @@ speed_scale = 0.5
 
 [node name="Night" parent="." unique_id=117235679 instance=ExtResource("20_y6deb")]
 position = Vector2(640, 360)
+scale = Vector2(1.501, 1.501)
 
 [node name="Sand_Ate" type="Label" parent="." unique_id=1450036184]
 offset_left = 5.0
@@ -306,12 +340,14 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Horse Coins:"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=580623150]
-offset_left = 1080.0
+offset_left = 1737.0
 offset_top = 29.0
-offset_right = 1246.0
+offset_right = 1903.0
 offset_bottom = 706.0
+size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=113818901]
+self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -354,6 +390,12 @@ disabled = true
 text = "Buy ???
 1000000"
 
+[node name="GolemButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=632077218]
+layout_mode = 2
+disabled = true
+text = "Buy ???
+10000000"
+
 [node name="ButtonClickSFX" type="AudioStreamPlayer2D" parent="ScrollContainer/VBoxContainer" unique_id=1411028935]
 stream = ExtResource("21_fv21b")
 volume_db = -15.0
@@ -390,6 +432,10 @@ autostart = true
 wait_time = 0.25
 autostart = true
 
+[node name="GolemTimer" type="Timer" parent="." unique_id=1426424652]
+wait_time = 0.25
+autostart = true
+
 [node name="StaticBody2D2" type="StaticBody2D" parent="." unique_id=384467109]
 position = Vector2(20, 0)
 
@@ -397,11 +443,11 @@ position = Vector2(20, 0)
 position = Vector2(140, 867)
 shape = SubResource("RectangleShape2D_sugp2")
 
-[node name="SpoonSprite" type="AnimatedSprite2D" parent="." unique_id=1652217014]
+[node name="SpoonSprite" type="AnimatedSprite2D" parent="." unique_id=1045853133]
 visible = false
 position = Vector2(512, 676)
 scale = Vector2(0.018234557, 0.01421637)
-sprite_frames = SubResource("SpriteFrames_tel4y")
+sprite_frames = SubResource("SpriteFrames_dgi5k")
 
 [node name="SpoonAudio" type="AudioStreamPlayer2D" parent="." unique_id=901050834]
 stream = ExtResource("22_jscy8")
@@ -433,6 +479,27 @@ sprite_frames = SubResource("SpriteFrames_kmb1v")
 
 [node name="ShovelAudio" type="AudioStreamPlayer2D" parent="." unique_id=91529620]
 stream = ExtResource("33_j8jky")
+volume_db = -10.0
+
+[node name="CSpoonSprite" type="AnimatedSprite2D" parent="." unique_id=471228344]
+visible = false
+position = Vector2(96.00001, -127)
+scale = Vector2(0.0769271, 0.08538488)
+sprite_frames = SubResource("SpriteFrames_5q0nq")
+
+[node name="CSpoonAudio" type="AudioStreamPlayer2D" parent="." unique_id=1141586147]
+stream = ExtResource("33_5q0nq")
+volume_db = 5.021
+
+[node name="DozerSprite" type="AnimatedSprite2D" parent="." unique_id=272616659]
+visible = false
+position = Vector2(1241.781, 423.06302)
+scale = Vector2(0.18107447, 0.21757811)
+sprite_frames = SubResource("SpriteFrames_fuf3a")
+
+[node name="DozerAudio" type="AudioStreamPlayer2D" parent="." unique_id=1993305603]
+stream = ExtResource("36_kmb1v")
+volume_db = -5.0
 
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/SpoonButton" to="." method="_on_spoon_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/TrowlButton" to="." method="_on_trowl_button_pressed"]
@@ -440,6 +507,7 @@ stream = ExtResource("33_j8jky")
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/ShovelButton" to="." method="_on_shovel_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/CLSButton" to="." method="_on_cls_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/DozerButton" to="." method="_on_dozer_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/GolemButton" to="." method="_on_golem_buton_pressed"]
 [connection signal="timeout" from="SpoonTimer" to="." method="_on_spoon_timer_timeout"]
 [connection signal="timeout" from="TrowlTimer" to="." method="_on_trowl_timer_timeout"]
 [connection signal="timeout" from="PanTimer" to="." method="_on_pan_timer_timeout"]
@@ -448,3 +516,4 @@ stream = ExtResource("33_j8jky")
 [connection signal="timeout" from="DozerTimer" to="." method="_on_dozer_timer_timeout"]
 [connection signal="timeout" from="CoinTimer" to="." method="_on_coin_timer_timeout"]
 [connection signal="timeout" from="HorseTimer" to="." method="_on_horse_timer_timeout"]
+[connection signal="timeout" from="GolemTimer" to="." method="_on_golem_timer_timeout"]
