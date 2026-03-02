@@ -8,9 +8,10 @@ var next_input: bool = false
 @export var s_label: String
 @export var s_label_d: String
 @onready var button_click_sfx: AudioStreamPlayer2D = $ScrollContainer/VBoxContainer/ButtonClickSFX
-
+@onready var terry_play = $terry
 var coin_scene: PackedScene = load("res://scenes/horse_coin.tscn")
 var golem_scene: PackedScene = load("res://scenes/golem_2d.tscn")
+
 
 @onready var SpoonUpgradeCost: float = 100
 @export var SpoonCounter: float
@@ -95,6 +96,12 @@ func _process(_delta: float) -> void:
 	#makes format_clicker_number not scream in error log
 	if Engine.is_editor_hint():
 		return
+		
+	var moving := Input.is_action_pressed("ui_left") \
+	or Input.is_action_pressed("ui_right")
+	
+	if terry_play:
+		terry_play.set_moving(moving)
 		
 	if $Sand_Ate.text == "":
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
@@ -282,7 +289,7 @@ func _on_trowl_button_pressed() -> void:
 		#spawn TrowlSprite
 		$TrowlSprite.visible = true
 		var trowl_tween := create_tween().bind_node($TrowlSprite).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-		trowl_tween.tween_property($TrowlSprite, "position", Vector2(730.0, 680), 0.2)#.from(Vector2(0,0))
+		trowl_tween.tween_property($TrowlSprite, "position", Vector2(775.0, 680), 0.2)#.from(Vector2(0,0))
 		trowl_audio.play()
 		
 		# update text with list of items here
@@ -380,7 +387,7 @@ func _on_pan_button_pressed() -> void:
 		#spawn PanSprite
 		$PanSprite.visible = true
 		var pan_tween := create_tween().bind_node($PanSprite).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-		pan_tween.tween_property($PanSprite, "position", Vector2(790.0, 690), 0.2)#.from(Vector2(0,0))
+		pan_tween.tween_property($PanSprite, "position", Vector2(845.0, 690), 0.2)#.from(Vector2(0,0))
 		pan_audio.play()
 		
 		# update text with list of items here
@@ -608,7 +615,7 @@ func _on_cls_button_pressed() -> void:
 		#spawn CLSSpoonSprite
 		$CSpoonSprite.visible = true
 		var cspoon_tween := create_tween().bind_node($CSpoonSprite).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-		cspoon_tween.tween_property($CSpoonSprite, "position", Vector2(110, 560), 0.1)#.from(Vector2(0,0))
+		cspoon_tween.tween_property($CSpoonSprite, "position", Vector2(265, 560), 0.1)#.from(Vector2(0,0))
 		cspoon_audio.play()
 		
 		# update text with list of items here

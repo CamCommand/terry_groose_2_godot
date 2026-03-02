@@ -272,11 +272,8 @@ animations = [{
 
 [node name="level" type="Node2D" unique_id=1595950429 groups=["main"]]
 script = ExtResource("1_0wfyh")
-Sand_Total = 9.23372085477581e+15
+Sand_Total = 9233720477581.0
 Sand_Total_Eaten = 9.223372e+18
-GolemCounter = null
-GolemCheck = null
-HelperGolemCheck = null
 listItems = [null, null, null, null, null]
 Coin_Spawn_Time = 197.02713997145185
 
@@ -286,7 +283,7 @@ scale = Vector2(1.5007812, 1)
 texture = ExtResource("2_tbgi4")
 
 [node name="terry" parent="." unique_id=592085347 instance=ExtResource("1_o5qli")]
-position = Vector2(0, 5)
+position = Vector2(0, 6)
 
 [node name="AnimatedHorse" type="AnimatedSprite2D" parent="." unique_id=500005642 groups=["horse_vars"]]
 position = Vector2(-100, 392)
@@ -297,7 +294,7 @@ frame = 42
 speed_scale = 0.5
 
 [node name="Night" parent="." unique_id=117235679 instance=ExtResource("20_y6deb")]
-position = Vector2(640, 360)
+position = Vector2(641, 360.00003)
 scale = Vector2(1.501, 1.501)
 
 [node name="Sand_Ate" type="Label" parent="." unique_id=1450036184]
@@ -454,7 +451,7 @@ stream = ExtResource("22_jscy8")
 
 [node name="TrowlSprite" type="AnimatedSprite2D" parent="." unique_id=53951163]
 visible = false
-position = Vector2(730, 650)
+position = Vector2(775, 650)
 scale = Vector2(0.08603033, 0.09364168)
 sprite_frames = SubResource("SpriteFrames_yc10j")
 
@@ -463,7 +460,7 @@ stream = ExtResource("23_pm3ni")
 
 [node name="PanSprite" type="AnimatedSprite2D" parent="." unique_id=655411607]
 visible = false
-position = Vector2(790, 665.665)
+position = Vector2(845, 685)
 scale = Vector2(0.30119997, 0.2152318)
 sprite_frames = SubResource("SpriteFrames_fv21b")
 
@@ -483,7 +480,7 @@ volume_db = -10.0
 
 [node name="CSpoonSprite" type="AnimatedSprite2D" parent="." unique_id=471228344]
 visible = false
-position = Vector2(96.00001, -127)
+position = Vector2(265, -127)
 scale = Vector2(0.0769271, 0.08538488)
 sprite_frames = SubResource("SpriteFrames_5q0nq")
 
