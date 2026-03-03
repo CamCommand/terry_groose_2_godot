@@ -61,7 +61,6 @@ func _on_button_pressed() -> void:
 func _on_body_entered(_body: Node2D) -> void:
 	$".".queue_free()
 
-
 #func _on_p_one(pos: Variant) -> void:
 	#var one = PlusOne_scene.instantiate()
 	#$"+1".add_child(one)

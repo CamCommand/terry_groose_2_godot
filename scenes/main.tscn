@@ -36,6 +36,7 @@
 [ext_resource type="AudioStream" uid="uid://d2r6oeo5nixcu" path="res://sfx/cspoon.ogg" id="33_5q0nq"]
 [ext_resource type="AudioStream" uid="uid://csxtrpk4q1n2h" path="res://sfx/Shovel.ogg" id="33_j8jky"]
 [ext_resource type="AudioStream" uid="uid://db6qopmkup2n7" path="res://sfx/dozer.ogg" id="36_kmb1v"]
+[ext_resource type="PackedScene" uid="uid://bjqj2c8qr4aut" path="res://scenes/PauseMenu.tscn" id="37_fuf3a"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_85g3d"]
 animations = [{
@@ -272,7 +273,6 @@ animations = [{
 
 [node name="level" type="Node2D" unique_id=1595950429 groups=["main"]]
 script = ExtResource("1_0wfyh")
-Sand_Total = 9233720477581.0
 Sand_Total_Eaten = 9.223372e+18
 listItems = [null, null, null, null, null]
 Coin_Spawn_Time = 197.02713997145185
@@ -281,9 +281,11 @@ Coin_Spawn_Time = 197.02713997145185
 position = Vector2(960.50006, 360)
 scale = Vector2(1.5007812, 1)
 texture = ExtResource("2_tbgi4")
+metadata/_edit_lock_ = true
 
 [node name="terry" parent="." unique_id=592085347 instance=ExtResource("1_o5qli")]
 position = Vector2(0, 6)
+metadata/_edit_lock_ = true
 
 [node name="AnimatedHorse" type="AnimatedSprite2D" parent="." unique_id=500005642 groups=["horse_vars"]]
 position = Vector2(-100, 392)
@@ -292,10 +294,12 @@ sprite_frames = SubResource("SpriteFrames_85g3d")
 autoplay = "default"
 frame = 42
 speed_scale = 0.5
+metadata/_edit_lock_ = true
 
 [node name="Night" parent="." unique_id=117235679 instance=ExtResource("20_y6deb")]
 position = Vector2(641, 360.00003)
 scale = Vector2(1.501, 1.501)
+metadata/_edit_lock_ = true
 
 [node name="Sand_Ate" type="Label" parent="." unique_id=1450036184]
 offset_left = 5.0
@@ -379,13 +383,13 @@ text = "Buy ???
 layout_mode = 2
 disabled = true
 text = "Buy ???
-100000"
+500000"
 
 [node name="DozerButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=1995904189]
 layout_mode = 2
 disabled = true
 text = "Buy ???
-1000000"
+1500000"
 
 [node name="GolemButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=632077218]
 layout_mode = 2
@@ -433,12 +437,25 @@ autostart = true
 wait_time = 0.25
 autostart = true
 
+[node name="Control" parent="." unique_id=1030255203 instance=ExtResource("37_fuf3a")]
+visible = false
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 960.0
+offset_top = 360.0
+offset_right = 960.0
+offset_bottom = 360.0
+
 [node name="StaticBody2D2" type="StaticBody2D" parent="." unique_id=384467109]
 position = Vector2(20, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2" unique_id=1127238762]
 position = Vector2(140, 867)
 shape = SubResource("RectangleShape2D_sugp2")
+metadata/_edit_lock_ = true
 
 [node name="SpoonSprite" type="AnimatedSprite2D" parent="." unique_id=1045853133]
 visible = false
@@ -498,6 +515,14 @@ sprite_frames = SubResource("SpriteFrames_fuf3a")
 stream = ExtResource("36_kmb1v")
 volume_db = -5.0
 
+[node name="Cheat" type="Button" parent="." unique_id=1691847081]
+offset_left = 16.0
+offset_top = 106.0
+offset_right = 118.0
+offset_bottom = 141.0
+theme_override_colors/icon_normal_color = Color(1, 0, 1, 1)
+text = "$$$"
+
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/SpoonButton" to="." method="_on_spoon_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/TrowlButton" to="." method="_on_trowl_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/PanButton" to="." method="_on_pan_button_pressed"]
@@ -514,3 +539,4 @@ volume_db = -5.0
 [connection signal="timeout" from="CoinTimer" to="." method="_on_coin_timer_timeout"]
 [connection signal="timeout" from="HorseTimer" to="." method="_on_horse_timer_timeout"]
 [connection signal="timeout" from="GolemTimer" to="." method="_on_golem_timer_timeout"]
+[connection signal="pressed" from="Cheat" to="." method="_on_cheat_pressed"]
