@@ -12,43 +12,43 @@ var next_input: bool = false
 var coin_scene: PackedScene = load("res://scenes/horse_coin.tscn")
 var golem_scene: PackedScene = load("res://scenes/golem_2d.tscn")
 
-@onready var SpoonUpgradeCost: float = 100
+@export var SpoonUpgradeCost: float = 100
 @export var SpoonCounter: float
 @export var SpoonCheck: bool
 @export var SuperSpoonCheck: bool
 @onready var spoon_audio: AudioStreamPlayer2D = $SpoonAudio
 
-@onready var TrowlUpgradeCost: float = 1000
+@export var TrowlUpgradeCost: float = 1000
 @export var TrowlCounter: float
 @export var TrowlCheck: bool
 @export var SuperTrowlCheck: bool
 @onready var trowl_audio: AudioStreamPlayer2D = $TrowlAudio
 
-@onready var PanUpgradeCost: float = 3000
+@export var PanUpgradeCost: float = 3000
 @export var PanCounter: float
 @export var PanCheck: bool
 @export var SuperPanCheck: bool
 @onready var pan_audio: AudioStreamPlayer2D = $PanAudio
 
-@onready var ShovelUpgradeCost: float = 10000
+@export var ShovelUpgradeCost: float = 10000
 @export var ShovelCounter: float
 @export var ShovelCheck: bool
 @export var SuperShovelCheck: bool
 @onready var shovel_audio: AudioStreamPlayer2D = $ShovelAudio
 
-@onready var CLSUpgradeCost: float = 100000
+@export var CLSUpgradeCost: float = 100000
 @export var CLSCounter: float
 @export var CLSCheck: bool
 @export var FCLSCheck: bool
 @onready var cspoon_audio: AudioStreamPlayer2D = $CSpoonAudio
 
-@onready var DozerUpgradeCost: float = 1000000
+@export var DozerUpgradeCost: float = 1000000
 @export var DozerCounter: float
 @export var DozerCheck: bool
 @export var BiggerDozerCheck: bool
 @onready var dozer_audio: AudioStreamPlayer2D = $DozerAudio
 
-@onready var GolemUpgradeCost: float = 35000000
+@export var GolemUpgradeCost: float = 35000000
 @export var GolemCounter: float
 @export var GolemCheck: bool
 @export var HelperGolemCheck: bool #have golems start automatically eating sand
@@ -57,17 +57,30 @@ var golem_scene: PackedScene = load("res://scenes/golem_2d.tscn")
 @export var listItems: Array = []
 @export var Coin_Spawn_Time: float 
 
-var Horse_Sand_Eat: int
-var HorseCheck: bool = false
+@export var Horse_Sand_Eat: int
+@export var HorseCheck: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#makes format_clicker_number not scream in error log
 	if Engine.is_editor_hint():
 		return
+	if not FileAccess.file_exists("user://SavedGame.tscn"):	
+		Sand_Total = 0
+		Sand_Total_Eaten = 0
+	start_timers()
+	#if not FileAccess.file_exists("user://savegame.json"):
+		#print("No save file found")
+		#return
 		
-	Sand_Total = 0
-	Sand_Total_Eaten = 0
+	#var data = SaveManager.load_game()
+	
+	#if data.has("sand_total"):
+		#Sand_Total = data["sand_total"]
+		#Sand_Total_Eaten = data["sand_total_eaten"]
+		#HorseCheck = data["horse_check"]
+		#
+	#print("Loaded:", data)
 	
 	$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 	$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
@@ -844,3 +857,29 @@ func _on_horse_timer_timeout() -> void:
 func _on_cheat_pressed() -> void:
 	Sand_Total += 9223372000000000000
 	Sand_Total_Eaten += 9223372000000000000
+	
+# loading save stops timers for some reason
+func start_timers():
+	get_node("AutoSaveTimer").autostart = true
+	get_node("CoinTimer").autostart = true
+	get_node("HorseTimer").autostart = true
+	get_node("SpoonTimer").autostart = true
+	get_node("TrowlTimer").autostart = true
+	get_node("PanTimer").autostart = true
+	get_node("ShovelTimer").autostart = true
+	get_node("CLSTimer").autostart = true
+	get_node("DozerTimer").autostart = true
+	get_node("GolemTimer").autostart = true
+	
+func _on_auto_save_timer_timeout() -> void:
+	#var data = {
+		#"sand_total": Sand_Total,
+		#"sand_total_eaten": Sand_Total_Eaten,
+		#"horse_check": HorseCheck
+	#}
+	#SaveManager.save_game(data)
+	print("Game saved teehee")
+	var root = get_tree().current_scene
+	var scene = PackedScene.new()
+	scene.pack(root)
+	ResourceSaver.save(scene, "user://SavedGame.tscn")

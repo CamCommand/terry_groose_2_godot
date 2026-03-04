@@ -28,6 +28,61 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.72156864, 0.99607843, 1, 0.25490198)
 
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=778584688]
+visible = false
+offset = Vector2(14, 8)
+transform = Transform2D(1, 0, 0, 1, 14, 8)
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=862960133]
+offset_right = 679.0
+offset_bottom = 10076.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer" unique_id=434851061]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1613719098]
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 0)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 19
+text = "1000	|	Thousand	|	K
+106	    |	Million			|		M
+109	Billion	Milliard	Thousand million	B	Giga-
+1012	Trillion	Billion	Billion	T	Tera-
+1015	Quadrillion	Billiard	Thousand billion	Qa	Peta-
+1018	Quintillion	Trillion	Trillion	Qi	Exa-
+1021	Sextillion	Trilliard	Thousand trillion	Sx	Zetta-
+1024	Septillion	Quadrillion	Quadrillion	Sp	Yotta-
+1027	Octillion	Quadrilliard	Thousand quadrillion	Oc	Ronna-
+1030	Nonillion	Quintillion	Quintillion	No	Quetta-
+1033	Decillion	Quintilliard	Thousand quintillion	Dc	Vunda-
+1036	Undecillion	Sextillion	Sextillion	Udc	Uda-
+1039	Duodecillion	Sextilliard	Thousand sextillion	Ddc	Treda-
+1042	Tredecillion	Septillion	Septillion	Tdc	Sorta-
+1045	Quattuordecillion	Septilliard	Thousand septillion	Qadc	Rinta-
+1048	Quindecillion	Octillion	Octillion	Qidc	Quexa-
+1051	Sexdecillion	Octilliard	Thousand octillion	Sxdc	Pepta-
+1054	Septendecillion	Nonillion	Nonillion	Spdc	Ocha-
+1057	Octodecillion	Nonilliard	Thousand nonillion	Ocdc	Nena-
+1060	Novemdecillion	Decillion	Decillion	Nodc	Minga-
+1063	Vigintillion	Decilliard	Thousand decillion	Vg	Luma-
+1066	Unvigintillion	Undecillion	Undecillion	Uvg	Kama-
+1069	Duovigintillion	Undecilliard	Thousand undecillion	Dvg	Jama-
+1072	Trevigintillion	Duodecillion	Duodecillion	Tvg	Lana-
+1075	Quattuorvigintillion	Duodecilliard	Thousand duodecillion	Qavg	Heva-
+1078	Quinvigintillion	Tredecillion	Tredecillion	Qivg	Grina-
+1081	Sexvigintillion	Tredecilliard	Thousand tredecillion	Sxvg	Ferma-
+1084	Septenvigintillion	Quattuordecillion	Quattuordecillion	Spvg	Echa-
+1087	Octovigintillion	Quattuordecilliard	Thousand quattuordecillion	Ocvg	Druna-
+1090	Novemvigintillion	Quindecillion	Quindecillion	Novg	Cera-
+1093	Trigintillion	Quindecilliard	Thousand quindecillion	Tg	Brota-
+1096	Untrigintillion	Sexdecillion	Sexdecillion	Utg	Arita-
+1099	Duotrigintillion	Sexdecilliard	Thousand sexdecillion	Dtg	Zira-
+10100	Googol	Googol	Googol	G	Gugao-"
+fit_content = true
+
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=54826090]
 layout_mode = 1
 anchors_preset = 8
@@ -66,27 +121,8 @@ icon_alignment = 1
 [node name="Abv" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1037085764]
 layout_mode = 2
 theme_override_font_sizes/font_size = 55
-text = "Conversions"
+text = "Quit"
 icon_alignment = 1
-
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1414924062]
-visible = false
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -100.5
-offset_top = -68.0
-offset_right = 100.5
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="Label" type="Label" parent="MarginContainer" unique_id=1700939877]
-layout_mode = 2
-theme_override_font_sizes/font_size = 49
-text = "fuck you"
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ResumeBtn" to="." method="_on_resume_btn_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Abv" to="." method="_on_abv_pressed"]

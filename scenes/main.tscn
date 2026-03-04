@@ -309,7 +309,7 @@ offset_bottom = 28.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 5
-text = "Sand Ate: 104026.0.lbs"
+text = "Sand Ate: 104026.0 oz"
 
 [node name="Sand_Dollar" type="Label" parent="." unique_id=1698664243]
 offset_left = 5.0
@@ -437,6 +437,10 @@ autostart = true
 wait_time = 0.25
 autostart = true
 
+[node name="AutoSaveTimer" type="Timer" parent="." unique_id=1935225833]
+wait_time = 2.5
+autostart = true
+
 [node name="Control" parent="." unique_id=1030255203 instance=ExtResource("37_fuf3a")]
 visible = false
 anchors_preset = 15
@@ -539,4 +543,5 @@ text = "$$$"
 [connection signal="timeout" from="CoinTimer" to="." method="_on_coin_timer_timeout"]
 [connection signal="timeout" from="HorseTimer" to="." method="_on_horse_timer_timeout"]
 [connection signal="timeout" from="GolemTimer" to="." method="_on_golem_timer_timeout"]
+[connection signal="timeout" from="AutoSaveTimer" to="." method="_on_auto_save_timer_timeout"]
 [connection signal="pressed" from="Cheat" to="." method="_on_cheat_pressed"]
