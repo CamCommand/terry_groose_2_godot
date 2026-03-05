@@ -7,10 +7,7 @@ func _process(_delta: float) -> void:
 	pass
 	
 func _ready() -> void:
-	#if not FileAccess.file_exists("user://savegame.json"):
-		#$CanvasLayer/MarginContainer/VBoxContainer/LoadGame.disabled = true
-	#else:
-		#$CanvasLayer/MarginContainer/VBoxContainer/LoadGame.disabled = false
+	
 	if not FileAccess.file_exists("user://SavedGame.tscn"):
 		$CanvasLayer/MarginContainer/VBoxContainer/LoadGame.disabled = true
 	else:
@@ -28,3 +25,7 @@ func _on_load_game_pressed() -> void:
 	get_tree().change_scene_to_file("user://SavedGame.tscn")
 	#get_tree().change_scene_to_file(new_scene)
 	self.queue_free()
+
+
+func _on_credit_pressed() -> void:
+	OS.shell_open("https://camcommand.itch.io")

@@ -125,6 +125,8 @@ script = ExtResource("1_j10ga")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1855880374]
 position = Vector2(609, 478)
 sprite_frames = SubResource("SpriteFrames_oiaki")
+frame = 26
+frame_progress = 1.0
 
 [node name="Terry1" type="Sprite2D" parent="." unique_id=1582274201]
 visible = false

@@ -169,10 +169,10 @@ animations = [{
 "speed": 37.0
 }]
 
-[node name="Golem2D" type="Node2D" unique_id=1971895361]
+[node name="Golem2D" type="Node2D" unique_id=1971895361 groups=["main"]]
 script = ExtResource("1_m7w4e")
 
-[node name="GolemSprite" type="AnimatedSprite2D" parent="." unique_id=495128403]
+[node name="GolemSprite" type="AnimatedSprite2D" parent="." unique_id=495128403 groups=["main"]]
 material = SubResource("ShaderMaterial_jap75")
 position = Vector2(-1, -8)
 scale = Vector2(0.99118483, 1.0323887)

@@ -32,6 +32,7 @@ func _process(delta: float) -> void:
 #when Horse Coin is clicked
 func _on_button_pressed() -> void:
 	var main = get_tree().get_first_node_in_group("main")
+	var main2 = get_tree().get_nodes_in_group("main")
 	var horse = get_tree().get_first_node_in_group("horse_vars") as AnimatedSprite2D
 	#play sfx DOESN'T WORK
 	#currently plays when added to the scene
@@ -52,7 +53,9 @@ func _on_button_pressed() -> void:
 			one_pos_x = coin_rng.randi_range(275, 320)
 			var instance = popup_one.instantiate()
 			instance.global_position = Vector2(one_pos_x, 400)
-			main.add_child(instance)
+			
+			if main2 is AnimatedSprite2D and main2.name.ends_with("terry"):
+				main2.add_child(instance)
 			
 			main.Horse_Sand_Eat *= 2
 	#deletes coin

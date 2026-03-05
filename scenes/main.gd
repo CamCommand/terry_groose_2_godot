@@ -60,30 +60,58 @@ var golem_scene: PackedScene = load("res://scenes/golem_2d.tscn")
 @export var Horse_Sand_Eat: int
 @export var HorseCheck: bool = false
 
+@export var space_check: bool = false
+var float_time := 0.0
+var float_amplitude := 8.0
+var float_speed := 2.0
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#makes format_clicker_number not scream in error log
+	$terry.visible = true
 	if Engine.is_editor_hint():
 		return
 	if not FileAccess.file_exists("user://SavedGame.tscn"):	
 		Sand_Total = 0
 		Sand_Total_Eaten = 0
+	
+	#speed = float_rng.randi_range(1, 5)
+	#roataion_speed = float_rng.randi_range(5, 10)
+	#direction_x = float_rng.randf_range(0, 1)
 	start_timers()
-	#if not FileAccess.file_exists("user://savegame.json"):
-		#print("No save file found")
-		#return
-		
-	#var data = SaveManager.load_game()
-	
-	#if data.has("sand_total"):
-		#Sand_Total = data["sand_total"]
-		#Sand_Total_Eaten = data["sand_total_eaten"]
-		#HorseCheck = data["horse_check"]
-		#
-	#print("Loaded:", data)
-	
+
 	$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 	$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
+
+# floating the sprites in space
+func float_named_sprites(delta: float) -> void:
+	float_time += delta
+	var float_rng := RandomNumberGenerator.new()
+	float_rng.randomize()
+
+	for node in get_children():
+		if node is AnimatedSprite2D and node.name.ends_with("Sprite"):
+
+			# Assign a unique rotation speed once to each
+			if not node.has_meta("rotation_speed"):
+				node.set_meta("rotation_speed", float_rng.randf_range(-12.0, 12.0))  # random float speed left or right
+			
+			# Assign a unique float amplitude once (height)
+			if not node.has_meta("float_amplitude"):
+				node.set_meta("float_amplitude", float_rng.randf_range(5.0, 30.0))  # pixels
+				
+			var rotation_speed = node.get_meta("rotation_speed")
+
+			# Apply rotation
+			node.rotation_degrees += rotation_speed * delta
+
+			# Store original Y once
+			if not node.has_meta("base_y"):
+				node.set_meta("base_y", node.position.y)
+			
+			var base_y = node.get_meta("base_y")
+			node.position.y = base_y + sin(float_time * float_speed) * float_amplitude
+			
 	
 func auto_input():
 	if next_input == false:
@@ -104,11 +132,14 @@ func auto_input():
 		next_input = false
 
 		
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	#makes format_clicker_number not scream in error log	
 	if Engine.is_editor_hint():
 		return
 		
+	if space_check == true:
+		float_named_sprites(delta)
+	
 	var moving := Input.is_action_pressed("ui_left") \
 	or Input.is_action_pressed("ui_right")
 	
@@ -373,7 +404,7 @@ func _on_pan_timer_timeout() -> void:
 		
 func _on_pan_button_pressed() -> void:
 #$ScrollContainer/VBoxContainer/PanButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
-	if TrowlCheck == false && SuperTrowlCheck == false:
+	if PanCheck == false && SuperPanCheck == false:
 		pass
 	else:
 		button_click_sfx.play()	
@@ -769,7 +800,7 @@ func _on_golem_timer_timeout() -> void:
 func _on_golem_buton_pressed() -> void:
 	#spawn Golem Node
 	var golem = golem_scene.instantiate()
-	add_child(golem)
+	$terry.add_child(golem)
 	
 	if GolemCheck == false && HelperGolemCheck == false:
 		pass
@@ -841,7 +872,7 @@ func _on_coin_timer_timeout() -> void:
 	
 	#adds it below Terry to put behind pause menu
 	var coin = coin_scene.instantiate()
-	$terry.add_child(coin)
+	$StaticBody2D2.add_child(coin)
 
 func _on_horse_timer_timeout() -> void:
 	Sand_Total += Horse_Sand_Eat
@@ -857,6 +888,7 @@ func _on_horse_timer_timeout() -> void:
 func _on_cheat_pressed() -> void:
 	Sand_Total += 9223372000000000000
 	Sand_Total_Eaten += 9223372000000000000
+	auto_input()
 	
 # loading save stops timers for some reason
 func start_timers():
@@ -872,14 +904,21 @@ func start_timers():
 	get_node("GolemTimer").autostart = true
 	
 func _on_auto_save_timer_timeout() -> void:
-	#var data = {
-		#"sand_total": Sand_Total,
-		#"sand_total_eaten": Sand_Total_Eaten,
-		#"horse_check": HorseCheck
-	#}
-	#SaveManager.save_game(data)
 	print("Game saved teehee")
 	var root = get_tree().current_scene
 	var scene = PackedScene.new()
 	scene.pack(root)
 	ResourceSaver.save(scene, "user://SavedGame.tscn")
+	
+	if (!space_check && SuperSpoonCheck && SuperTrowlCheck && SuperPanCheck && SuperShovelCheck && FCLSCheck && BiggerDozerCheck && Sand_Total_Eaten >= 9223372000000000000):
+		space_check = true
+		# change background and sprite rotations
+		if $Background.frame == 0:
+			var tween = create_tween()
+			tween.tween_property($Background, "modulate:a", 0.0, 5.0)
+			
+			await tween.finished
+			
+			$Background.frame = 1
+			
+			create_tween().tween_property($Background, "modulate:a", 1.0, 5.0)
