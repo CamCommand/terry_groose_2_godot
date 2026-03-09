@@ -8,60 +8,110 @@ var next_input: bool = false
 @export var s_label: String
 @export var s_label_d: String
 @onready var button_click_sfx: AudioStreamPlayer2D = $ScrollContainer/VBoxContainer/ButtonClickSFX
-
+@onready var terry_play = $terry
 var coin_scene: PackedScene = load("res://scenes/horse_coin.tscn")
+var golem_scene: PackedScene = load("res://scenes/golem_2d.tscn")
 
-@onready var SpoonUpgradeCost: float = 100
+@export var SpoonUpgradeCost: float = 100
 @export var SpoonCounter: float
 @export var SpoonCheck: bool
 @export var SuperSpoonCheck: bool
 @onready var spoon_audio: AudioStreamPlayer2D = $SpoonAudio
 
-@onready var TrowlUpgradeCost: float = 1000
+@export var TrowlUpgradeCost: float = 1000
 @export var TrowlCounter: float
 @export var TrowlCheck: bool
 @export var SuperTrowlCheck: bool
 @onready var trowl_audio: AudioStreamPlayer2D = $TrowlAudio
 
-@onready var PanUpgradeCost: float = 3000
+@export var PanUpgradeCost: float = 3000
 @export var PanCounter: float
 @export var PanCheck: bool
 @export var SuperPanCheck: bool
 @onready var pan_audio: AudioStreamPlayer2D = $PanAudio
 
-@onready var ShovelUpgradeCost: float = 10000
+@export var ShovelUpgradeCost: float = 10000
 @export var ShovelCounter: float
 @export var ShovelCheck: bool
 @export var SuperShovelCheck: bool
 @onready var shovel_audio: AudioStreamPlayer2D = $ShovelAudio
 
-@onready var CLSUpgradeCost: float = 100000
+@export var CLSUpgradeCost: float = 100000
 @export var CLSCounter: float
 @export var CLSCheck: bool
 @export var FCLSCheck: bool
+@onready var cspoon_audio: AudioStreamPlayer2D = $CSpoonAudio
 
-@onready var DozerUpgradeCost: float = 1000000
+@export var DozerUpgradeCost: float = 1000000
 @export var DozerCounter: float
 @export var DozerCheck: bool
 @export var BiggerDozerCheck: bool
+@onready var dozer_audio: AudioStreamPlayer2D = $DozerAudio
+
+@export var GolemUpgradeCost: float = 35000000
+@export var GolemCounter: float
+@export var GolemCheck: bool
+@export var HelperGolemCheck: bool #have golems start automatically eating sand
+#@onready var Golum_audio: AudioStreamPlayer2D = $GolumAudio
 
 @export var listItems: Array = []
 @export var Coin_Spawn_Time: float 
 
-var Horse_Sand_Eat: int
-var HorseCheck: bool = false
+@export var Horse_Sand_Eat: int
+@export var HorseCheck: bool = false
+
+@export var space_check: bool = false
+var float_time := 0.0
+var float_amplitude := 8.0
+var float_speed := 2.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#makes format_clicker_number not scream in error log
+	$terry.visible = true
 	if Engine.is_editor_hint():
 		return
-		
-	Sand_Total = 0
-	Sand_Total_Eaten = 0
+	if not FileAccess.file_exists("user://SavedGame.tscn"):	
+		Sand_Total = 0
+		Sand_Total_Eaten = 0
 	
+	#speed = float_rng.randi_range(1, 5)
+	#roataion_speed = float_rng.randi_range(5, 10)
+	#direction_x = float_rng.randf_range(0, 1)
+	start_timers()
+
 	$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 	$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
+
+# floating the sprites in space
+func float_named_sprites(delta: float) -> void:
+	float_time += delta
+	var float_rng := RandomNumberGenerator.new()
+	float_rng.randomize()
+
+	for node in get_children():
+		if node is AnimatedSprite2D and node.name.ends_with("Sprite"):
+
+			# Assign a unique rotation speed once to each
+			if not node.has_meta("rotation_speed"):
+				node.set_meta("rotation_speed", float_rng.randf_range(-12.0, 12.0))  # random float speed left or right
+			
+			# Assign a unique float amplitude once (height)
+			if not node.has_meta("float_amplitude"):
+				node.set_meta("float_amplitude", float_rng.randf_range(5.0, 30.0))  # pixels
+				
+			var rotation_speed = node.get_meta("rotation_speed")
+
+			# Apply rotation
+			node.rotation_degrees += rotation_speed * delta
+
+			# Store original Y once
+			if not node.has_meta("base_y"):
+				node.set_meta("base_y", node.position.y)
+			
+			var base_y = node.get_meta("base_y")
+			node.position.y = base_y + sin(float_time * float_speed) * float_amplitude
+			
 	
 func auto_input():
 	if next_input == false:
@@ -82,17 +132,27 @@ func auto_input():
 		next_input = false
 
 		
-func _process(_delta: float) -> void:
-	#makes format_clicker_number not scream in error log
+func _process(delta: float) -> void:
+	#makes format_clicker_number not scream in error log	
 	if Engine.is_editor_hint():
 		return
+		
+	if space_check == true:
+		float_named_sprites(delta)
+	
+	var moving := Input.is_action_pressed("ui_left") \
+	or Input.is_action_pressed("ui_right")
+	
+	if terry_play:
+		terry_play.set_moving(moving)
 		
 	if $Sand_Ate.text == "":
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 		#$Sand_Ate.text = format_clicker_number(Sand_Total_Eaten, 1)
 	if $Sand_Dollar.text == "":
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
-	
+		
+	# dev cheat
 	auto_input()
 	
 	if  Input.is_action_just_pressed("ui_left") && next_input == false:
@@ -140,15 +200,18 @@ func _on_spoon_timer_timeout() -> void:
 		$ScrollContainer/VBoxContainer/SpoonButton.disabled = true
 		$ScrollContainer/VBoxContainer/SpoonButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
 			
-	elif SuperSpoonCheck == true && SpoonCounter == 21:
-		$ScrollContainer/VBoxContainer/SpoonButton.text = "Max Spoon" + "\n" + " Reached"
+	elif SuperSpoonCheck == true && SpoonCounter == 14:
+		$ScrollContainer/VBoxContainer/SpoonButton.text = "Max Spoonage" + "\n" + " Reached"
 		$ScrollContainer/VBoxContainer/SpoonButton.disabled = true
 		$ScrollContainer/VBoxContainer/SpoonButton.modulate = Color(0.0, 0.0, 0.0, 1.0)	
 
 func _on_spoon_button_pressed() -> void:
 	#$SpoonButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
-	
-	button_click_sfx.play()
+	if SpoonCheck == false && SuperSpoonCheck == false:
+		pass
+	else:
+		button_click_sfx.play()	
+		
 	if SpoonCheck == true && Sand_Total >= SpoonUpgradeCost && SpoonCounter < 11:
 		Sand_Total -= SpoonUpgradeCost
 		SpoonCounter += 1
@@ -211,9 +274,43 @@ func _on_spoon_button_pressed() -> void:
 		
 	$Sand_Mult.text = NumberFormatter.format_clicker_number(Sand, 3)
 	
+func _on_trowl_timer_timeout() -> void:
+# checking and setting Trowl Button conditions
+	if Sand_Total >= 1000 && !listItems.has("Trowl"):
+		$ScrollContainer/VBoxContainer/TrowlButton.text = "Buy Trowl " + "\n" + str(int(TrowlUpgradeCost))
+		$ScrollContainer/VBoxContainer/TrowlButton.disabled = false
+		$ScrollContainer/VBoxContainer/TrowlButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
+	elif Sand_Total < 1000 && !listItems.has("Trowl"):
+		$ScrollContainer/VBoxContainer/TrowlButton.disabled = true
+		$ScrollContainer/VBoxContainer/TrowlButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
+		
+	if listItems.has("Trowl") && Sand_Total >= TrowlUpgradeCost:
+		$ScrollContainer/VBoxContainer/TrowlButton.disabled = false
+		$ScrollContainer/VBoxContainer/TrowlButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
+	elif Sand_Total < TrowlUpgradeCost:
+		$ScrollContainer/VBoxContainer/TrowlButton.disabled = true
+		$ScrollContainer/VBoxContainer/TrowlButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
+		
+	if listItems.has("Trowl") && Sand_Total >= TrowlUpgradeCost && TrowlCounter == 11:
+		$ScrollContainer/VBoxContainer/TrowlButton.text = "Buy " + "\n" + "Super Trowl " + "\n" + str(int(TrowlUpgradeCost))
+		$ScrollContainer/VBoxContainer/TrowlButton.disabled = false
+		$ScrollContainer/VBoxContainer/TrowlButton.modulate = Color(0.812, 0.145, 0.0, 1.0)
+	elif Sand_Total < TrowlUpgradeCost && TrowlCounter == 11:
+		$ScrollContainer/VBoxContainer/TrowlButton.text = "Buy " + "\n" + "Super Trowl " + "\n" + str(int(TrowlUpgradeCost))
+		$ScrollContainer/VBoxContainer/TrowlButton.disabled = true
+		$SpoonButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
+	elif SuperTrowlCheck == true && TrowlCounter == 16:
+		$ScrollContainer/VBoxContainer/TrowlButton.text = "Max Trowl" + "\n" + " Reached"
+		$ScrollContainer/VBoxContainer/TrowlButton.disabled = true
+		$ScrollContainer/VBoxContainer/TrowlButton.modulate = Color(0.0, 0.0, 0.0, 1.0)	
+
 func _on_trowl_button_pressed() -> void:
 	#$ScrollContainer/VBoxContainer/TrowlButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
-	button_click_sfx.play()
+	if TrowlCheck == false && SuperTrowlCheck == false:
+		pass
+	else:
+		button_click_sfx.play()	
+		
 	if TrowlCheck == true && Sand_Total >= TrowlUpgradeCost && TrowlCounter < 11:
 		Sand_Total -= TrowlUpgradeCost
 		TrowlCounter += 1
@@ -235,8 +332,6 @@ func _on_trowl_button_pressed() -> void:
 		SuperTrowlCheck = true
 		TrowlCheck = false	
 		$TrowlSprite.frame = 2
-		
-		#add on screen text and or menu to display items here
 		
 		Sand_Total -= TrowlUpgradeCost
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
@@ -266,7 +361,7 @@ func _on_trowl_button_pressed() -> void:
 		#spawn TrowlSprite
 		$TrowlSprite.visible = true
 		var trowl_tween := create_tween().bind_node($TrowlSprite).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-		trowl_tween.tween_property($TrowlSprite, "position", Vector2(730.0, 680), 0.2)#.from(Vector2(0,0))
+		trowl_tween.tween_property($TrowlSprite, "position", Vector2(775.0, 680), 0.2)#.from(Vector2(0,0))
 		trowl_audio.play()
 		
 		# update text with list of items here
@@ -277,39 +372,43 @@ func _on_trowl_button_pressed() -> void:
 		
 	$Sand_Mult.text = NumberFormatter.format_clicker_number(Sand, 3)
 
-func _on_trowl_timer_timeout() -> void:
-# checking and setting Trowl Button conditions
-	if Sand_Total >= 1000 && !listItems.has("Trowl"):
-		$ScrollContainer/VBoxContainer/TrowlButton.text = "Buy Trowl " + "\n" + str(int(TrowlUpgradeCost))
-		$ScrollContainer/VBoxContainer/TrowlButton.disabled = false
-		$ScrollContainer/VBoxContainer/TrowlButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
-	elif Sand_Total < 1000 && !listItems.has("Trowl"):
-		$ScrollContainer/VBoxContainer/TrowlButton.disabled = true
-		$ScrollContainer/VBoxContainer/TrowlButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
+func _on_pan_timer_timeout() -> void:
+# checking and setting Pan Button conditions
+	if Sand_Total >= 3000 && !listItems.has("Pan"):
+		$ScrollContainer/VBoxContainer/PanButton.text = "Buy Pan " + "\n" + str(int(PanUpgradeCost))
+		$ScrollContainer/VBoxContainer/PanButton.disabled = false
+		$ScrollContainer/VBoxContainer/PanButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
+	elif Sand_Total < 3000 && !listItems.has("Pan"):
+		$ScrollContainer/VBoxContainer/PanButton.disabled = true
+		$ScrollContainer/VBoxContainer/PanButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
 		
-	if listItems.has("Trowl") && Sand_Total >= TrowlUpgradeCost:
-		$ScrollContainer/VBoxContainer/TrowlButton.disabled = false
-		$ScrollContainer/VBoxContainer/TrowlButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
-	elif Sand_Total < TrowlUpgradeCost:
-		$ScrollContainer/VBoxContainer/TrowlButton.disabled = true
-		$ScrollContainer/VBoxContainer/TrowlButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
+	if listItems.has("Pan") && Sand_Total >= PanUpgradeCost:
+		$ScrollContainer/VBoxContainer/PanButton.disabled = false
+		$ScrollContainer/VBoxContainer/PanButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
+	elif Sand_Total < PanUpgradeCost:
+		$ScrollContainer/VBoxContainer/PanButton.disabled = true
+		$ScrollContainer/VBoxContainer/PanButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
 		
-	if listItems.has("Trowl") && Sand_Total >= TrowlUpgradeCost && TrowlCounter == 11:
-		$ScrollContainer/VBoxContainer/TrowlButton.text = "Buy " + "\n" + "Super Trowl " + "\n" + str(int(TrowlUpgradeCost))
-		$ScrollContainer/VBoxContainer/TrowlButton.disabled = false
-		$ScrollContainer/VBoxContainer/TrowlButton.modulate = Color(0.812, 0.145, 0.0, 1.0)
-	elif Sand_Total < TrowlUpgradeCost && TrowlCounter == 11:
-		$ScrollContainer/VBoxContainer/TrowlButton.text = "Buy " + "\n" + "Super Trowl " + "\n" + str(int(TrowlUpgradeCost))
-		$ScrollContainer/VBoxContainer/TrowlButton.disabled = true
-		$SpoonButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
-	elif SuperTrowlCheck == true && TrowlCounter == 26:
-		$ScrollContainer/VBoxContainer/TrowlButton.text = "Max Trowl" + "\n" + " Reached"
-		$ScrollContainer/VBoxContainer/TrowlButton.disabled = true
-		$ScrollContainer/VBoxContainer/TrowlButton.modulate = Color(0.0, 0.0, 0.0, 1.0)	
-
+	if listItems.has("Pan") && Sand_Total >= PanUpgradeCost && PanCounter == 11:
+		$ScrollContainer/VBoxContainer/PanButton.text = "Buy " + "\n" + "Super Pan " + "\n" +  str(int(PanUpgradeCost))
+		$ScrollContainer/VBoxContainer/PanButton.disabled = false
+		$ScrollContainer/VBoxContainer/PanButton.modulate = Color(0.812, 0.145, 0.0, 1.0)
+	elif Sand_Total < PanUpgradeCost && PanCounter == 11:
+		$ScrollContainer/VBoxContainer/PanButton.text = "Buy " + "\n" + "Super Pan " + "\n" +  str(int(PanUpgradeCost))
+		$ScrollContainer/VBoxContainer/PanButton.disabled = true
+		$ScrollContainer/VBoxContainer/PanButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
+	elif SuperPanCheck == true && PanCounter == 21:
+		$ScrollContainer/VBoxContainer/PanButton.text = "Max Pan" + "\n" + " Reached"
+		$ScrollContainer/VBoxContainer/PanButton.disabled = true
+		$ScrollContainer/VBoxContainer/PanButton.modulate = Color(0.0, 0.0, 0.0, 1.0)	
+		
 func _on_pan_button_pressed() -> void:
 #$ScrollContainer/VBoxContainer/PanButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
-	button_click_sfx.play()
+	if PanCheck == false && SuperPanCheck == false:
+		pass
+	else:
+		button_click_sfx.play()	
+		
 	if PanCheck == true && Sand_Total >= PanUpgradeCost && PanCounter < 11:
 		Sand_Total -= PanUpgradeCost
 		PanCounter += 1
@@ -331,8 +430,6 @@ func _on_pan_button_pressed() -> void:
 		SuperPanCheck = true
 		PanCheck = false	
 		$PanSprite.frame = 2
-		
-		#add on screen text and or menu to display items here
 		
 		Sand_Total -= PanUpgradeCost
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
@@ -362,7 +459,7 @@ func _on_pan_button_pressed() -> void:
 		#spawn PanSprite
 		$PanSprite.visible = true
 		var pan_tween := create_tween().bind_node($PanSprite).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-		pan_tween.tween_property($PanSprite, "position", Vector2(790.0, 690), 0.2)#.from(Vector2(0,0))
+		pan_tween.tween_property($PanSprite, "position", Vector2(845.0, 690), 0.2)#.from(Vector2(0,0))
 		pan_audio.play()
 		
 		# update text with list of items here
@@ -372,36 +469,6 @@ func _on_pan_button_pressed() -> void:
 		$ScrollContainer/VBoxContainer/PanButton.text = "Upgrade Pan " +"\n" + str(int(PanUpgradeCost))
 		
 	$Sand_Mult.text = NumberFormatter.format_clicker_number(Sand, 3)
-
-func _on_pan_timer_timeout() -> void:
-# checking and setting Pan Button conditions
-	if Sand_Total >= 3000 && !listItems.has("Pan"):
-		$ScrollContainer/VBoxContainer/PanButton.text = "Buy Pan " + "\n" + str(int(PanUpgradeCost))
-		$ScrollContainer/VBoxContainer/PanButton.disabled = false
-		$ScrollContainer/VBoxContainer/PanButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
-	elif Sand_Total < 3000 && !listItems.has("Pan"):
-		$ScrollContainer/VBoxContainer/PanButton.disabled = true
-		$ScrollContainer/VBoxContainer/PanButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
-		
-	if listItems.has("Pan") && Sand_Total >= PanUpgradeCost:
-		$ScrollContainer/VBoxContainer/PanButton.disabled = false
-		$ScrollContainer/VBoxContainer/PanButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
-	elif Sand_Total < PanUpgradeCost:
-		$ScrollContainer/VBoxContainer/PanButton.disabled = true
-		$ScrollContainer/VBoxContainer/PanButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
-		
-	if listItems.has("Pan") && Sand_Total >= PanUpgradeCost && PanCounter == 11:
-		$ScrollContainer/VBoxContainer/PanButton.text = "Buy " + "\n" + "Super Pan " + "\n" +  str(int(PanUpgradeCost))
-		$ScrollContainer/VBoxContainer/PanButton.disabled = false
-		$ScrollContainer/VBoxContainer/PanButton.modulate = Color(0.812, 0.145, 0.0, 1.0)
-	elif Sand_Total < PanUpgradeCost && PanCounter == 11:
-		$ScrollContainer/VBoxContainer/PanButton.text = "Buy " + "\n" + "Super Pan " + "\n" +  str(int(PanUpgradeCost))
-		$ScrollContainer/VBoxContainer/PanButton.disabled = true
-		$ScrollContainer/VBoxContainer/PanButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
-	elif SuperPanCheck == true && PanCounter == 31:
-		$ScrollContainer/VBoxContainer/PanButton.text = "Max Pan" + "\n" + " Reached"
-		$ScrollContainer/VBoxContainer/PanButton.disabled = true
-		$ScrollContainer/VBoxContainer/PanButton.modulate = Color(0.0, 0.0, 0.0, 1.0)	
 
 func _on_shovel_timer_timeout() -> void:
 # checking and setting Shovel Button conditions
@@ -428,14 +495,18 @@ func _on_shovel_timer_timeout() -> void:
 		$ScrollContainer/VBoxContainer/ShovelButton.text = "Buy " + "\n" + "Super Shovel " + "\n" +  str(int(ShovelUpgradeCost))
 		$ScrollContainer/VBoxContainer/ShovelButton.disabled = true
 		$ScrollContainer/VBoxContainer/ShovelButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
-	elif SuperShovelCheck == true && ShovelCounter == 36:
+	elif SuperShovelCheck == true && ShovelCounter == 26:
 		$ScrollContainer/VBoxContainer/ShovelButton.text = "Max Shovel" + "\n" + " Reached"
 		$ScrollContainer/VBoxContainer/ShovelButton.disabled = true
 		$ScrollContainer/VBoxContainer/ShovelButton.modulate = Color(0.0, 0.0, 0.0, 1.0)	
 	
 func _on_shovel_button_pressed() -> void:
 #$ScrollContainer/VBoxContainer/ShovelButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
-	button_click_sfx.play()
+	if ShovelCheck == false && SuperShovelCheck == false:
+		pass
+	else:
+		button_click_sfx.play()	
+			
 	if ShovelCheck == true && Sand_Total >= ShovelUpgradeCost && ShovelCounter < 11:
 		Sand_Total -= ShovelUpgradeCost
 		ShovelCounter += 1
@@ -501,11 +572,11 @@ func _on_shovel_button_pressed() -> void:
 
 func _on_cls_timer_timeout() -> void:
 # checking and setting Comically Large SPOON Button conditions
-	if Sand_Total >= 100000 && !listItems.has("Comically Large SPOON"):
+	if Sand_Total >= 500000 && !listItems.has("Comically Large SPOON"):
 		$ScrollContainer/VBoxContainer/CLSButton.text = "Buy Comically " + "\n" + " Large SPOON " + "\n" + str(int(CLSUpgradeCost))
 		$ScrollContainer/VBoxContainer/CLSButton.disabled = false
 		$ScrollContainer/VBoxContainer/CLSButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
-	elif Sand_Total < 100000 && !listItems.has("Comically Large SPOON"):
+	elif Sand_Total < 500000 && !listItems.has("Comically Large SPOON"):
 		$ScrollContainer/VBoxContainer/CLSButton.disabled = true
 		$ScrollContainer/VBoxContainer/CLSButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
 		
@@ -524,14 +595,18 @@ func _on_cls_timer_timeout() -> void:
 		$ScrollContainer/VBoxContainer/CLSButton.text = "Buy Funnier " + "\n" + "Comically Large" + "\n" + " SPOON " + "\n" + str(int(CLSUpgradeCost))
 		$ScrollContainer/VBoxContainer/CLSButton.disabled = true
 		$ScrollContainer/VBoxContainer/CLSButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
-	elif FCLSCheck == true && CLSCounter == 50:
+	elif FCLSCheck == true && CLSCounter == 31:
 		$ScrollContainer/VBoxContainer/CLSButton.text = "Max Spoonage" + "\n" + " Reached"
 		$ScrollContainer/VBoxContainer/CLSButton.disabled = true
 		$ScrollContainer/VBoxContainer/CLSButton.modulate = Color(0.0, 0.0, 0.0, 1.0)	
 
 func _on_cls_button_pressed() -> void:
 #$ScrollContainer/VBoxContainer/CLSButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
-	button_click_sfx.play()
+	if CLSCheck == false && FCLSCheck == false:
+		pass
+	else:
+		button_click_sfx.play()	
+			
 	if CLSCheck == true && Sand_Total >= CLSUpgradeCost && CLSCounter < 11:
 		Sand_Total -= CLSUpgradeCost
 		CLSCounter += 1
@@ -552,14 +627,13 @@ func _on_cls_button_pressed() -> void:
 		listItems.append("Funnier Comically Large SPOON")		
 		FCLSCheck = true
 		CLSCheck = false	
-		
-		#add on screen text and or menu to display items here
+		$CSpoonSprite.frame = 2
 		
 		Sand_Total -= CLSUpgradeCost
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 		Sand = Sand * 1.8
-		CLSUpgradeCost = CLSUpgradeCost + (10000 * CLSCounter)
+		CLSUpgradeCost = CLSUpgradeCost + (500000 * CLSCounter)
 		CLSCounter += 1
 		$ScrollContainer/VBoxContainer/CLSButton.text = "Upgrade Funnier " + "\n" + "Comically Large" + "\n" + " SPOON " + "\n" + str(int(CLSUpgradeCost))
 	
@@ -568,34 +642,38 @@ func _on_cls_button_pressed() -> void:
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 		Sand = Sand * 1.75
-		CLSUpgradeCost = CLSUpgradeCost + (10000 * CLSCounter)
+		CLSUpgradeCost = CLSUpgradeCost + (500000 * CLSCounter)
 		CLSCounter += 1
 		$ScrollContainer/VBoxContainer/CLSButton.text = "Upgrade Funnier " + "\n" + "Comically Large" + "\n" + " SPOON " + "\n" + str(int(CLSUpgradeCost))
 
-	if Sand_Total >= 100000 && CLSCheck == false && FCLSCheck == false:
-		Sand_Total -= 100000
+	if Sand_Total >= 500000 && CLSCheck == false && FCLSCheck == false:
+		Sand_Total -= 500000
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 		
 		listItems.append("Comically Large SPOON")
 		CLSCheck = true
 		
-		# update text with list of items here
-		Sand = Sand * 1.8
-		CLSUpgradeCost = 200000
+		#spawn CLSSpoonSprite
+		$CSpoonSprite.visible = true
+		var cspoon_tween := create_tween().bind_node($CSpoonSprite).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		cspoon_tween.tween_property($CSpoonSprite, "position", Vector2(265, 560), 0.1)#.from(Vector2(0,0))
+		cspoon_audio.play()
+		
+		Sand = Sand * 1.75
+		CLSUpgradeCost = 1000000
 		CLSCounter += 1
 		$ScrollContainer/VBoxContainer/CLSButton.text = "Upgrade Comically " + "\n" + " Large SPOON " + "\n" + str(int(CLSUpgradeCost))
 		
 	$Sand_Mult.text = NumberFormatter.format_clicker_number(Sand, 3)
 	
-	
 func _on_dozer_timer_timeout() -> void:
 # checking and setting Dozer Button conditions
-	if Sand_Total >= 1000000 && !listItems.has("Dozer"):
+	if Sand_Total >= 1500000 && !listItems.has("Dozer"):
 		$ScrollContainer/VBoxContainer/DozerButton.text = "Buy Dozer" + "\n" + str(int(DozerUpgradeCost))
 		$ScrollContainer/VBoxContainer/DozerButton.disabled = false
 		$ScrollContainer/VBoxContainer/DozerButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
-	elif Sand_Total < 1000000 && !listItems.has("Dozer"):
+	elif Sand_Total < 1500000 && !listItems.has("Dozer"):
 		$ScrollContainer/VBoxContainer/DozerButton.disabled = true
 		$ScrollContainer/VBoxContainer/DozerButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
 		
@@ -614,42 +692,47 @@ func _on_dozer_timer_timeout() -> void:
 		$ScrollContainer/VBoxContainer/DozerButton.text = "Buy Bigger " + "\n" + "Dozer" + "\n" + str(int(DozerUpgradeCost))
 		$ScrollContainer/VBoxContainer/DozerButton.disabled = true
 		$ScrollContainer/VBoxContainer/DozerButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
-	elif BiggerDozerCheck == true && DozerCounter == 100:
+	elif BiggerDozerCheck == true && DozerCounter == 36:
 		$ScrollContainer/VBoxContainer/DozerButton.text = "Final Dozer" + "\n" + " Reached"
 		$ScrollContainer/VBoxContainer/DozerButton.disabled = true
 		$ScrollContainer/VBoxContainer/DozerButton.modulate = Color(0.0, 0.0, 0.0, 1.0)	
 	
 func _on_dozer_button_pressed() -> void:
 #$ScrollContainer/VBoxContainer/DozerButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
-	button_click_sfx.play()
+	if DozerCheck == false && BiggerDozerCheck == false:
+		pass
+	else:
+		button_click_sfx.play()	
+		
 	if DozerCheck == true && Sand_Total >= DozerUpgradeCost && DozerCounter < 11:
 		Sand_Total -= DozerUpgradeCost
 		DozerCounter += 1
 		
 	#multiplyer for bigger upgrades
 		if DozerCounter == 11:
-			DozerUpgradeCost = DozerUpgradeCost * 5
+			DozerUpgradeCost = DozerUpgradeCost * 3
 			$ScrollContainer/VBoxContainer/DozerButton.text = "Buy Bigger " + "\n" + "Dozer" + "\n" + str(int(DozerUpgradeCost))
 		else:
-			DozerUpgradeCost = DozerUpgradeCost + (1000 * DozerCounter)
+			DozerUpgradeCost = DozerUpgradeCost + (100000 * DozerCounter)
 			$ScrollContainer/VBoxContainer/DozerButton.text = "Upgrade Dozer " + "\n" + str(int(DozerUpgradeCost))
 
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
-		Sand = Sand * 2
+		Sand = Sand * 1.8
 		
 	elif DozerCheck == true && Sand_Total >= DozerUpgradeCost && DozerCounter == 11:
 		listItems.append("Bigger Dozer")		
 		BiggerDozerCheck = true
 		DozerCheck = false	
-		
-		#add on screen text and or menu to display items here
+		var dozer_tween2 := create_tween().bind_node($DozerSprite).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		$DozerSprite.frame = 2
+		dozer_tween2.tween_property($DozerSprite, 'scale', Vector2(0.25,0.25), 0.3)
 		
 		Sand_Total -= DozerUpgradeCost
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
-		Sand = Sand * 2
-		DozerUpgradeCost = DozerUpgradeCost + (100000 * DozerCounter)
+		Sand = Sand * 1.9
+		DozerUpgradeCost = DozerUpgradeCost + (10000000 * DozerCounter)
 		DozerCounter += 1
 		$ScrollContainer/VBoxContainer/DozerButton.text = "Upgrade Bigger" + "\n" + "Dozer" + "\n" + str(int(DozerUpgradeCost))
 	
@@ -662,22 +745,121 @@ func _on_dozer_button_pressed() -> void:
 		DozerCounter += 1
 		$ScrollContainer/VBoxContainer/DozerButton.text = "Upgrade Bigger " + "\n" + "Dozer" + "\n" + str(int(DozerUpgradeCost))
 
-	if Sand_Total >= 1000000 && DozerCheck == false && BiggerDozerCheck == false:
-		Sand_Total -= 1000000
+	if Sand_Total >= 1500000 && DozerCheck == false && BiggerDozerCheck == false:
+		Sand_Total -= 1500000
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 		
 		listItems.append("Dozer")
 		DozerCheck = true
 		
+		#spawn DozerSprite
+		$DozerSprite.visible = true
+		var dozer_tween := create_tween().bind_node($DozerSprite).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		dozer_tween.tween_property($DozerSprite, "modulate:a", 1, 0.5).from(0)
+		dozer_audio.play()
+		
 		# update text with list of items here
 		Sand = Sand * 2
-		DozerUpgradeCost = 2000000
+		DozerUpgradeCost = 3000000
 		DozerCounter += 1
-		$ScrollContainer/VBoxContainer/DozerButton.text = "Upgrade Dozer " + "\n" + str(int(CLSUpgradeCost))
+		$ScrollContainer/VBoxContainer/DozerButton.text = "Upgrade Dozer " + "\n" + str(int(DozerUpgradeCost))
 		
 	$Sand_Mult.text = NumberFormatter.format_clicker_number(Sand, 3)
+
+func _on_golem_timer_timeout() -> void:
+# checking and setting Golem Button conditions
+	if Sand_Total >= 10000000 && !listItems.has("Golem"):
+		$ScrollContainer/VBoxContainer/GolemButton.text = "Buy Golem" + "\n" + str(int(GolemUpgradeCost))
+		$ScrollContainer/VBoxContainer/GolemButton.disabled = false
+		$ScrollContainer/VBoxContainer/GolemButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
+	elif Sand_Total < 10000000 && !listItems.has("Golem"):
+		$ScrollContainer/VBoxContainer/GolemButton.disabled = true
+		$ScrollContainer/VBoxContainer/GolemButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
+		
+	if listItems.has("Golem") && Sand_Total >= GolemUpgradeCost:
+		$ScrollContainer/VBoxContainer/GolemButton.disabled = false
+		$ScrollContainer/VBoxContainer/GolemButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
+	elif Sand_Total < GolemUpgradeCost:
+		$ScrollContainer/VBoxContainer/GolemButton.disabled = true
+		$ScrollContainer/VBoxContainer/GolemButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
+		
+	if listItems.has("Golem") && Sand_Total >= GolemUpgradeCost && GolemCounter == 5:
+		$ScrollContainer/VBoxContainer/GolemButton.text = "Buy Helper " + "\n" + "Golem" + "\n" + str(int(GolemUpgradeCost))
+		$ScrollContainer/VBoxContainer/GolemButton.disabled = false
+		$ScrollContainer/VBoxContainer/GolemButton.modulate = Color(0.812, 0.145, 0.0, 1.0)
+	elif Sand_Total < GolemUpgradeCost && GolemCounter == 5:
+		$ScrollContainer/VBoxContainer/GolemButton.text = "Buy Helper " + "\n" + "Golem" + "\n" + str(int(GolemUpgradeCost))
+		$ScrollContainer/VBoxContainer/GolemButton.disabled = true
+		$ScrollContainer/VBoxContainer/GolemButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
+	elif HelperGolemCheck == true && GolemCounter == 26:
+		$ScrollContainer/VBoxContainer/GolemButton.text = "Ritual" + "\n" + "Completed"
+		$ScrollContainer/VBoxContainer/GolemButton.disabled = true
+		$ScrollContainer/VBoxContainer/GolemButton.modulate = Color(0.0, 0.0, 0.0, 1.0)	
+		
+func _on_golem_buton_pressed() -> void:
+	#spawn Golem Node
+	var golem = golem_scene.instantiate()
+	$terry.add_child(golem)
 	
+	if GolemCheck == false && HelperGolemCheck == false:
+		pass
+	else:
+		button_click_sfx.play()	
+		
+	if GolemCheck == true && Sand_Total >= GolemUpgradeCost && GolemCounter < 5:
+		Sand_Total -= GolemUpgradeCost
+		GolemCounter += 1
+		
+	#multiplyer for bigger upgrades
+		if GolemCounter == 5:
+			GolemUpgradeCost = GolemUpgradeCost * 5
+			$ScrollContainer/VBoxContainer/GolemButton.text = "Buy Helper " + "\n" + "Golems" + "\n" + str(int(GolemUpgradeCost))
+		else:
+			GolemUpgradeCost = GolemUpgradeCost + (10000000 * GolemCounter)
+			$ScrollContainer/VBoxContainer/GolemButton.text = "Upgrade Golem " + "\n" + str(int(GolemUpgradeCost))
+
+		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
+		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
+		Sand = Sand * 1.5
+		
+	elif GolemCheck == true && Sand_Total >= GolemUpgradeCost && GolemCounter == 5:
+		listItems.append("Helper Golem")		
+		HelperGolemCheck = true
+		GolemCheck = false	
+		
+		Sand_Total -= GolemUpgradeCost
+		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
+		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
+		#Sand = Sand * 1.5
+		GolemUpgradeCost = GolemUpgradeCost + (10000000 * GolemCounter)
+		GolemCounter += 1
+		$ScrollContainer/VBoxContainer/GolemButton.text = "Upgrade Helper" + "\n" + "Golem" + "\n" + str(int(GolemUpgradeCost))
+	
+	elif HelperGolemCheck == true && Sand_Total >= GolemUpgradeCost && GolemCounter > 5:
+		Sand_Total -= GolemUpgradeCost
+		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
+		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
+		#golem now gains Sand via horse timer
+		GolemUpgradeCost = GolemUpgradeCost + (10000000 * GolemCounter)
+		GolemCounter += 1
+		$ScrollContainer/VBoxContainer/GolemButton.text = "Upgrade Helper " + "\n" + "Golem" + "\n" + str(int(GolemUpgradeCost))
+
+	if Sand_Total >= 10000000 && GolemCheck == false && HelperGolemCheck == false:
+		Sand_Total -= 10000000
+		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
+		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
+		
+		listItems.append("Golem")
+		GolemCheck = true
+		
+		Sand = Sand * 1.5
+		GolemUpgradeCost = 35000000
+		GolemCounter += 1
+		$ScrollContainer/VBoxContainer/GolemButton.text = "Upgrade Golem " + "\n" + str(int(GolemUpgradeCost))
+		
+	$Sand_Mult.text = NumberFormatter.format_clicker_number(Sand, 3)
+
 func _on_coin_timer_timeout() -> void:
 	# random coin drop time
 	#var coin_drop:= RandomNumberGenerator.new()
@@ -687,14 +869,56 @@ func _on_coin_timer_timeout() -> void:
 	Coin_Spawn_Time = randf_range(5, 8)
 	#Coin_Spawn_Time = randf_range(100.05, 400.01)
 	$CoinTimer.wait_time = Coin_Spawn_Time
-	#print($CoinTimer.wait_time)
 	
+	#adds it below Terry to put behind pause menu
 	var coin = coin_scene.instantiate()
-	add_child(coin)
+	$StaticBody2D2.add_child(coin)
 
 func _on_horse_timer_timeout() -> void:
 	Sand_Total += Horse_Sand_Eat
 	Sand_Total_Eaten += Horse_Sand_Eat
+	
+	if HelperGolemCheck == true:
+		Sand_Total += GolemCounter * Sand
+		Sand_Total_Eaten += GolemCounter * Sand
 
 	$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 	$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
+
+func _on_cheat_pressed() -> void:
+	Sand_Total += 9223372000000000000
+	Sand_Total_Eaten += 9223372000000000000
+	auto_input()
+	
+# loading save stops timers for some reason
+func start_timers():
+	get_node("AutoSaveTimer").autostart = true
+	get_node("CoinTimer").autostart = true
+	get_node("HorseTimer").autostart = true
+	get_node("SpoonTimer").autostart = true
+	get_node("TrowlTimer").autostart = true
+	get_node("PanTimer").autostart = true
+	get_node("ShovelTimer").autostart = true
+	get_node("CLSTimer").autostart = true
+	get_node("DozerTimer").autostart = true
+	get_node("GolemTimer").autostart = true
+	
+func _on_auto_save_timer_timeout() -> void:
+	print("Game saved teehee")
+	var root = get_tree().current_scene
+	var scene = PackedScene.new()
+	scene.pack(root)
+	ResourceSaver.save(scene, "user://SavedGame.tscn")
+	
+	if (!space_check && SuperSpoonCheck && SuperTrowlCheck && SuperPanCheck && SuperShovelCheck && FCLSCheck && BiggerDozerCheck && Sand_Total_Eaten >= 9223372000000000000):
+		space_check = true
+		# change background and sprite rotations
+		if $Background.frame == 0:
+			var tween = create_tween()
+			tween.tween_property($Background, "modulate:a", 0.0, 5.0)
+			
+			await tween.finished
+			
+			$Background.frame = 1
+			
+			create_tween().tween_property($Background, "modulate:a", 1.0, 5.0)

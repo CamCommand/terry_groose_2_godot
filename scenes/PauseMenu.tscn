@@ -1,0 +1,165 @@
+[gd_scene format=3 uid="uid://bjqj2c8qr4aut"]
+
+[ext_resource type="Script" uid="uid://cvx54fmrniecx" path="res://scenes/pause_menu.gd" id="1_jvnd5"]
+[ext_resource type="RichTextEffect" uid="uid://bl8c5h1gm17jv" path="res://scenes/new_rich_text_effect.tres" id="2_g4jo0"]
+
+[node name="Control" type="Control" unique_id=1030255203]
+physics_interpolation_mode = 1
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jvnd5")
+
+[node name="BKGRD" type="ColorRect" parent="." unique_id=1099386913]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -360.0
+offset_right = 960.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.72156864, 0.99607843, 1, 0.25490198)
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=862960133]
+layout_mode = 0
+offset_left = -960.0
+offset_top = -360.0
+offset_right = -621.0
+offset_bottom = 403.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=434851061]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer" unique_id=1186578049]
+custom_minimum_size = Vector2(1, 720)
+layout_mode = 2
+color = Color(0.69411767, 1, 1, 0.64705884)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/ColorRect" unique_id=2111943163]
+layout_mode = 0
+offset_right = 500.0
+offset_bottom = 724.0
+scroll_horizontal_custom_step = 16.0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/ColorRect/ScrollContainer" unique_id=1613719098]
+visibility_layer = 3
+custom_minimum_size = Vector2(500, 720)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 0)
+theme_override_constants/line_separation = 2
+theme_override_constants/outline_size = 5
+theme_override_constants/text_highlight_v_padding = 3
+theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
+text = "[table=3]
+[cell]10[super][font_size=12]9[/font_size][/super][/cell]	[cell]| Billion[/cell]	[cell]| B[/cell]
+[cell]10[super][font_size=12]12[/font_size][/super][/cell]	[cell]| Trillion[/cell]	[cell]| T[/cell]
+[cell]10[super][font_size=12]15[/font_size][/super][/cell]	[cell]| Quadrillion[/cell]	[cell]| Qa[/cell]
+[cell]10[super][font_size=12]18[/font_size][/super][/cell]	[cell]| Quintillion[/cell]	[cell]| Qi[/cell]
+[cell]10[super][font_size=12]21[/font_size][/super][/cell]	[cell]| Sextillion[/cell]	[cell]| Sx[/cell]
+[cell]10[super][font_size=12]24[/font_size][/super][/cell]	[cell]| Septillion[/cell]	[cell]| Sp[/cell]
+[cell]10[super][font_size=12]27[/font_size][/super][/cell]	[cell]| Octillion[/cell]	[cell]| Oc[/cell]
+[cell]10[super][font_size=12]30[/font_size][/super][/cell]	[cell]| Nonillion[/cell]	[cell]| No[/cell]
+[cell]10[super][font_size=12]33[/font_size][/super][/cell]	[cell]| Decillion[/cell]	[cell]| Dc[/cell]
+[cell]10[super][font_size=12]36[/font_size][/super][/cell]	[cell]| Undecillion[/cell]	[cell]| Udc[/cell]
+[cell]10[super][font_size=12]39[/font_size][/super][/cell]	[cell]| Duodecillion[/cell]	[cell]| Ddc[/cell]
+[cell]10[super][font_size=12]42[/font_size][/super][/cell]	[cell]| Tredecillion[/cell]	[cell]| Tdc[/cell]
+[cell]10[super][font_size=12]45[/font_size][/super][/cell]	[cell]| Quattuordecillion[/cell]	[cell]| Qadc[/cell]
+[cell]10[super][font_size=12]48[/font_size][/super][/cell]	[cell]| Quindecillion[/cell]	[cell]| Qidc[/cell]
+[cell]10[super][font_size=12]51[/font_size][/super][/cell]	[cell]| Sexdecillion[/cell]	[cell]| Sxdc[/cell]
+[cell]10[super][font_size=12]54[/font_size][/super][/cell]	[cell]| Septendecillion[/cell]	[cell]| Spdc[/cell]
+[cell]10[super][font_size=12]57[/font_size][/super][/cell]	[cell]| Octodecillion[/cell]	[cell]| Ocdc[/cell]
+[cell]10[super][font_size=12]60[/font_size][/super][/cell]	[cell]| Novemdecillion[/cell]	[cell]| Nodc[/cell]
+[cell]10[super][font_size=12]63[/font_size][/super][/cell]	[cell]| Vigintillion[/cell]	[cell]| Vg[/cell]
+[cell]10[super][font_size=12]66[/font_size][/super][/cell]	[cell]| Unvigintillion[/cell]	[cell]| Uvg[/cell]
+[cell]10[super][font_size=12]69[/font_size][/super][/cell]	[cell]| Duovigintillion[/cell]	[cell]| Dvg[/cell]
+[cell]10[super][font_size=12]72[/font_size][/super][/cell]	[cell]| Trevigintillion[/cell]	[cell]| Tvg[/cell]
+[cell]10[super][font_size=12]75[/font_size][/super][/cell]	[cell]| Quattuorvigintillion[/cell]	[cell]| Qavg[/cell]
+[cell]10[super][font_size=12]78[/font_size][/super][/cell]	[cell]| Quinvigintillion[/cell]	[cell]| Qivg[/cell]
+[cell]10[super][font_size=12]81[/font_size][/super][/cell]	[cell]| Sexvigintillion[/cell]	[cell]| Sxvg[/cell]
+[cell]10[super][font_size=12]84[/font_size][/super][/cell]	[cell]| Septenvigintillion[/cell]	[cell]| Spvg[/cell]
+[cell]10[super][font_size=12]87[/font_size][/super][/cell]	[cell]| Octovigintillion[/cell]	[cell]| Ocvg[/cell]
+[cell]10[super][font_size=12]90[/font_size][/super][/cell]	[cell]| Novemvigintillion[/cell]	[cell]| Novg[/cell]
+[cell]10[super][font_size=12]93[/font_size][/super][/cell]	[cell]| Trigintillion[/cell]	[cell]| Tg[/cell]
+[cell]10[super][font_size=12]96[/font_size][/super][/cell]	[cell]| Untrigintillion[/cell]	[cell]| Utg[/cell]
+[cell]10[super][font_size=12]99[/font_size][/super][/cell]	[cell]| Duotrigintillion[/cell]	[cell]| Dtg[/cell]
+[cell]10[super][font_size=12]100[/font_size][/super][/cell]	[cell]| Googol[/cell]	[cell]| G[/cell]
+[cell]10[super][font_size=12]102[/font_size][/super][/cell]	[cell]| Tretrigintillion[/cell]	[cell]| Tcg[/cell]
+[/table]
+"
+fit_content = true
+scroll_active = false
+scroll_following = true
+scroll_following_visible_characters = true
+tab_size = 5
+custom_effects = [ExtResource("2_g4jo0")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=778584688]
+offset = Vector2(14, 8)
+transform = Transform2D(1, 0, 0, 1, 14, 8)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=54826090]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -120.5
+offset_right = 245.0
+offset_bottom = 120.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=174474346]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=143559606]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.972549)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 4
+theme_override_font_sizes/font_size = 40
+text = "Game Paused"
+horizontal_alignment = 1
+
+[node name="ResumeBtn" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1124266136]
+layout_mode = 2
+theme_override_font_sizes/font_size = 51
+text = "Resume"
+icon_alignment = 1
+
+[node name="ConversionBtn" type="Button" parent="CenterContainer/VBoxContainer" unique_id=974597059]
+layout_mode = 2
+theme_override_font_sizes/font_size = 51
+text = "Conversions"
+icon_alignment = 1
+
+[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1037085764]
+layout_mode = 2
+theme_override_font_sizes/font_size = 55
+text = "Quit"
+icon_alignment = 1
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/ResumeBtn" to="." method="_on_resume_btn_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/ConversionBtn" to="." method="_on_conversion_btn_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/QuitButton" to="." method="_on_quit_press"]

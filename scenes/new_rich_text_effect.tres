@@ -1,0 +1,7 @@
+[gd_resource type="RichTextEffect" script_class="SuperscriptEffect" format=3 uid="uid://bl8c5h1gm17jv"]
+
+[ext_resource type="Script" uid="uid://clttglhvji1dn" path="res://scenes/super_script.gd" id="1_et3da"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_et3da")

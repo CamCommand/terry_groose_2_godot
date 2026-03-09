@@ -1,0 +1,99 @@
+[gd_scene format=3 uid="uid://cu2x6corp1s8t"]
+
+[ext_resource type="Script" uid="uid://hberb8sb23tb" path="res://scenes/conversion_menu.gd" id="1_41iw2"]
+
+[node name="ConversionMenu" type="Control" unique_id=1684098767]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+script = ExtResource("1_41iw2")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=808778618]
+offset = Vector2(820, 0)
+transform = Transform2D(1, 0, 0, 1, 820, 0)
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=2104256441]
+offset_right = 679.0
+offset_bottom = 10076.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer" unique_id=1284095210]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1962921600]
+layout_mode = 2
+bbcode_enabled = true
+text = "1000	|	Thousand	|	K
+106	    |	Million			|		M
+109	Billion	Milliard	Thousand million	B	Giga-
+1012	Trillion	Billion	Billion	T	Tera-
+1015	Quadrillion	Billiard	Thousand billion	Qa	Peta-
+1018	Quintillion	Trillion	Trillion	Qi	Exa-
+1021	Sextillion	Trilliard	Thousand trillion	Sx	Zetta-
+1024	Septillion	Quadrillion	Quadrillion	Sp	Yotta-
+1027	Octillion	Quadrilliard	Thousand quadrillion	Oc	Ronna-
+1030	Nonillion	Quintillion	Quintillion	No	Quetta-
+1033	Decillion	Quintilliard	Thousand quintillion	Dc	Vunda-
+1036	Undecillion	Sextillion	Sextillion	Udc	Uda-
+1039	Duodecillion	Sextilliard	Thousand sextillion	Ddc	Treda-
+1042	Tredecillion	Septillion	Septillion	Tdc	Sorta-
+1045	Quattuordecillion	Septilliard	Thousand septillion	Qadc	Rinta-
+1048	Quindecillion	Octillion	Octillion	Qidc	Quexa-
+1051	Sexdecillion	Octilliard	Thousand octillion	Sxdc	Pepta-
+1054	Septendecillion	Nonillion	Nonillion	Spdc	Ocha-
+1057	Octodecillion	Nonilliard	Thousand nonillion	Ocdc	Nena-
+1060	Novemdecillion	Decillion	Decillion	Nodc	Minga-
+1063	Vigintillion	Decilliard	Thousand decillion	Vg	Luma-
+1066	Unvigintillion	Undecillion	Undecillion	Uvg	Kama-
+1069	Duovigintillion	Undecilliard	Thousand undecillion	Dvg	Jama-
+1072	Trevigintillion	Duodecillion	Duodecillion	Tvg	Lana-
+1075	Quattuorvigintillion	Duodecilliard	Thousand duodecillion	Qavg	Heva-
+1078	Quinvigintillion	Tredecillion	Tredecillion	Qivg	Grina-
+1081	Sexvigintillion	Tredecilliard	Thousand tredecillion	Sxvg	Ferma-
+1084	Septenvigintillion	Quattuordecillion	Quattuordecillion	Spvg	Echa-
+1087	Octovigintillion	Quattuordecilliard	Thousand quattuordecillion	Ocvg	Druna-
+1090	Novemvigintillion	Quindecillion	Quindecillion	Novg	Cera-
+1093	Trigintillion	Quindecilliard	Thousand quindecillion	Tg	Brota-
+1096	Untrigintillion	Sexdecillion	Sexdecillion	Utg	Arita-
+1099	Duotrigintillion	Sexdecilliard	Thousand sexdecillion	Dtg	Zira-
+10100	Googol	Googol	Googol	G	Gugao-"
+fit_content = true
+
+[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1564970565]
+visible = false
+layout_mode = 2
+text = "1000	Thousand	Thousand	Thousand	Þ	Chilia-
+106	Million	Million	Million	M	Mega-
+109	Billion	Milliard	Thousand million	B	Giga-
+1012	Trillion	Billion	Billion	T	Tera-
+1015	Quadrillion	Billiard	Thousand billion	Qa	Peta-
+1018	Quintillion	Trillion	Trillion	Qi	Exa-
+1021	Sextillion	Trilliard	Thousand trillion	Sx	Zetta-
+1024	Septillion	Quadrillion	Quadrillion	Sp	Yotta-
+1027	Octillion	Quadrilliard	Thousand quadrillion	Oc	Ronna-
+1030	Nonillion	Quintillion	Quintillion	No	Quetta-
+1033	Decillion	Quintilliard	Thousand quintillion	Dc	Vunda-
+1036	Undecillion	Sextillion	Sextillion	Udc	Uda-
+1039	Duodecillion	Sextilliard	Thousand sextillion	Ddc	Treda-
+1042	Tredecillion	Septillion	Septillion	Tdc	Sorta-
+1045	Quattuordecillion	Septilliard	Thousand septillion	Qadc	Rinta-
+1048	Quindecillion	Octillion	Octillion	Qidc	Quexa-
+1051	Sexdecillion	Octilliard	Thousand octillion	Sxdc	Pepta-
+1054	Septendecillion	Nonillion	Nonillion	Spdc	Ocha-
+1057	Octodecillion	Nonilliard	Thousand nonillion	Ocdc	Nena-
+1060	Novemdecillion	Decillion	Decillion	Nodc	Minga-
+1063	Vigintillion	Decilliard	Thousand decillion	Vg	Luma-
+1066	Unvigintillion	Undecillion	Undecillion	Uvg	Kama-
+1069	Duovigintillion	Undecilliard	Thousand undecillion	Dvg	Jama-
+1072	Trevigintillion	Duodecillion	Duodecillion	Tvg	Lana-
+1075	Quattuorvigintillion	Duodecilliard	Thousand duodecillion	Qavg	Heva-
+1078	Quinvigintillion	Tredecillion	Tredecillion	Qivg	Grina-
+1081	Sexvigintillion	Tredecilliard	Thousand tredecillion	Sxvg	Ferma-
+1084	Septenvigintillion	Quattuordecillion	Quattuordecillion	Spvg	Echa-
+1087	Octovigintillion	Quattuordecilliard	Thousand quattuordecillion	Ocvg	Druna-
+1090	Novemvigintillion	Quindecillion	Quindecillion	Novg	Cera-
+1093	Trigintillion	Quindecilliard	Thousand quindecillion	Tg	Brota-
+1096	Untrigintillion	Sexdecillion	Sexdecillion	Utg	Arita-
+1099	Duotrigintillion	Sexdecilliard	Thousand sexdecillion	Dtg	Zira-
+10100	Googol	Googol	Googol	G	Gugao-"

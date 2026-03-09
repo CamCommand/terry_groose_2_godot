@@ -3,7 +3,7 @@ extends Node
 
 func format_clicker_number(value: float, check: int) -> String:
 	var abs_value = abs(value)
-	var suffixes = ["", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc", "Udc", "Ddc", "Tdc", "Qadc", "Qidc", "Sxdc", "Spdc", "Ocdc", "Nodc", "Vg", "Uvg", "Dvg", "Tvg", "Qavg", "Qivg", "Sxvg", "Ocvg", "Novg", "Tg", "Utg", "Dtg", "G"]
+	var suffixes = ["", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc", "Udc", "Ddc", "Tdc", "Qadc", "Qidc", "Sxdc", "Spdc", "Ocdc", "Nodc", "Vg", "Uvg", "Dvg", "Tvg", "Qavg", "Qivg", "Sxvg", "Ocvg", "Novg", "Tg", "Utg", "Dtg", "G", "Tcg"]
 	
 	var index = 0
 	while abs_value >= 1000000.0 and index < suffixes.size() - 1:

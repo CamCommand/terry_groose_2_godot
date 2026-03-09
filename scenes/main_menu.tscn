@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://c6iry0nxmy44o"]
+
+[ext_resource type="Script" uid="uid://dn1fwsnau8bxb" path="res://scenes/main_menu.gd" id="1_l6cm7"]
+[ext_resource type="Shader" uid="uid://hbeyy0pbky1x" path="res://scenes/main_menu.gdshader" id="2_bqqt6"]
+[ext_resource type="Texture2D" uid="uid://chd1n3j2sk7e5" path="res://graphics/TerryMenu.png" id="2_ekxnf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bqqt6"]
+shader = ExtResource("2_bqqt6")
+shader_parameter/bottom_color = Color(0, 0.7, 1, 1)
+shader_parameter/middle_color = Color(1, 0.5, 0, 1)
+shader_parameter/top_color = Color(1, 0.03, 0.001, 1)
+shader_parameter/fire_alpha = 1.0
+shader_parameter/fire_speed = Vector2(0, 2)
+shader_parameter/fire_aperture = 0.22
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wu84c"]
+size = Vector2(2040, 68)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bqqt6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8ln24"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wu84c"]
+
+[node name="MainMenu" type="Node2D" unique_id=1618588052]
+script = ExtResource("1_l6cm7")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=563227961]
+position = Vector2(959, 360)
+scale = Vector2(1, 0.9230769)
+texture = ExtResource("2_ekxnf")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=920989627]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1816017897]
+material = SubResource("ShaderMaterial_bqqt6")
+position = Vector2(943, 707)
+shape = SubResource("RectangleShape2D_wu84c")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=395161495]
+offset = Vector2(0, 200)
+transform = Transform2D(1, 0, 0, 1, 0, 200)
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=1651273436]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -50.5
+offset_right = 48.0
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer" unique_id=1815265074]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="NewGame" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1198998]
+layout_mode = 2
+text = "New Game"
+
+[node name="LoadGame" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=47118443]
+layout_mode = 2
+disabled = true
+text = "Load Game"
+
+[node name="QuitGame" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=2106735659]
+layout_mode = 2
+text = "Quit"
+
+[node name="Title" type="Label" parent="." unique_id=595372310]
+offset_left = 73.0
+offset_top = 41.0
+offset_right = 1859.0
+offset_bottom = 157.0
+theme_override_constants/outline_size = 15
+theme_override_font_sizes/font_size = 85
+text = "Terry    Groose 		                                Eats    Sand"
+
+[node name="Credit" type="Button" parent="." unique_id=697623080]
+offset_left = 1478.0
+offset_top = 633.0
+offset_right = 1914.0
+offset_bottom = 710.0
+theme_override_colors/font_color = Color(0.8626369, 0.8626373, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxEmpty_bqqt6")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_8ln24")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_wu84c")
+text = " Game by Cameron Drummond"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Credit" unique_id=788213759]
+visible = false
+layout_mode = 0
+offset_left = 77.0
+offset_top = 35.0
+offset_right = 511.0
+offset_bottom = 85.0
+mouse_filter = 2
+theme_override_colors/default_color = Color(1, 1, 0, 1)
+theme_override_constants/outline_size = 5
+bbcode_enabled = true
+text = "[s]Random Crap[/s] Game by Cameron Drummond"
+
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/LoadGame" to="." method="_on_load_game_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/QuitGame" to="." method="_on_quit_game_pressed"]
+[connection signal="pressed" from="Credit" to="." method="_on_credit_pressed"]

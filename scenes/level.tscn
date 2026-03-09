@@ -1,29 +1,29 @@
-[gd_scene load_steps=5 format=3 uid="uid://cxdn4v3f5xoiy"]
+[gd_scene format=3 uid="uid://cxdn4v3f5xoiy"]
 
 [ext_resource type="PackedScene" uid="uid://c7vardgme2rjt" path="res://scenes/player.tscn" id="1_2q6dc"]
-[ext_resource type="Script" uid="uid://diinc6qbumkue" path="res://scenes/level.gd" id="1_w7c3h"]
+[ext_resource type="Script" uid="uid://diinc6qbumkue" path="res://level.gd" id="1_w7c3h"]
 [ext_resource type="Script" uid="uid://coqtp087si8by" path="res://scenes/spoon_timer.gd" id="3_w8frs"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_rd3vj"]
 
-[node name="Level" type="Node2D"]
+[node name="Level" type="Node2D" unique_id=992823762]
 script = ExtResource("1_w7c3h")
 
-[node name="BG" type="Sprite2D" parent="."]
+[node name="BG" type="Sprite2D" parent="." unique_id=1838760093]
 position = Vector2(640.25, 363.74997)
 scale = Vector2(1281.5, 728.49994)
 texture = SubResource("CanvasTexture_rd3vj")
 
-[node name="Player" parent="." instance=ExtResource("1_2q6dc")]
+[node name="Player" parent="." unique_id=2085532307 instance=ExtResource("1_2q6dc")]
 position = Vector2(22, 7)
 
-[node name="Sand_Eatten_Label" type="Label" parent="."]
+[node name="Sand_Eatten_Label" type="Label" parent="." unique_id=1769766399]
 offset_right = 40.0
 offset_bottom = 23.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Sand Eatten:"
 
-[node name="Sand_Dollar_Label" type="Label" parent="."]
+[node name="Sand_Dollar_Label" type="Label" parent="." unique_id=1553713765]
 offset_left = -1.0
 offset_top = 25.0
 offset_right = 39.0
@@ -31,7 +31,7 @@ offset_bottom = 48.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Sand Dollars:"
 
-[node name="SpoonButton" type="Button" parent="."]
+[node name="SpoonButton" type="Button" parent="." unique_id=124786871]
 offset_left = 1110.0
 offset_top = 23.0
 offset_right = 1205.0
@@ -40,7 +40,7 @@ disabled = true
 text = "Buy Spoon:
 100"
 
-[node name="SpoonTimer" type="Timer" parent="."]
+[node name="SpoonTimer" type="Timer" parent="." unique_id=1262656531]
 wait_time = 0.25
 autostart = true
 script = ExtResource("3_w8frs")

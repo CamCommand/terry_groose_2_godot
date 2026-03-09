@@ -10,7 +10,6 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	position.y -= speed * delta
-	#print("oof")
 
 # deletes +1 image
 func _on_delete_one_timer_timeout() -> void:
