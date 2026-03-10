@@ -4,6 +4,10 @@ extends Node2D
 @export var Sand: float = 1
 @export var Sand_Total: float 
 @export var Sand_Total_Eaten: float 
+@export var Space_Sand: float
+@export var Space_Sand_Mult: float
+var test = 0
+
 var next_input: bool = false
 @export var s_label: String
 @export var s_label_d: String
@@ -53,6 +57,25 @@ var golem_scene: PackedScene = load("res://scenes/golem_2d.tscn")
 @export var GolemCheck: bool
 @export var HelperGolemCheck: bool #have golems start automatically eating sand
 #@onready var Golum_audio: AudioStreamPlayer2D = $GolumAudio
+
+@export var SpaceCatUpgradeCost: float = 1
+@export var SpaceCatCounter: float
+@export var SpaceCatCheck: bool
+const QTE = preload("res://scenes/QTE_Letter.tscn")
+@export var SC_Check_Min:= 3
+@export var SC_Check_Max:= 10
+
+var keyList = [
+	{"keyString": "C", "keyCode": KEY_C},
+	{"keyString": "O", "keyCode": KEY_O},
+	{"keyString": "R", "keyCode": KEY_R},
+	{"keyString": "E", "keyCode": KEY_E},
+	{"keyString": "T", "keyCode": KEY_T},
+	{"keyString": "A", "keyCode": KEY_A},
+]
+
+var key_count = 0
+var keyPressedList = []
 
 @export var listItems: Array = []
 @export var Coin_Spawn_Time: float 
@@ -112,6 +135,17 @@ func float_named_sprites(delta: float) -> void:
 			var base_y = node.get_meta("base_y")
 			node.position.y = base_y + sin(float_time * float_speed) * float_amplitude
 			
+		elif node is AnimatedSprite2D and node.name.ends_with("-o"):
+			# float amplitude
+			if not node.has_meta("float_amplitude"):
+				node.set_meta("float_amplitude", 10)  # pixels
+				
+			# Store original Y once
+			if not node.has_meta("base_y"):
+				node.set_meta("base_y", node.position.y)
+			
+			var base_y = node.get_meta("base_y")
+			node.position.y = base_y + sin(float_time * float_speed) * float_amplitude
 	
 func auto_input():
 	if next_input == false:
@@ -860,30 +894,89 @@ func _on_golem_buton_pressed() -> void:
 		
 	$Sand_Mult.text = NumberFormatter.format_clicker_number(Sand, 3)
 
+func _on_cat_button_pressed() -> void:
+	#Space Cat will have quick time events that 2x your Space Sand total each time
+	if SpaceCatCheck == false:
+		pass
+	else:
+		button_click_sfx.play()	
+		
+	if SpaceCatCheck == true && Space_Sand >= SpaceCatUpgradeCost:
+		Space_Sand -= SpaceCatUpgradeCost
+		SpaceCatCounter += 1
+		
+		Space_Sand = Space_Sand * 2
+		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
+		$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
+
+	if Space_Sand == 0 && SpaceCatCheck == false:
+		Space_Sand += 1
+		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
+		$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
+		
+		listItems.append("SpaceCat")
+		SpaceCatCheck = true
+		
+		#spawn SpaceCatSprite
+		$"CatSprite-o".visible = true
+		var cat_tween := create_tween().bind_node($"CatSprite-o").set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		cat_tween.tween_property($"CatSprite-o", "modulate:a", 1, 0.5).from(0)
+		#cat_audio.play()
+		
+		# update text with list of items here
+		Space_Sand = Space_Sand * 2
+		SpaceCatUpgradeCost = SpaceCatUpgradeCost * 3
+		SpaceCatCounter += 1
+		$ScrollContainer/VBoxContainer/CatButton.text = "Pray Harder" + "\n" + "to Space Cat" + "\n" + str(int(SpaceCatUpgradeCost))
+		
+	$Sand_Mult.text = NumberFormatter.format_clicker_number(Space_Sand_Mult, 3)
+	
+func _on_cat_timer_timeout() -> void:
+# checking and setting Cat Button conditions
+	if space_check == true:
+		if Space_Sand == 0 && SpaceCatCheck == false:
+			$ScrollContainer/VBoxContainer/CatButton.text = "Pray to" + "\n" + "Space Cat" + "\n" + "Every Sand $"
+			$ScrollContainer/VBoxContainer/CatButton.disabled = false
+			$ScrollContainer/VBoxContainer/CatButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
+		else:
+			$ScrollContainer/VBoxContainer/CatButton.disabled = true
+			$ScrollContainer/VBoxContainer/CatButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
+		if listItems.has("Cat") && Space_Sand >= SpaceCatUpgradeCost:
+			$ScrollContainer/VBoxContainer/CatButton.disabled = false
+			$ScrollContainer/VBoxContainer/CatButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
+		elif listItems.has("Cat") && Space_Sand < SpaceCatUpgradeCost:
+			$ScrollContainer/VBoxContainer/CatButton.disabled = true
+			$ScrollContainer/VBoxContainer/CatButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
+	
 func _on_coin_timer_timeout() -> void:
 	# random coin drop time
 	#var coin_drop:= RandomNumberGenerator.new()
 	#randomize()
 	#Coin_Spawn_Time = randf_range(150.05, 300.05)
 	#Coin_Spawn_Time = randf_range(1, 2)
-	Coin_Spawn_Time = randf_range(5, 8)
-	#Coin_Spawn_Time = randf_range(100.05, 400.01)
-	$CoinTimer.wait_time = Coin_Spawn_Time
 	
-	#adds it below Terry to put behind pause menu
-	var coin = coin_scene.instantiate()
-	$StaticBody2D2.add_child(coin)
+	#horse coins stop spawning in space
+	if !$Background.frame == 1:
+		Coin_Spawn_Time = randf_range(5, 8)
+		#Coin_Spawn_Time = randf_range(100.05, 400.01)
+		$CoinTimer.wait_time = Coin_Spawn_Time
+	
+		#adds it below Terry to put behind pause menu
+		var coin = coin_scene.instantiate()
+		$StaticBody2D2.add_child(coin)
 
 func _on_horse_timer_timeout() -> void:
-	Sand_Total += Horse_Sand_Eat
-	Sand_Total_Eaten += Horse_Sand_Eat
+	#horse only triggers on Earth
+	if !$Background.frame == 1:
+		Sand_Total += Horse_Sand_Eat
+		Sand_Total_Eaten += Horse_Sand_Eat
+
+		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
+		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 	
 	if HelperGolemCheck == true:
 		Sand_Total += GolemCounter * Sand
 		Sand_Total_Eaten += GolemCounter * Sand
-
-	$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
-	$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 
 func _on_cheat_pressed() -> void:
 	Sand_Total += 9223372000000000000
@@ -893,18 +986,33 @@ func _on_cheat_pressed() -> void:
 # loading save stops timers for some reason
 func start_timers():
 	get_node("AutoSaveTimer").autostart = true
-	get_node("CoinTimer").autostart = true
-	get_node("HorseTimer").autostart = true
-	get_node("SpoonTimer").autostart = true
-	get_node("TrowlTimer").autostart = true
-	get_node("PanTimer").autostart = true
-	get_node("ShovelTimer").autostart = true
-	get_node("CLSTimer").autostart = true
-	get_node("DozerTimer").autostart = true
-	get_node("GolemTimer").autostart = true
 	
+	if space_check == false:
+		get_node("CoinTimer").autostart = true
+		get_node("HorseTimer").autostart = true
+		get_node("SpoonTimer").autostart = true
+		get_node("TrowlTimer").autostart = true
+		get_node("PanTimer").autostart = true
+		get_node("ShovelTimer").autostart = true
+		get_node("CLSTimer").autostart = true
+		get_node("DozerTimer").autostart = true
+		get_node("GolemTimer").autostart = true
+	else:
+		get_node("CoinTimer").autostart = false
+		get_node("HorseTimer").autostart = false
+		get_node("SpoonTimer").autostart = false
+		get_node("TrowlTimer").autostart = false
+		get_node("PanTimer").autostart = false
+		get_node("ShovelTimer").autostart = false
+		get_node("CLSTimer").autostart = false
+		get_node("DozerTimer").autostart = false
+		get_node("GolemTimer").autostart = false
+		
+		get_node("CatTimer").start()
+		get_node("CatQTETimer").start()
+
 func _on_auto_save_timer_timeout() -> void:
-	print("Game saved teehee")
+	#print("Game saved teehee")
 	var root = get_tree().current_scene
 	var scene = PackedScene.new()
 	scene.pack(root)
@@ -922,3 +1030,27 @@ func _on_auto_save_timer_timeout() -> void:
 			$Background.frame = 1
 			
 			create_tween().tween_property($Background, "modulate:a", 1.0, 5.0)
+			Sand = 0
+			$Sand_Mult.text = "Consumption Rate: 0X"
+			$Space_Sand_Ate.text = "[rainbow freq=1.0 sat=0.8 val=0.8 speed=1.0][wave]Space Sand: 0"
+			$Space_Sand_Ate.visible = true
+			start_timers()
+
+
+func _on_cat_qte_timer_timeout() -> void:
+	#$"CatSprite-o".visible = true
+	
+	var keyNode = QTE.instantiate()
+	keyNode.finished.connect(_on_key_finished)
+
+	var keyData = keyList.pick_random()
+	keyNode.keyCode = keyData.keyCode
+	keyNode.keyString = keyData.keyString
+
+	$CanvasLayer/ControlContainer.add_child(keyNode)
+	key_count += 1
+	
+	$CatQTETimer.wait_time = randf_range(SC_Check_Min, SC_Check_Max)
+	
+func _on_key_finished(keySuc):
+	keyPressedList.append(keySuc)

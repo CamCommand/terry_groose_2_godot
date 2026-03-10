@@ -36,6 +36,7 @@
 [ext_resource type="Texture2D" uid="uid://dv35t3gncp7c7" path="res://graphics/SuperShovel.png" id="32_dgi5k"]
 [ext_resource type="AudioStream" uid="uid://d2r6oeo5nixcu" path="res://sfx/cspoon.ogg" id="33_5q0nq"]
 [ext_resource type="AudioStream" uid="uid://csxtrpk4q1n2h" path="res://sfx/Shovel.ogg" id="33_j8jky"]
+[ext_resource type="Texture2D" uid="uid://but7xsw1nbcei" path="res://graphics/cat/cat.png" id="35_fuf3a"]
 [ext_resource type="AudioStream" uid="uid://db6qopmkup2n7" path="res://sfx/dozer.ogg" id="36_kmb1v"]
 [ext_resource type="PackedScene" uid="uid://bjqj2c8qr4aut" path="res://scenes/PauseMenu.tscn" id="37_fuf3a"]
 
@@ -269,7 +270,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_fuf3a"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_5he1u"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -283,11 +284,27 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_fuf3a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("35_fuf3a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_fuf3a")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sugp2"]
 size = Vector2(7630, 71)
 
 [node name="level" type="Node2D" unique_id=1595950429 groups=["main"]]
 script = ExtResource("1_0wfyh")
+SC_Check_Min = null
+SC_Check_Max = null
 listItems = [null, null, null, null, null]
 Coin_Spawn_Time = 197.02713997145185
 
@@ -353,14 +370,18 @@ theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 20
 text = "Consumption Rate: 1x"
 
-[node name="HorseCoins" type="Label" parent="." unique_id=1300319836]
+[node name="Space_Sand_Ate" type="RichTextLabel" parent="." unique_id=1334454712]
 visible = false
 offset_left = 5.0
-offset_top = 95.0
-offset_right = 191.0
-offset_bottom = 118.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Horse Coins:"
+offset_top = 125.0
+offset_right = 214.0
+offset_bottom = 153.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "Space Sand:"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=580623150]
 offset_left = 1737.0
@@ -419,6 +440,12 @@ disabled = true
 text = "Buy ???
 10000000"
 
+[node name="CatButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=1299608684]
+layout_mode = 2
+disabled = true
+text = "Buy ???
+???"
+
 [node name="ButtonClickSFX" type="AudioStreamPlayer2D" parent="ScrollContainer/VBoxContainer" unique_id=1411028935]
 stream = ExtResource("21_fv21b")
 volume_db = -15.0
@@ -446,6 +473,12 @@ autostart = true
 [node name="DozerTimer" type="Timer" parent="." unique_id=365149269]
 wait_time = 0.25
 autostart = true
+
+[node name="CatTimer" type="Timer" parent="." unique_id=195139398]
+wait_time = 0.25
+
+[node name="CatQTETimer" type="Timer" parent="." unique_id=1219536200]
+wait_time = 3.0
 
 [node name="CoinTimer" type="Timer" parent="." unique_id=2022307423]
 wait_time = 5.0
@@ -509,17 +542,33 @@ volume_db = 5.021
 visible = false
 position = Vector2(1241.781, 423.06302)
 scale = Vector2(0.18107447, 0.21757811)
-sprite_frames = SubResource("SpriteFrames_fuf3a")
+sprite_frames = SubResource("SpriteFrames_5he1u")
 
 [node name="DozerAudio" type="AudioStreamPlayer2D" parent="." unique_id=1993305603]
 stream = ExtResource("36_kmb1v")
 volume_db = -5.0
 
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=950466732]
+
+[node name="ControlContainer" type="Control" parent="CanvasLayer" unique_id=364038989]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1535.0
+offset_top = 161.0
+offset_right = 1573.0
+offset_bottom = 203.0
+
+[node name="CatSprite-o" type="AnimatedSprite2D" parent="." unique_id=6676528]
+visible = false
+position = Vector2(1563, 149)
+scale = Vector2(0.06852223, 0.060596637)
+sprite_frames = SubResource("SpriteFrames_fuf3a")
+
 [node name="Cheat" type="Button" parent="." unique_id=1691847081]
-offset_left = 16.0
-offset_top = 131.0
-offset_right = 118.0
-offset_bottom = 166.0
+offset_left = 17.0
+offset_top = 177.0
+offset_right = 119.0
+offset_bottom = 212.0
 theme_override_colors/icon_normal_color = Color(1, 0, 1, 1)
 text = "$$$"
 
@@ -550,12 +599,15 @@ offset_bottom = 360.0
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/CLSButton" to="." method="_on_cls_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/DozerButton" to="." method="_on_dozer_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/GolemButton" to="." method="_on_golem_buton_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/CatButton" to="." method="_on_cat_button_pressed"]
 [connection signal="timeout" from="SpoonTimer" to="." method="_on_spoon_timer_timeout"]
 [connection signal="timeout" from="TrowlTimer" to="." method="_on_trowl_timer_timeout"]
 [connection signal="timeout" from="PanTimer" to="." method="_on_pan_timer_timeout"]
 [connection signal="timeout" from="ShovelTimer" to="." method="_on_shovel_timer_timeout"]
 [connection signal="timeout" from="CLSTimer" to="." method="_on_cls_timer_timeout"]
 [connection signal="timeout" from="DozerTimer" to="." method="_on_dozer_timer_timeout"]
+[connection signal="timeout" from="CatTimer" to="." method="_on_cat_timer_timeout"]
+[connection signal="timeout" from="CatQTETimer" to="." method="_on_cat_qte_timer_timeout"]
 [connection signal="timeout" from="CoinTimer" to="." method="_on_coin_timer_timeout"]
 [connection signal="timeout" from="HorseTimer" to="." method="_on_horse_timer_timeout"]
 [connection signal="timeout" from="GolemTimer" to="." method="_on_golem_timer_timeout"]

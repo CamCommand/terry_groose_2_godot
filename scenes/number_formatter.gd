@@ -16,5 +16,7 @@ func format_clicker_number(value: float, check: int) -> String:
 			return  "Sand Dollars: $" + "%.2f%s" % [abs_value, suffixes[index]]	
 		3:
 			return "Consumption Rate: " + "%.2f%s" % [abs_value, suffixes[index]] + "X"	
+		4:
+			return "[rainbow freq=1.0 sat=0.8 val=0.8 speed=1.0][wave]Space Sand: " + "%.2f%s" % [abs_value, suffixes[index]] + "#"
 		_:
 			return "%.2f%s" % [abs_value, suffixes[index]]	
