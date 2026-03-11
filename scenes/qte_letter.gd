@@ -1,14 +1,15 @@
 extends Control
 
 signal finished(success) 
+signal qte_success(Space_Sand)
 
 @export var keyString: String = "Q"
 @export var keyCode: Key = KEY_Q
 @onready var letter: Label = $Letter
 var tween : Tween
 var success = false
+@export var Space_Sand: float = 2
 
-@onready var main = get_tree().get_root().get_node("main")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -33,10 +34,9 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not success:
 		if event.keycode == keyCode:
 			success = true
-			print("success")
-			#main.Space_Sand = main.Space_Sand + 1
-			#main.$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
-			#main.$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
+			#print("success")
+			#Space_Sand = Space_Sand * 2
+			emit_signal("qte_success", Space_Sand)
 			
 			if tween:
 				tween.kill()

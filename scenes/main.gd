@@ -62,8 +62,11 @@ var golem_scene: PackedScene = load("res://scenes/golem_2d.tscn")
 @export var SpaceCatCounter: float
 @export var SpaceCatCheck: bool
 const QTE = preload("res://scenes/QTE_Letter.tscn")
-@export var SC_Check_Min:= 3
-@export var SC_Check_Max:= 10
+var QTE_var = preload("res://scenes/QTE_Letter.tscn")
+var qte1 = QTE_var.instantiate()
+
+@export var SC_Check_Min: float = 3.0
+@export var SC_Check_Max: float = 10.0
 
 var keyList = [
 	{"keyString": "C", "keyCode": KEY_C},
@@ -896,6 +899,7 @@ func _on_golem_buton_pressed() -> void:
 
 func _on_cat_button_pressed() -> void:
 	#Space Cat will have quick time events that 2x your Space Sand total each time
+	get_node("CatQTETimer").start()
 	if SpaceCatCheck == false:
 		pass
 	else:
@@ -903,9 +907,11 @@ func _on_cat_button_pressed() -> void:
 		
 	if SpaceCatCheck == true && Space_Sand >= SpaceCatUpgradeCost:
 		Space_Sand -= SpaceCatUpgradeCost
-		SpaceCatCounter += 1
+		SpaceCatUpgradeCost *= 3
 		
-		Space_Sand = Space_Sand * 2
+		SC_Check_Min -= .1
+		SC_Check_Max -= .1
+		#Space_Sand = Space_Sand * 2
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 		$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
 
@@ -913,6 +919,8 @@ func _on_cat_button_pressed() -> void:
 		Space_Sand += 1
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 		$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
+		Sand_Total = 0
+		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 		
 		listItems.append("SpaceCat")
 		SpaceCatCheck = true
@@ -925,7 +933,7 @@ func _on_cat_button_pressed() -> void:
 		
 		# update text with list of items here
 		Space_Sand = Space_Sand * 2
-		SpaceCatUpgradeCost = SpaceCatUpgradeCost * 3
+		SpaceCatUpgradeCost = SpaceCatUpgradeCost * 2.5
 		SpaceCatCounter += 1
 		$ScrollContainer/VBoxContainer/CatButton.text = "Pray Harder" + "\n" + "to Space Cat" + "\n" + str(int(SpaceCatUpgradeCost))
 		
@@ -941,10 +949,12 @@ func _on_cat_timer_timeout() -> void:
 		else:
 			$ScrollContainer/VBoxContainer/CatButton.disabled = true
 			$ScrollContainer/VBoxContainer/CatButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
-		if listItems.has("Cat") && Space_Sand >= SpaceCatUpgradeCost:
+		if SpaceCatCheck == true && Space_Sand >= SpaceCatUpgradeCost:
+			$ScrollContainer/VBoxContainer/CatButton.text = "Pray Harder" + "\n" + "to Space Cat" + "\n" + str(int(SpaceCatUpgradeCost))
 			$ScrollContainer/VBoxContainer/CatButton.disabled = false
 			$ScrollContainer/VBoxContainer/CatButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
-		elif listItems.has("Cat") && Space_Sand < SpaceCatUpgradeCost:
+		elif SpaceCatCheck == true && Space_Sand < SpaceCatUpgradeCost:
+			#$ScrollContainer/VBoxContainer/CatButton.text = "Pray Harder" + "\n" + "to Space Cat" + "\n" + str(int(SpaceCatUpgradeCost))
 			$ScrollContainer/VBoxContainer/CatButton.disabled = true
 			$ScrollContainer/VBoxContainer/CatButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
 	
@@ -1009,7 +1019,8 @@ func start_timers():
 		get_node("GolemTimer").autostart = false
 		
 		get_node("CatTimer").start()
-		get_node("CatQTETimer").start()
+		if listItems.has("SpaceCat"):
+			get_node("CatQTETimer").start()
 
 func _on_auto_save_timer_timeout() -> void:
 	#print("Game saved teehee")
@@ -1035,22 +1046,32 @@ func _on_auto_save_timer_timeout() -> void:
 			$Space_Sand_Ate.text = "[rainbow freq=1.0 sat=0.8 val=0.8 speed=1.0][wave]Space Sand: 0"
 			$Space_Sand_Ate.visible = true
 			start_timers()
+			$ScrollContainer/VBoxContainer/CatButton.tooltip_text = "Makes Quick Time Events Occur Faster"
 
 
 func _on_cat_qte_timer_timeout() -> void:
-	#$"CatSprite-o".visible = true
-	
 	var keyNode = QTE.instantiate()
+
 	keyNode.finished.connect(_on_key_finished)
+	keyNode.qte_success.connect(_on_qte_success) # connect signal here
 
 	var keyData = keyList.pick_random()
 	keyNode.keyCode = keyData.keyCode
 	keyNode.keyString = keyData.keyString
 
 	$CanvasLayer/ControlContainer.add_child(keyNode)
+
 	key_count += 1
 	
 	$CatQTETimer.wait_time = randf_range(SC_Check_Min, SC_Check_Max)
 	
 func _on_key_finished(keySuc):
 	keyPressedList.append(keySuc)
+
+func _on_qte_success(amount_Space_Sand):
+	#print(amount_Space_Sand)
+	SpaceCatCounter = SpaceCatCounter * 2
+	print(SpaceCatCounter)
+	Space_Sand = amount_Space_Sand * SpaceCatCounter
+	$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
+	$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)

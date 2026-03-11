@@ -303,8 +303,8 @@ size = Vector2(7630, 71)
 
 [node name="level" type="Node2D" unique_id=1595950429 groups=["main"]]
 script = ExtResource("1_0wfyh")
-SC_Check_Min = null
-SC_Check_Max = null
+SC_Check_Min = 3
+SC_Check_Max = 10
 listItems = [null, null, null, null, null]
 Coin_Spawn_Time = 197.02713997145185
 
@@ -442,6 +442,7 @@ text = "Buy ???
 
 [node name="CatButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=1299608684]
 layout_mode = 2
+tooltip_text = "Makes Quick Time Events Occur Faster"
 disabled = true
 text = "Buy ???
 ???"
