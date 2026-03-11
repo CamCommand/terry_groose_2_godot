@@ -11,6 +11,7 @@ func pause():
 
 func resume():
 	#$CanvasLayer.visible = false
+	MusicManager.reload_music()
 	get_tree().paused = false
 	visible = false
 
@@ -48,3 +49,11 @@ func _on_quit_press() -> void:
 func add_super_text():
 	#$MarginContainer/VBoxContainer/ColorRect/ScrollContainer/RichTextLabel.append_text("E = mc[super][font_size=12]2")
 	pass
+	
+#button opens up game's music folder
+func _on_music_pressed() -> void:
+	OS.shell_open(ProjectSettings.globalize_path("user://music"))
+#volume slider
+func _on_volume_slider_value_changed(value: float) -> void:
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(value))
+	#print(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music")))

@@ -601,8 +601,10 @@ offset_top = 360.0
 offset_right = 960.0
 offset_bottom = 360.0
 
+[node name="Music" type="AudioStreamPlayer2D" parent="." unique_id=547170240]
+autoplay = true
+
 [node name="Music2" type="AudioStreamPlayer" parent="." unique_id=1435653674]
-bus = &"Music"
 
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/SpoonButton" to="." method="_on_spoon_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/TrowlButton" to="." method="_on_trowl_button_pressed"]
@@ -626,3 +628,4 @@ bus = &"Music"
 [connection signal="timeout" from="AutoSaveTimer" to="." method="_on_auto_save_timer_timeout"]
 [connection signal="pressed" from="Cheat" to="." method="_on_cheat_pressed"]
 [connection signal="pressed" from="SpaceCheat" to="." method="_on_space_cheat_pressed"]
+[connection signal="finished" from="Music" to="." method="_on_music_finished"]
