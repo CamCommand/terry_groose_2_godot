@@ -192,8 +192,8 @@ func _process(delta: float) -> void:
 	if space_check == true:
 		float_named_sprites(delta)
 	
-	var moving := Input.is_action_pressed("ui_left") \
-	or Input.is_action_pressed("ui_right")
+	var moving := Input.is_action_pressed("left") \
+	or Input.is_action_pressed("right")
 	
 	if terry_play:
 		terry_play.set_moving(moving)
@@ -205,9 +205,9 @@ func _process(delta: float) -> void:
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 		
 	# dev cheat
-	auto_input()
+	#auto_input()
 	
-	if  Input.is_action_just_pressed("ui_left") && next_input == false:
+	if  Input.is_action_just_pressed("left") && next_input == false:
 		Sand_Total += Sand
 		Sand_Total_Eaten += Sand
 		
@@ -216,7 +216,7 @@ func _process(delta: float) -> void:
 		
 		next_input = true
 	
-	if Input.is_action_just_pressed("ui_right") && next_input == true:
+	if Input.is_action_just_pressed("right") && next_input == true:
 		Sand_Total += Sand
 		Sand_Total_Eaten += Sand
 		
