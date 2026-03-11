@@ -204,7 +204,7 @@ func _process(delta: float) -> void:
 	if $Sand_Dollar.text == "":
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 		
-	# dev cheat
+	# Terry cheat
 	#auto_input()
 	
 	if  Input.is_action_just_pressed("left") && next_input == false:
