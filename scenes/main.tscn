@@ -303,10 +303,6 @@ size = Vector2(7630, 71)
 
 [node name="level" type="Node2D" unique_id=1595950429 groups=["main"]]
 script = ExtResource("1_0wfyh")
-listItems = 197.02713997145185
-Coin_Spawn_Time = 0
-Horse_Sand_Eat = false
-space_check = 0.0
 
 [node name="Background" type="AnimatedSprite2D" parent="." unique_id=1658395375]
 position = Vector2(960.50006, 360)
