@@ -39,6 +39,7 @@
 [ext_resource type="Texture2D" uid="uid://but7xsw1nbcei" path="res://graphics/cat/cat.png" id="35_fuf3a"]
 [ext_resource type="AudioStream" uid="uid://db6qopmkup2n7" path="res://sfx/dozer.ogg" id="36_kmb1v"]
 [ext_resource type="PackedScene" uid="uid://bjqj2c8qr4aut" path="res://scenes/PauseMenu.tscn" id="37_fuf3a"]
+[ext_resource type="Texture2D" uid="uid://bnpdlwfmfcj78" path="res://graphics/Whale.png" id="39_5he1u"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_c6pm6"]
 animations = [{
@@ -298,11 +299,27 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_5poiv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("39_5he1u")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sugp2"]
 size = Vector2(7630, 71)
 
 [node name="level" type="Node2D" unique_id=1595950429 groups=["main"]]
 script = ExtResource("1_0wfyh")
+SpaceShrimpCounter = null
+SpaceShrimpUpgradeCost = null
+SpaceWhaleSum = null
+SpaceWhaleCheck = null
+SpaceWhaleUpgradeCost = null
 
 [node name="Background" type="AnimatedSprite2D" parent="." unique_id=1658395375]
 position = Vector2(960.50006, 360)
@@ -386,6 +403,7 @@ offset_top = 29.0
 offset_right = 1903.0
 offset_bottom = 706.0
 size_flags_horizontal = 3
+horizontal_scroll_mode = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=113818901]
 self_modulate = Color(1, 1, 1, 0)
@@ -439,7 +457,18 @@ text = "Buy ???
 
 [node name="CatButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=1299608684]
 layout_mode = 2
-tooltip_text = "Makes Quick Time Events Occur Faster"
+disabled = true
+text = "Buy ???
+???"
+
+[node name="ShrimpButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=1005672985]
+layout_mode = 2
+disabled = true
+text = "Buy ???
+???"
+
+[node name="WhaleButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=1968266041]
+layout_mode = 2
 disabled = true
 text = "Buy ???
 ???"
@@ -489,6 +518,12 @@ autostart = true
 [node name="GolemTimer" type="Timer" parent="." unique_id=1426424652]
 wait_time = 0.25
 autostart = true
+
+[node name="ShrimpTimer" type="Timer" parent="." unique_id=1018877505]
+wait_time = 0.25
+
+[node name="WhaleTimer" type="Timer" parent="." unique_id=1449763292]
+wait_time = 0.25
 
 [node name="AutoSaveTimer" type="Timer" parent="." unique_id=1935225833]
 wait_time = 2.5
@@ -575,7 +610,21 @@ offset_left = 18.0
 offset_top = 224.0
 offset_right = 115.0
 offset_bottom = 257.0
-text = "???"
+text = "Space"
+
+[node name="SpaceCheat2" type="Button" parent="." unique_id=1935229592]
+offset_left = 21.0
+offset_top = 269.0
+offset_right = 118.0
+offset_bottom = 323.0
+text = "Space Sand
+Cheat"
+
+[node name="WhaleSprite-ko" type="AnimatedSprite2D" parent="." unique_id=1698818163]
+visible = false
+position = Vector2(1430.9999, 55)
+scale = Vector2(0.18766575, 0.14544557)
+sprite_frames = SubResource("SpriteFrames_5poiv")
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="." unique_id=384467109]
 position = Vector2(20, 0)
@@ -608,6 +657,8 @@ bus = &"Music"
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/DozerButton" to="." method="_on_dozer_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/GolemButton" to="." method="_on_golem_buton_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/CatButton" to="." method="_on_cat_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/ShrimpButton" to="." method="_on_shrimp_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/WhaleButton" to="." method="_on_whale_button_pressed"]
 [connection signal="timeout" from="SpoonTimer" to="." method="_on_spoon_timer_timeout"]
 [connection signal="timeout" from="TrowlTimer" to="." method="_on_trowl_timer_timeout"]
 [connection signal="timeout" from="PanTimer" to="." method="_on_pan_timer_timeout"]
@@ -619,6 +670,9 @@ bus = &"Music"
 [connection signal="timeout" from="CoinTimer" to="." method="_on_coin_timer_timeout"]
 [connection signal="timeout" from="HorseTimer" to="." method="_on_horse_timer_timeout"]
 [connection signal="timeout" from="GolemTimer" to="." method="_on_golem_timer_timeout"]
+[connection signal="timeout" from="ShrimpTimer" to="." method="_on_shrimp_timer_timeout"]
+[connection signal="timeout" from="WhaleTimer" to="." method="_on_whale_timer_timeout"]
 [connection signal="timeout" from="AutoSaveTimer" to="." method="_on_auto_save_timer_timeout"]
 [connection signal="pressed" from="Cheat" to="." method="_on_cheat_pressed"]
 [connection signal="pressed" from="SpaceCheat" to="." method="_on_space_cheat_pressed"]
+[connection signal="pressed" from="SpaceCheat2" to="." method="_on_space_cheat_2_pressed"]

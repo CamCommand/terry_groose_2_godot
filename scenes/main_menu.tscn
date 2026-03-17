@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://cojd7attq34m6" path="res://graphics/Logo/Eats_Sand1.png" id="6_jk1qb"]
 [ext_resource type="Texture2D" uid="uid://da72lmxs6fc62" path="res://graphics/Logo/Eats_Sand2.png" id="7_5dd4i"]
 [ext_resource type="Texture2D" uid="uid://co4n4gbsbusbl" path="res://graphics/Logo/New_Frontier.png" id="7_jk1qb"]
+[ext_resource type="Texture2D" uid="uid://bq4rbhlskkhx3" path="res://graphics/dustbaby.png" id="7_rcqid"]
 [ext_resource type="Shader" uid="uid://bc5wxnici0g4q" path="res://scenes/logo.gdshader" id="9_5dd4i"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bqqt6"]
@@ -184,6 +185,12 @@ theme_override_font_sizes/normal_font_size = 28
 bbcode_enabled = true
 text = "Sand Fact!
 "
+
+[node name="DustBaby" type="Sprite2D" parent="." unique_id=190180437]
+visible = false
+position = Vector2(1605, 220.00002)
+scale = Vector2(0.44765642, 0.39453128)
+texture = ExtResource("7_rcqid")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1447518781]
 offset_right = 40.0

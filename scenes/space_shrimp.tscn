@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://bmk1o2kb2ulyi"]
+
+[ext_resource type="Script" uid="uid://dd3vqx20dsi1i" path="res://scenes/space_shrimp.gd" id="1_3uksu"]
+[ext_resource type="Texture2D" uid="uid://cx8u04njin2ws" path="res://graphics/SpaceShrimp.png" id="1_a7pb0"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3uksu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_a7pb0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="SpaceShrimp-yo" type="Node2D" unique_id=1909615023]
+script = ExtResource("1_3uksu")
+
+[node name="SpaceShrimpSprite-yo" type="AnimatedSprite2D" parent="." unique_id=744104907]
+position = Vector2(0, 4)
+scale = Vector2(0.047031224, 0.045650456)
+sprite_frames = SubResource("SpriteFrames_3uksu")
