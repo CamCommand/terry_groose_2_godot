@@ -53,7 +53,11 @@ func add_super_text():
 #button opens up game's music folder
 func _on_music_pressed() -> void:
 	OS.shell_open(ProjectSettings.globalize_path("user://music"))
+	
 #volume slider
 func _on_volume_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(value))
 	#print(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music")))
+
+func _on_sfx_volume_slider_value_changed(value: float) -> void:
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), linear_to_db(value))

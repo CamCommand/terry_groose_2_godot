@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dd3vqx20dsi1i" path="res://scenes/space_shrimp.gd" id="1_3uksu"]
 [ext_resource type="Texture2D" uid="uid://cx8u04njin2ws" path="res://graphics/SpaceShrimp.png" id="1_a7pb0"]
+[ext_resource type="AudioStream" uid="uid://d15wdptxq27d8" path="res://sfx/shrimpsquelsh.ogg" id="3_3d1r1"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3uksu"]
 animations = [{
@@ -21,3 +22,8 @@ script = ExtResource("1_3uksu")
 position = Vector2(0, 4)
 scale = Vector2(0.047031224, 0.045650456)
 sprite_frames = SubResource("SpriteFrames_3uksu")
+
+[node name="ShrimpAudio" type="AudioStreamPlayer2D" parent="." unique_id=1184099334]
+stream = ExtResource("3_3d1r1")
+volume_db = 8.602
+bus = &"SFX"

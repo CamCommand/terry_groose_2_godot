@@ -62,6 +62,7 @@ var shrimp_scene: PackedScene = load("res://scenes/space_shrimp.tscn")
 @export var SpaceCatUpgradeCost: float = 1
 @export var SpaceCatCounter: int
 @export var SpaceCatCheck: bool
+@onready var cat_audio: AudioStreamPlayer2D = $CatAudio
 const QTE = preload("res://scenes/QTE_Letter.tscn")
 var QTE_var = preload("res://scenes/QTE_Letter.tscn")
 var qte1 = QTE_var.instantiate()
@@ -925,10 +926,10 @@ func _on_cat_button_pressed() -> void:
 	#Space Cat will have quick time events that 2x your Space Sand total each time
 	get_node("CatQTETimer").start()
 	SpaceCatCounter += 1
-	if SpaceCatCheck == false:
-		pass
-	else:
-		button_click_sfx.play()	
+	#idk why this is being awful but...
+	var cat_aduio_stream = preload("res://sfx/nya.ogg")
+	$CatAudio.stream = cat_aduio_stream
+	$CatAudio.play()
 		
 	if SpaceCatCheck == true && Space_Sand >= SpaceCatUpgradeCost:
 		Space_Sand -= SpaceCatUpgradeCost
@@ -964,6 +965,7 @@ func _on_cat_button_pressed() -> void:
 	$Sand_Mult.text = NumberFormatter.format_clicker_number(Space_Sand_Mult, 3)
 	#print("Min is " + str(SC_Check_Min))
 	#print("Max is " + str(SC_Check_Max))
+	print(str(SpaceCatUpgradeCost))
 	
 func _on_cat_timer_timeout() -> void:
 # checking and setting Cat Button conditions
@@ -991,13 +993,12 @@ func _on_shrimp_button_pressed() -> void:
 	shrimpin.add_to_group("spawned shrimp")
 	# this line keeps it in the save (not position tho but who cares rn)
 	shrimpin.owner = get_tree().current_scene
+	shrimpin.play_shrimp_sfx() #play sfx
 	SpaceShrimpCounter += 1
 	SpaceShrimpUpgradeCost *= 2.5
-
+	
 func _on_shrimp_timer_timeout() -> void:
-	#var shrimp_rng := RandomNumberGenerator.new()
-	#shrimp_rng.randomize()
-	#$ShrimpTimer.wait_time = shrimp_rng.randi_range(10, 35)
+	#space shrimp button update
 	if space_check == true:
 		if Space_Sand < SpaceShrimpUpgradeCost && SpaceShrimpUpgradeCost == 50000:
 			$ScrollContainer/VBoxContainer/ShrimpButton.text = "Buy ???" + "\n" + "???"
@@ -1013,32 +1014,41 @@ func _on_shrimp_timer_timeout() -> void:
 			$ScrollContainer/VBoxContainer/ShrimpButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
 				
 func _on_whale_button_pressed() -> void:
-	$WhaleSprite.visible = true
+	if SpaceWhaleCheck != true:
+		$"WhaleSprite-ko".visible = true
+		SpaceWhaleCheck = true
 	SpaceShrimpCounter = 0
 	SpaceWhaleUpgradeCost += 5
 	# remove the bought shrimp
 	get_tree().call_group("spawned shrimp", "queue_free")
-	#more here
+	# more here
 	
 func _on_whale_timer_timeout() -> void:
 	if space_check == true:
 		if SpaceShrimpCounter >= SpaceWhaleUpgradeCost && SpaceWhaleCheck == false:
-			$ScrollContainer/VBoxContainer/WhaleButton.text = "Call The" + "\n" + "Space Whale" + "\n" + "Shrimps" + str(SpaceWhaleUpgradeCost)
+			$ScrollContainer/VBoxContainer/WhaleButton.text = "Call The" + "\n" + "Space Whale" + "\n" + "Shrimps " + str(SpaceWhaleUpgradeCost)
 			$ScrollContainer/VBoxContainer/WhaleButton.disabled = false
 			$ScrollContainer/VBoxContainer/WhaleButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
 		elif SpaceShrimpCounter >= SpaceWhaleUpgradeCost && SpaceWhaleCheck == true:
-			$ScrollContainer/VBoxContainer/WhaleButton.text = "Enhance The" + "\n" + "Space Whale" + "\n" + "Shrimps" + str(SpaceWhaleUpgradeCost)
+			$ScrollContainer/VBoxContainer/WhaleButton.text = "Enhance The" + "\n" + "Space Whale" + "\n" + "Shrimps " + str(SpaceWhaleUpgradeCost)
 			$ScrollContainer/VBoxContainer/WhaleButton.disabled = false
 			$ScrollContainer/VBoxContainer/WhaleButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
 		elif SpaceShrimpCounter < SpaceWhaleUpgradeCost && SpaceWhaleCheck == true:
-			$ScrollContainer/VBoxContainer/WhaleButton.text = "Enhance The" + "\n" + "Space Whale" + "\n" + "Shrimps" + str(SpaceWhaleUpgradeCost)
+			$ScrollContainer/VBoxContainer/WhaleButton.text = "Enhance The" + "\n" + "Space Whale" + "\n" + "Shrimps " + str(SpaceWhaleUpgradeCost)
 			$ScrollContainer/VBoxContainer/WhaleButton.disabled = true
 			$ScrollContainer/VBoxContainer/WhaleButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
 		elif SpaceShrimpCounter < SpaceWhaleUpgradeCost && SpaceWhaleCheck == false:
 			$ScrollContainer/VBoxContainer/WhaleButton.text = "Buy ???" + "\n" + "???"
 			$ScrollContainer/VBoxContainer/WhaleButton.disabled = true
 			$ScrollContainer/VBoxContainer/WhaleButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
-	
+		
+	if SpaceWhaleCheck == true && $Background.frame == 1:
+		SpaceWhaleSum = (SpaceCatUpgradeCost / 100000) * SpaceWhaleUpgradeCost
+		Sand_Total_Eaten += SpaceWhaleSum
+		Space_Sand += SpaceWhaleSum
+		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
+		$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
+			
 func _on_coin_timer_timeout() -> void:
 	# random coin drop time
 	#var coin_drop:= RandomNumberGenerator.new()
@@ -1066,6 +1076,7 @@ func _on_horse_timer_timeout() -> void:
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 	
+	#updgraded golem for end game in Act 1
 	if HelperGolemCheck == true:
 		Sand_Total += GolemCounter * Sand
 		Sand_Total_Eaten += GolemCounter * Sand
@@ -1128,8 +1139,7 @@ func _on_auto_save_timer_timeout() -> void:
 	scene.pack(root)
 	ResourceSaver.save(scene, "user://SavedGame.tscn")
 	
-	
-	# doublingthe use of this timer to check for scene transition into space
+	# doubling the use of this timer to check for scene transition into space
 	if (!space_check && SuperSpoonCheck && SuperTrowlCheck && SuperPanCheck && SuperShovelCheck && FCLSCheck && BiggerDozerCheck && HorseCheck && Sand_Total_Eaten >= 9223372000000000000):
 		space_check = true
 		# change background and sprite rotations

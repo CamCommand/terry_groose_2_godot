@@ -186,9 +186,11 @@ autostart = true
 
 [node name="golemsfx" type="AudioStreamPlayer2D" parent="." unique_id=1873800565]
 stream = ExtResource("39_dvvvf")
+bus = &"SFX"
 
 [node name="summonsfx" type="AudioStreamPlayer2D" parent="." unique_id=956302361]
 stream = ExtResource("40_muwon")
 volume_db = -10.0
+bus = &"SFX"
 
 [connection signal="timeout" from="DeleteGolemTimer" to="." method="_on_delete_golem_timer_timeout"]

@@ -166,7 +166,7 @@ theme_override_font_sizes/font_size = 55
 text = "Quit"
 icon_alignment = 1
 
-[node name="Label2" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1025982943]
+[node name="MusicVolLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1025982943]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.972549)
@@ -182,8 +182,25 @@ max_value = 1.5
 step = 0.001
 value = 0.5
 
+[node name="SFXVolLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1324103488]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.972549)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 4
+theme_override_font_sizes/font_size = 40
+text = "Sound Volume"
+horizontal_alignment = 1
+
+[node name="SFXVolumeSlider" type="HSlider" parent="CenterContainer/VBoxContainer" unique_id=236447115]
+layout_mode = 2
+max_value = 1.5
+step = 0.001
+value = 0.5
+
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ResumeBtn" to="." method="_on_resume_btn_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Music" to="." method="_on_music_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ConversionBtn" to="." method="_on_conversion_btn_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/QuitButton" to="." method="_on_quit_press"]
 [connection signal="value_changed" from="CenterContainer/VBoxContainer/VolumeSlider" to="." method="_on_volume_slider_value_changed"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/SFXVolumeSlider" to="." method="_on_sfx_volume_slider_value_changed"]
