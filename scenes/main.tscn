@@ -37,8 +37,10 @@
 [ext_resource type="AudioStream" uid="uid://d2r6oeo5nixcu" path="res://sfx/cspoon.ogg" id="33_5q0nq"]
 [ext_resource type="AudioStream" uid="uid://csxtrpk4q1n2h" path="res://sfx/Shovel.ogg" id="33_j8jky"]
 [ext_resource type="Texture2D" uid="uid://but7xsw1nbcei" path="res://graphics/cat/cat.png" id="35_fuf3a"]
+[ext_resource type="Shader" uid="uid://c10h78ipbolnk" path="res://scenes/squirrel.gdshader" id="35_ih3m7"]
 [ext_resource type="AudioStream" uid="uid://db6qopmkup2n7" path="res://sfx/dozer.ogg" id="36_kmb1v"]
 [ext_resource type="PackedScene" uid="uid://bjqj2c8qr4aut" path="res://scenes/PauseMenu.tscn" id="37_fuf3a"]
+[ext_resource type="Texture2D" uid="uid://dh2hxyt4npvm" path="res://graphics/BiggerDozerSQ.png" id="37_ndrjj"]
 [ext_resource type="AudioStream" uid="uid://bi5rhs13wys0l" path="res://sfx/nya.ogg" id="39_5poiv"]
 [ext_resource type="Texture2D" uid="uid://06wuodxbqtfs" path="res://graphics/Whale/SpaceWhale/whale00.png" id="40_xaipn"]
 [ext_resource type="Texture2D" uid="uid://ceohw53ct61yq" path="res://graphics/Whale/SpaceWhale/whale01.png" id="41_ndrjj"]
@@ -253,90 +255,6 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 45.0
-}]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_dgi5k"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("21_yq6so")
-}, {
-"duration": 1.0,
-"texture": ExtResource("22_fv21b")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_yc10j"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("20_jscy8")
-}, {
-"duration": 1.0,
-"texture": ExtResource("21_pm3ni")
-}],
-"loop": false,
-"name": &"default",
-"speed": 2.0
-}]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_fv21b"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("25_vxglm")
-}, {
-"duration": 1.0,
-"texture": ExtResource("26_2f3dj")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_5q0nq"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("21_yq6so")
-}, {
-"duration": 1.0,
-"texture": ExtResource("22_fv21b")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_5he1u"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("20_j8jky")
-}, {
-"duration": 1.0,
-"texture": ExtResource("21_kmb1v")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_fuf3a"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("35_fuf3a")
-}, {
-"duration": 1.0,
-"texture": ExtResource("35_fuf3a")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
 }]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5poiv"]
@@ -578,7 +496,100 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 40.0
+"speed": 10.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dgi5k"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("21_yq6so")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_fv21b")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yc10j"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("20_jscy8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_pm3ni")
+}],
+"loop": false,
+"name": &"default",
+"speed": 2.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fv21b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("25_vxglm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_2f3dj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5q0nq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("21_yq6so")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_fv21b")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_11yus"]
+shader = ExtResource("35_ih3m7")
+shader_parameter/glow_color = Color(0, 1, 0, 1)
+shader_parameter/glow_size = 2.0
+shader_parameter/glow_strength = 0.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5he1u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("20_j8jky")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_kmb1v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_ndrjj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fuf3a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("35_fuf3a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_fuf3a")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sugp2"]
@@ -586,6 +597,9 @@ size = Vector2(7630, 71)
 
 [node name="level" type="Node2D" unique_id=1595950429 groups=["main"]]
 script = ExtResource("1_0wfyh")
+SpaceSquirrelCheck = null
+SpaceSquirrelGambleCost = null
+SpaceSquirrelGamble = null
 
 [node name="Background" type="AnimatedSprite2D" parent="." unique_id=1658395375]
 position = Vector2(960.50006, 360)
@@ -615,6 +629,15 @@ metadata/_edit_lock_ = true
 position = Vector2(641, 360.00003)
 scale = Vector2(1.501, 1.501)
 metadata/_edit_lock_ = true
+
+[node name="WhaleSprite-ko" type="AnimatedSprite2D" parent="." unique_id=1698818163]
+visible = false
+position = Vector2(1302, 93.00001)
+scale = Vector2(0.20581204, 0.17087093)
+sprite_frames = SubResource("SpriteFrames_5poiv")
+autoplay = "default"
+frame = 29
+frame_progress = 0.94517195
 
 [node name="Sand_Ate" type="Label" parent="." unique_id=1450036184]
 offset_left = 5.0
@@ -739,6 +762,13 @@ disabled = true
 text = "Buy ???
 ???"
 
+[node name="SquirrelButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=332918234]
+layout_mode = 2
+tooltip_text = "This may increase or decrease your Space Sand"
+disabled = true
+text = "Buy ???
+???"
+
 [node name="ButtonClickSFX" type="AudioStreamPlayer2D" parent="ScrollContainer/VBoxContainer" unique_id=1411028935]
 stream = ExtResource("21_fv21b")
 volume_db = -15.0
@@ -790,6 +820,9 @@ autostart = true
 wait_time = 0.25
 
 [node name="WhaleTimer" type="Timer" parent="." unique_id=1449763292]
+wait_time = 0.25
+
+[node name="SquirrelTimer" type="Timer" parent="." unique_id=1699131954]
 wait_time = 0.25
 
 [node name="AutoSaveTimer" type="Timer" parent="." unique_id=1935225833]
@@ -845,6 +878,7 @@ bus = &"SFX"
 
 [node name="DozerSprite" type="AnimatedSprite2D" parent="." unique_id=272616659]
 visible = false
+material = SubResource("ShaderMaterial_11yus")
 position = Vector2(1241.781, 423.06302)
 scale = Vector2(0.18107447, 0.21757811)
 sprite_frames = SubResource("SpriteFrames_5he1u")
@@ -899,14 +933,6 @@ offset_bottom = 323.0
 text = "Space Sand
 Cheat"
 
-[node name="WhaleSprite-ko" type="AnimatedSprite2D" parent="." unique_id=1698818163]
-visible = false
-position = Vector2(1302, 93.00001)
-scale = Vector2(0.20581204, 0.17087093)
-sprite_frames = SubResource("SpriteFrames_5poiv")
-frame = 29
-frame_progress = 0.94517195
-
 [node name="StaticBody2D2" type="StaticBody2D" parent="." unique_id=384467109]
 position = Vector2(20, 0)
 
@@ -940,6 +966,7 @@ bus = &"Music"
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/CatButton" to="." method="_on_cat_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/ShrimpButton" to="." method="_on_shrimp_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/WhaleButton" to="." method="_on_whale_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/SquirrelButton" to="." method="_on_squirrel_button_pressed"]
 [connection signal="timeout" from="SpoonTimer" to="." method="_on_spoon_timer_timeout"]
 [connection signal="timeout" from="TrowlTimer" to="." method="_on_trowl_timer_timeout"]
 [connection signal="timeout" from="PanTimer" to="." method="_on_pan_timer_timeout"]
@@ -953,6 +980,7 @@ bus = &"Music"
 [connection signal="timeout" from="GolemTimer" to="." method="_on_golem_timer_timeout"]
 [connection signal="timeout" from="ShrimpTimer" to="." method="_on_shrimp_timer_timeout"]
 [connection signal="timeout" from="WhaleTimer" to="." method="_on_whale_timer_timeout"]
+[connection signal="timeout" from="SquirrelTimer" to="." method="_on_squirrel_timer_timeout"]
 [connection signal="timeout" from="AutoSaveTimer" to="." method="_on_auto_save_timer_timeout"]
 [connection signal="pressed" from="Cheat" to="." method="_on_cheat_pressed"]
 [connection signal="pressed" from="SpaceCheat" to="." method="_on_space_cheat_pressed"]

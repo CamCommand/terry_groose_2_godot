@@ -77,6 +77,10 @@ var qte1 = QTE_var.instantiate()
 @export var SpaceWhaleCheck: bool
 @export var SpaceWhaleUpgradeCost: int = 5
 
+@export var SpaceSquirrelCheck: bool
+@export var SpaceSquirrelGambleCost: float = 100000
+@export var SpaceSquirrelGamble: float
+
 var keyList = [
 	{"keyString": "C", "keyCode": KEY_C},
 	{"keyString": "O", "keyCode": KEY_O},
@@ -787,7 +791,7 @@ func _on_dozer_button_pressed() -> void:
 		BiggerDozerCheck = true
 		DozerCheck = false	
 		var dozer_tween2 := create_tween().bind_node($DozerSprite).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-		$DozerSprite.frame = 2
+		$DozerSprite.frame = 1
 		dozer_tween2.tween_property($DozerSprite, 'scale', Vector2(0.25,0.25), 0.3)
 		
 		Sand_Total -= DozerUpgradeCost
@@ -1021,20 +1025,19 @@ func _on_whale_button_pressed() -> void:
 	SpaceWhaleUpgradeCost += 5
 	# remove the bought shrimp
 	get_tree().call_group("spawned shrimp", "queue_free")
-	# more here
 	
 func _on_whale_timer_timeout() -> void:
 	if space_check == true:
 		if SpaceShrimpCounter >= SpaceWhaleUpgradeCost && SpaceWhaleCheck == false:
-			$ScrollContainer/VBoxContainer/WhaleButton.text = "Call The" + "\n" + "Space Whale" + "\n" + "Shrimps " + str(SpaceWhaleUpgradeCost)
+			$ScrollContainer/VBoxContainer/WhaleButton.text = "Feed The" + "\n" + "Space Whale" + "\n" + "Shrimps " + str(SpaceWhaleUpgradeCost)
 			$ScrollContainer/VBoxContainer/WhaleButton.disabled = false
 			$ScrollContainer/VBoxContainer/WhaleButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
 		elif SpaceShrimpCounter >= SpaceWhaleUpgradeCost && SpaceWhaleCheck == true:
-			$ScrollContainer/VBoxContainer/WhaleButton.text = "Enhance The" + "\n" + "Space Whale" + "\n" + "Shrimps " + str(SpaceWhaleUpgradeCost)
+			$ScrollContainer/VBoxContainer/WhaleButton.text = "Fatten The" + "\n" + "Space Whale" + "\n" + "Shrimps " + str(SpaceWhaleUpgradeCost)
 			$ScrollContainer/VBoxContainer/WhaleButton.disabled = false
 			$ScrollContainer/VBoxContainer/WhaleButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
 		elif SpaceShrimpCounter < SpaceWhaleUpgradeCost && SpaceWhaleCheck == true:
-			$ScrollContainer/VBoxContainer/WhaleButton.text = "Enhance The" + "\n" + "Space Whale" + "\n" + "Shrimps " + str(SpaceWhaleUpgradeCost)
+			$ScrollContainer/VBoxContainer/WhaleButton.text = "Fatten The" + "\n" + "Space Whale" + "\n" + "Shrimps " + str(SpaceWhaleUpgradeCost)
 			$ScrollContainer/VBoxContainer/WhaleButton.disabled = true
 			$ScrollContainer/VBoxContainer/WhaleButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
 		elif SpaceShrimpCounter < SpaceWhaleUpgradeCost && SpaceWhaleCheck == false:
@@ -1048,6 +1051,55 @@ func _on_whale_timer_timeout() -> void:
 		Space_Sand += SpaceWhaleSum
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 		$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
+	
+# the Chaos Squirrel is a gamble
+func _on_squirrel_button_pressed() -> void:
+	var gamble_rng := RandomNumberGenerator.new()
+	gamble_rng.randomize()
+	#introduce the squirrel
+	if SpaceSquirrelCheck == false:
+		$DozerSprite.frame = 2
+		SpaceSquirrelCheck = true
+		
+		Space_Sand -= SpaceSquirrelGambleCost
+		SpaceSquirrelGambleCost += 1
+		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
+		$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
+	#gamble with how much you gain or lose
+	else:
+		Space_Sand -= SpaceSquirrelGambleCost
+		SpaceSquirrelGambleCost += 100000
+		SpaceSquirrelGamble = randf_range(0.05, 2.25)
+		print(str(SpaceSquirrelGamble))
+		Space_Sand *= SpaceSquirrelGamble
+	
+		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
+		$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
+		#Gamble feedback
+		#add sfxs
+		if SpaceSquirrelGamble >= 1.1:
+			trigger_glow(Color(0, 1, 0))
+		else:
+			trigger_glow(Color(1, 0, 0))
+	
+func _on_squirrel_timer_timeout() -> void:
+	if space_check == true:
+		if SpaceSquirrelCheck == true && SpaceSquirrelGambleCost <= Space_Sand:
+			$ScrollContainer/VBoxContainer/SquirrelButton.text = "Beseech The" + "\n" + "Chaos Squirrel" + "\n" + NumberFormatter.format_clicker_number(SpaceSquirrelGambleCost, 5)
+			$ScrollContainer/VBoxContainer/SquirrelButton.disabled = false
+			$ScrollContainer/VBoxContainer/SquirrelButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
+		elif SpaceSquirrelCheck == true && SpaceSquirrelGambleCost > Space_Sand:
+			$ScrollContainer/VBoxContainer/SquirrelButton.text = "Beseech The" + "\n" + "Chaos Squirrel" + "\n" + NumberFormatter.format_clicker_number(SpaceSquirrelGambleCost, 5)
+			$ScrollContainer/VBoxContainer/SquirrelButton.disabled = true
+			$ScrollContainer/VBoxContainer/SquirrelButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
+		elif SpaceSquirrelCheck == false && SpaceSquirrelGambleCost <= Space_Sand:
+			$ScrollContainer/VBoxContainer/SquirrelButton.text = "Call Upon" + "\n" + "Chaos Squirrel" + "\n" + NumberFormatter.format_clicker_number(SpaceSquirrelGambleCost, 5)
+			$ScrollContainer/VBoxContainer/SquirrelButton.disabled = false
+			$ScrollContainer/VBoxContainer/SquirrelButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
+		elif SpaceSquirrelCheck == false && SpaceSquirrelGambleCost > Space_Sand:
+			$ScrollContainer/VBoxContainer/SquirrelButton.text = "Buy ???" + "\n" + "???"
+			$ScrollContainer/VBoxContainer/SquirrelButton.disabled = true
+			$ScrollContainer/VBoxContainer/SquirrelButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
 			
 func _on_coin_timer_timeout() -> void:
 	# random coin drop time
@@ -1129,6 +1181,7 @@ func start_timers():
 		get_node("CatTimer").start()
 		get_node("ShrimpTimer").start()
 		get_node("WhaleTimer").start()
+		get_node("SquirrelTimer").start()
 		if listItems.has("SpaceCat"):
 			get_node("CatQTETimer").start()
 
@@ -1203,3 +1256,19 @@ func _on_ate_fail(amount_Space_Sand):
 		$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
 	else:
 		pass
+		
+func trigger_glow(color: Color, strength: float = 75.5, duration: float = 1.0):
+	# Set color
+	$DozerSprite.material.set("shader_parameter/glow_color", color)
+	
+	#Start strong
+	$DozerSprite.material.set("shader_parameter/glow_strength", strength)
+
+	# Fade out smoothly
+	var tween = create_tween()
+	tween.tween_property(
+		$DozerSprite.material,
+		"shader_parameter/glow_strength",
+		0.0,
+		duration
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
