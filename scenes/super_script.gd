@@ -3,7 +3,7 @@ extends RichTextEffect
 class_name SuperscriptEffect
 
 var bbcode = "super"
-
+# creating a super text effect for the abberviations 
 func _process_custom_fx(char_fx):
 	# Offset the character's vertical position
 	#var animation_speed = char_fx.env.get("animation_speed", 5)

@@ -76,8 +76,7 @@ func display_sand_fact():
 	sand_rng.randomize()
 	if lines.size() > 1:
 		var random_index = sand_rng.randi() % lines.size()  # Get a random index
-		#random_index = 67
-		if random_index != 67:
+		if random_index != 66:
 			sand_fact_label.text = "Sand Fact! \n" + lines[random_index]  # Set the label text to the random line	
 			$DustBaby.visible = false
 		else:

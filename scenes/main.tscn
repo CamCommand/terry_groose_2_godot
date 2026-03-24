@@ -578,6 +578,12 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ih3m7"]
+shader = ExtResource("35_ih3m7")
+shader_parameter/glow_color = Color(0, 1, 0, 1)
+shader_parameter/glow_size = 10.0
+shader_parameter/glow_strength = 0.0
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_fuf3a"]
 animations = [{
 "frames": [{
@@ -597,9 +603,10 @@ size = Vector2(7630, 71)
 
 [node name="level" type="Node2D" unique_id=1595950429 groups=["main"]]
 script = ExtResource("1_0wfyh")
-SpaceSquirrelCheck = null
-SpaceSquirrelGambleCost = null
-SpaceSquirrelGamble = null
+CLSUpgradeCost = 100000.0
+DozerUpgradeCost = 1000000.0
+GolemUpgradeCost = 35000000.0
+SpaceWhaleSum = 0.0
 
 [node name="Background" type="AnimatedSprite2D" parent="." unique_id=1658395375]
 position = Vector2(960.50006, 360)
@@ -736,13 +743,13 @@ text = "Buy ???
 layout_mode = 2
 disabled = true
 text = "Buy ???
-1500000"
+15000000"
 
 [node name="GolemButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=632077218]
 layout_mode = 2
 disabled = true
 text = "Buy ???
-10000000"
+350000000"
 
 [node name="CatButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=1299608684]
 layout_mode = 2
@@ -764,7 +771,6 @@ text = "Buy ???
 
 [node name="SquirrelButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=332918234]
 layout_mode = 2
-tooltip_text = "This may increase or decrease your Space Sand"
 disabled = true
 text = "Buy ???
 ???"
@@ -900,6 +906,7 @@ offset_bottom = 203.0
 
 [node name="CatSprite-o" type="AnimatedSprite2D" parent="." unique_id=6676528]
 visible = false
+material = SubResource("ShaderMaterial_ih3m7")
 position = Vector2(1563, 149)
 scale = Vector2(0.06852223, 0.060596637)
 sprite_frames = SubResource("SpriteFrames_fuf3a")
@@ -908,6 +915,7 @@ sprite_frames = SubResource("SpriteFrames_fuf3a")
 position = Vector2(1563, 149)
 scale = Vector2(0.06852223, 0.060596637)
 stream = ExtResource("39_5poiv")
+volume_db = -5.0
 bus = &"SFX"
 
 [node name="Cheat" type="Button" parent="." unique_id=1691847081]

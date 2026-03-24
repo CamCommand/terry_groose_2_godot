@@ -3,15 +3,6 @@ extends Node2D
 @export var night_counter: int
 @export var night_bool: bool = true
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
-
 # day and night "cycle" code ->to tweak speed, change Wait Time of NightTimer
 func _on_night_timer_timeout() -> void:
 	if $DarknessFilter.self_modulate.a < 1 && night_bool == true:

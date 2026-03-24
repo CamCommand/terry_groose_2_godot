@@ -21,6 +21,7 @@ func _ready() -> void:
 	coin_pos_x = coin_rng.randi_range(300, width-300)
 	coin_pos_y = -120 #coin_rng.randi_range(-100, 0)
 	position = Vector2(coin_pos_x, coin_pos_y)
+	
 	# set coin speed and direction
 	speed = coin_rng.randi_range(350, 650)
 	direction_x = coin_rng.randf_range(-0.3, 0.3)
@@ -32,11 +33,8 @@ func _process(delta: float) -> void:
 #when Horse Coin is clicked
 func _on_button_pressed() -> void:
 	var main = get_tree().get_first_node_in_group("main")
-	var main2 = get_tree().get_nodes_in_group("main")
+	#var main2 = get_tree().get_nodes_in_group("main")
 	var horse = get_tree().get_first_node_in_group("horse_vars") as AnimatedSprite2D
-	#play sfx DOESN'T WORK
-	#currently plays when added to the scene
-	#$CoinSFX.play()
 	
 	if HorseCheck == false:
 		HorseCheck = true
@@ -53,9 +51,9 @@ func _on_button_pressed() -> void:
 			one_pos_x = coin_rng.randi_range(275, 320)
 			var instance = popup_one.instantiate()
 			instance.global_position = Vector2(one_pos_x, 400)
-			
-			if main2 is AnimatedSprite2D and main2.name.ends_with("terry"):
-				main2.add_child(instance)
+			main.add_child(instance)
+			#if main2 is AnimatedSprite2D and main2.name.ends_with("terry"):
+				#main2.add_child(instance)
 			
 			main.Horse_Sand_Eat *= 2
 	#deletes coin

@@ -25,7 +25,7 @@ func load_custom_music():
 	var path = "user://music"
 	var dir = DirAccess.open(path)
 	if not dir:
-		print("Could not open music folder")
+		#print("Could not open music folder")
 		return
 
 	dir.list_dir_begin()
@@ -47,8 +47,7 @@ func load_custom_music():
 				print("Loaded:", file)
 
 		file = dir.get_next()
-
-	print("Total songs loaded:", music_list.size())
+	#print("Total songs loaded:", music_list.size())
 
 # Shuffle the playlist
 func shuffle_playlist():
@@ -63,7 +62,7 @@ func connect_signal():
 # Play next song
 func play_next_song():
 	if music_list.is_empty():
-		print("No songs to play")
+		#print("No songs to play")
 		return
 
 	if current_index >= music_list.size():

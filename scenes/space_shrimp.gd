@@ -11,7 +11,6 @@ func _ready() -> void:
 	shrimp_pos_y = rng.randi_range(60, 150)
 	position = Vector2(shrimp_pos_x, shrimp_pos_y)
 	$".".global_position = Vector2(shrimp_pos_x, shrimp_pos_y)
-		
 	# scale
 	var random_scale = rng.randf_range(.5,1)
 	$".".global_scale = Vector2(random_scale, random_scale)

@@ -16,9 +16,7 @@ var success = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	letter.text = keyString
-	
 	await _animation()
-	
 	#time after tween is complete
 	await get_tree().create_timer(.25).timeout
 	
@@ -52,6 +50,5 @@ func _input(event: InputEvent) -> void:
 			emit_signal("qte_failure", Space_Sand)
 			if tween:
 				tween.kill()
-
 			finished.emit(false)
 			queue_free()

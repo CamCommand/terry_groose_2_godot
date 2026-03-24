@@ -12,11 +12,11 @@ func format_clicker_number(value: float, check: int) -> String:
 	match check:
 		1:# for Sand Ate
 			return  "Sand Ate: " + "%.2f%s" % [abs_value, suffixes[index]] + " oz"		
-		2:# for Sand $s
+		2:# for Sand dollars
 			return  "Sand Dollars: $" + "%.2f%s" % [abs_value, suffixes[index]]	
 		3:# for the Consumption Rate
-			return "Consumption Rate: " + "%.2f%s" % [abs_value, suffixes[index]] + "X"	
-		4:# for Space Sand #
+			return "Consumption Rate: " + "%.2f%s" % [abs_value, suffixes[index]] + "×"	
+		4:# for Space Sand amount
 			return "[rainbow freq=1.0 sat=0.8 val=0.8 speed=1.0][wave]Space Sand: " + "%.2f%s" % [abs_value, suffixes[index]]
 		5:# for buttons
 			return  "%.2f%s" % [abs_value, suffixes[index]]	
