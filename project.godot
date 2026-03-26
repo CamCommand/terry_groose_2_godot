@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="TerryGrooseNew"
+config/name="TerryGroose"
 run/main_scene="uid://c6iry0nxmy44o"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"

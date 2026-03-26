@@ -16,6 +16,8 @@ var next_input: bool = false
 var coin_scene: PackedScene = load("res://scenes/horse_coin.tscn")
 var golem_scene: PackedScene = load("res://scenes/golem_2d.tscn")
 var shrimp_scene: PackedScene = load("res://scenes/space_shrimp.tscn")
+@onready var bad_audio: AudioStreamPlayer2D = $negtone
+@onready var good_audio: AudioStreamPlayer2D = $postone
 
 @export var SpoonUpgradeCost: float = 100
 @export var SpoonCounter: float
@@ -78,10 +80,12 @@ var qte1 = QTE_var.instantiate()
 @export var SpaceWhaleCheck: bool
 @export var SpaceWhaleUpgradeCost: int = 5
 @export var SpaceWhaleTweenGrowth: float = 0.025
+@onready var whale_audio: AudioStreamPlayer2D = $WhaleAudio
 
 @export var SpaceSquirrelCheck: bool
 @export var SpaceSquirrelGambleCost: float = 100000
 @export var SpaceSquirrelGamble: float
+@onready var squirrel_audio: AudioStreamPlayer2D = $SquirrelAudio
 
 var keyList = [
 	{"keyString": "C", "keyCode": KEY_C},
@@ -1039,6 +1043,7 @@ func _on_whale_button_pressed() -> void:
 	if SpaceWhaleCheck != true:
 		$"WhaleSprite-ko".visible = true
 		SpaceWhaleCheck = true
+		whale_audio.play()
 	else:
 		var current_scale = $"WhaleSprite-ko".scale
 		current_scale.x += SpaceWhaleTweenGrowth
@@ -1089,7 +1094,7 @@ func _on_squirrel_button_pressed() -> void:
 	if SpaceSquirrelCheck == false:
 		$DozerSprite.frame = 2
 		SpaceSquirrelCheck = true
-		
+		squirrel_audio.play()
 		Space_Sand -= SpaceSquirrelGambleCost
 		SpaceSquirrelGambleCost += 1
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
@@ -1107,8 +1112,10 @@ func _on_squirrel_button_pressed() -> void:
 		#Gamble feedback
 		#add sfxs
 		if SpaceSquirrelGamble >= 1.01:
+			good_audio.play()
 			trigger_glow($DozerSprite, Color(0, 1, 0))
 		else:
+			bad_audio.play()
 			trigger_glow($DozerSprite, Color(1, 0, 0))
 	
 func _on_squirrel_timer_timeout() -> void:
@@ -1178,10 +1185,10 @@ func _on_space_cheat_pressed() -> void:
 	FCLSCheck = true
 	BiggerDozerCheck = true
 	HorseCheck = true
-	Sand_Total_Eaten = 9223372000000000000
+	Sand_Total_Eaten = 9223372036854775807
 	
 func _on_space_cheat_2_pressed() -> void:
-	Space_Sand += 9223372000000000000000
+	Space_Sand += 9223372036854775807
 	$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
 	
 func stop_act1_timers():
@@ -1317,7 +1324,7 @@ func trigger_glow(sprite: AnimatedSprite2D, color: Color, strength: float = 75.5
 	#Start strong
 	sprite.material.set("shader_parameter/glow_strength", strength)
 
-	# Fade out smoothly
+	#Fade out smoothly
 	var tween = create_tween()
 	tween.tween_property(
 		sprite.material,

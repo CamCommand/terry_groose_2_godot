@@ -66,6 +66,7 @@
 [ext_resource type="Texture2D" uid="uid://vdtoumoyt8ry" path="res://graphics/Whale/SpaceWhale/whale21.png" id="61_tc087"]
 [ext_resource type="Texture2D" uid="uid://cbfuxnyromvrf" path="res://graphics/Whale/SpaceWhale/whale22.png" id="62_73205"]
 [ext_resource type="Texture2D" uid="uid://co3yrwgqmjbnr" path="res://graphics/Whale/SpaceWhale/whale23.png" id="63_0tljd"]
+[ext_resource type="AudioStream" uid="uid://d3o1my7el05rp" path="res://sfx/spacewhale.ogg" id="63_11yus"]
 [ext_resource type="Texture2D" uid="uid://dtiko3nq36b6t" path="res://graphics/Whale/SpaceWhale/whale24.png" id="64_mgpkq"]
 [ext_resource type="Texture2D" uid="uid://4tll2bpgqnis" path="res://graphics/Whale/SpaceWhale/whale25.png" id="65_xmrkg"]
 [ext_resource type="Texture2D" uid="uid://ceeya64bavuyw" path="res://graphics/Whale/SpaceWhale/whale26.png" id="66_wvlrk"]
@@ -82,6 +83,9 @@
 [ext_resource type="Texture2D" uid="uid://kvh4c26ge8pg" path="res://graphics/Whale/SpaceWhale/whale37.png" id="77_f5chs"]
 [ext_resource type="Texture2D" uid="uid://uh1sww684323" path="res://graphics/Whale/SpaceWhale/whale38.png" id="78_eh25q"]
 [ext_resource type="Texture2D" uid="uid://c6eqvhvppcl52" path="res://graphics/Whale/SpaceWhale/whale39.png" id="79_joh2r"]
+[ext_resource type="AudioStream" uid="uid://c23whljwxmg1" path="res://sfx/squirrelaudio.ogg" id="81_b6ruc"]
+[ext_resource type="AudioStream" uid="uid://p0x26axjfwjg" path="res://sfx/tonelo.ogg" id="85_vtx2l"]
+[ext_resource type="AudioStream" uid="uid://b2tf7j5pqw5go" path="res://sfx/tonehi.ogg" id="86_63lxy"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_c6pm6"]
 animations = [{
@@ -646,6 +650,11 @@ autoplay = "default"
 frame = 29
 frame_progress = 0.94517195
 
+[node name="WhaleAudio" type="AudioStreamPlayer2D" parent="." unique_id=1295496771]
+stream = ExtResource("63_11yus")
+volume_db = 5.021
+bus = &"SFX"
+
 [node name="Sand_Ate" type="Label" parent="." unique_id=1450036184]
 offset_left = 5.0
 offset_top = 5.0
@@ -655,7 +664,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 20
-text = "Sand Ate: 104026.0 oz"
+text = "Sand Ate: 0.0 oz"
 
 [node name="Sand_Dollar" type="Label" parent="." unique_id=1698664243]
 offset_left = 5.0
@@ -666,7 +675,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 20
-text = "Sand Dollars: $104026.0"
+text = "Sand Dollars: $0.0"
 
 [node name="Sand_Mult" type="Label" parent="." unique_id=327834747]
 offset_left = 5.0
@@ -894,6 +903,11 @@ stream = ExtResource("36_kmb1v")
 volume_db = -5.0
 bus = &"SFX"
 
+[node name="SquirrelAudio" type="AudioStreamPlayer2D" parent="." unique_id=1077993681]
+stream = ExtResource("81_b6ruc")
+volume_db = 5.021
+bus = &"SFX"
+
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=950466732]
 
 [node name="ControlContainer" type="Control" parent="CanvasLayer" unique_id=364038989]
@@ -963,6 +977,16 @@ offset_bottom = 360.0
 
 [node name="Music2" type="AudioStreamPlayer" parent="." unique_id=1435653674]
 bus = &"Music"
+
+[node name="negtone" type="AudioStreamPlayer2D" parent="." unique_id=1959509861]
+stream = ExtResource("85_vtx2l")
+volume_db = 5.021
+bus = &"SFX"
+
+[node name="postone" type="AudioStreamPlayer2D" parent="." unique_id=1736790808]
+stream = ExtResource("86_63lxy")
+volume_db = 5.021
+bus = &"SFX"
 
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/SpoonButton" to="." method="_on_spoon_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/TrowlButton" to="." method="_on_trowl_button_pressed"]
