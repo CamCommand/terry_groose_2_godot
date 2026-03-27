@@ -16,6 +16,7 @@ var next_input: bool = false
 var coin_scene: PackedScene = load("res://scenes/horse_coin.tscn")
 var golem_scene: PackedScene = load("res://scenes/golem_2d.tscn")
 var shrimp_scene: PackedScene = load("res://scenes/space_shrimp.tscn")
+var worm_scene: PackedScene = load("res://scenes/space_worm.tscn")
 @onready var bad_audio: AudioStreamPlayer2D = $negtone
 @onready var good_audio: AudioStreamPlayer2D = $postone
 
@@ -86,6 +87,11 @@ var qte1 = QTE_var.instantiate()
 @export var SpaceSquirrelGambleCost: float = 100000
 @export var SpaceSquirrelGamble: float
 @onready var squirrel_audio: AudioStreamPlayer2D = $SquirrelAudio
+
+@export var Worm_Spawn_Time: float
+@export var Worm_Sand_Eat: int = 2500000
+@export var SpaceWormCheck: bool
+@export var SpaceWormUpgradeCost: float = 5000000
 
 var keyList = [
 	{"keyString": "C", "keyCode": KEY_C},
@@ -1139,6 +1145,7 @@ func _on_squirrel_timer_timeout() -> void:
 			
 		if $ScrollContainer/VBoxContainer/SquirrelButton.disabled == false:	
 			$ScrollContainer/VBoxContainer/SquirrelButton.tooltip_text = "Randomly increase or decrease your Space Sand"
+
 func _on_coin_timer_timeout() -> void:
 	# random coin drop time
 	#var coin_drop:= RandomNumberGenerator.new()
@@ -1147,7 +1154,7 @@ func _on_coin_timer_timeout() -> void:
 	#Coin_Spawn_Time = randf_range(1, 2)
 	
 	#horse coins stop spawning in space
-	if !$Background.frame == 1:
+	if $Background.frame == 0:
 		Coin_Spawn_Time = randf_range(5, 8)
 		#Coin_Spawn_Time = randf_range(100.05, 400.01)
 		$CoinTimer.wait_time = Coin_Spawn_Time
@@ -1155,6 +1162,51 @@ func _on_coin_timer_timeout() -> void:
 		#adds it below Terry to put behind pause menu
 		var coin = coin_scene.instantiate()
 		$StaticBody2D2.add_child(coin)
+
+# worm spawn timer
+func _on_worm_timer_timeout() -> void:
+	# spawns worms randomly
+	Worm_Spawn_Time = randf_range(5, 8)
+	$WormTimer.wait_time = Worm_Spawn_Time
+	
+	var worm = worm_scene.instantiate()
+	$StaticBody2D2.add_child(worm)
+	
+func _on_worm_button_pressed() -> void:
+	if !listItems.has("SpaceWorms"):
+		listItems.append("SpaceWorm")
+		SpaceWormCheck = true
+		get_node("WormTimer").start()
+		
+	#further testing, maybe include upgrade limit
+	#further test to bets reflect upgrade costs and space sand values
+	Space_Sand -= SpaceWormUpgradeCost
+	SpaceWormUpgradeCost *= 1.5
+	Worm_Sand_Eat += Worm_Sand_Eat
+	$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
+	$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
+	
+# worm button timer
+func _on_worm_timer_2_timeout() -> void:
+	if SpaceWormCheck == true && SpaceWormUpgradeCost <= Space_Sand:
+		$ScrollContainer/VBoxContainer/WormButton.text = "Improve Potency" + "\n" + "of Space Worm" + "\n" + NumberFormatter.format_clicker_number(SpaceWormUpgradeCost, 5)
+		$ScrollContainer/VBoxContainer/WormButton.disabled = false
+		$ScrollContainer/VBoxContainer/WormButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
+	elif SpaceWormCheck == true && SpaceWormUpgradeCost > Space_Sand:
+		$ScrollContainer/VBoxContainer/WormButton.text = "Improve Potency" + "\n" + "of Space Worm" + "\n" + NumberFormatter.format_clicker_number(SpaceWormUpgradeCost, 5)
+		$ScrollContainer/VBoxContainer/WormButton.disabled = true
+		$ScrollContainer/VBoxContainer/WormButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
+	elif SpaceWormCheck == false && SpaceWormUpgradeCost <= Space_Sand:
+		$ScrollContainer/VBoxContainer/WormButton.text = "Catch A" + "\n" + "Space Worm" + "\n" + NumberFormatter.format_clicker_number(SpaceWormUpgradeCost, 5)
+		$ScrollContainer/VBoxContainer/WormButton.disabled = false
+		$ScrollContainer/VBoxContainer/WormButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
+	elif SpaceWormCheck == false && SpaceWormUpgradeCost > Space_Sand:
+		$ScrollContainer/VBoxContainer/WormButton.text = "Buy ???" + "\n" + "???"
+		$ScrollContainer/VBoxContainer/WormButton.disabled = true
+		$ScrollContainer/VBoxContainer/WormButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
+		
+	#if $ScrollContainer/VBoxContainer/SquirrelButton.disabled == false:	
+		#$ScrollContainer/VBoxContainer/SquirrelButton.tooltip_text = "Randomly increase or decrease your Space Sand"
 
 func _on_horse_timer_timeout() -> void:
 	#horse only triggers on Earth
@@ -1229,8 +1281,11 @@ func start_timers():
 		get_node("ShrimpTimer").start()
 		get_node("WhaleTimer").start()
 		get_node("SquirrelTimer").start()
+		get_node("WormTimer2").start()
 		if listItems.has("SpaceCat"):
 			get_node("CatQTETimer").start()
+		if listItems.has("SpaceWorm"):
+			get_node("WormTimer").start()
 
 func _on_auto_save_timer_timeout() -> void:
 	#print("Game saved teehee")
@@ -1255,7 +1310,7 @@ func _on_auto_save_timer_timeout() -> void:
 			Sand = 0
 			#stop and start the correct timers as scene transitions
 			start_timers()
-			$Sand_Mult.text = "Consumption Rate: 0X"
+			$Sand_Mult.text = "Consumption Rate: 0×"
 			$Space_Sand_Ate.text = "[rainbow freq=1.0 sat=0.8 val=0.8 speed=1.0][wave]Space Sand: 0"
 			$Space_Sand_Ate.visible = true
 

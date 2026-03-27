@@ -611,6 +611,10 @@ CLSUpgradeCost = 100000.0
 DozerUpgradeCost = 1000000.0
 GolemUpgradeCost = 35000000.0
 SpaceWhaleSum = 0.0
+Worm_Spawn_Time = null
+Worm_Sand_Eat = null
+SpaceWormCheck = null
+SpaceWormUpgradeCost = null
 
 [node name="Background" type="AnimatedSprite2D" parent="." unique_id=1658395375]
 position = Vector2(960.50006, 360)
@@ -784,6 +788,12 @@ disabled = true
 text = "Buy ???
 ???"
 
+[node name="WormButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=136997906]
+layout_mode = 2
+disabled = true
+text = "Buy ???
+???"
+
 [node name="ButtonClickSFX" type="AudioStreamPlayer2D" parent="ScrollContainer/VBoxContainer" unique_id=1411028935]
 stream = ExtResource("21_fv21b")
 volume_db = -15.0
@@ -839,6 +849,13 @@ wait_time = 0.25
 
 [node name="SquirrelTimer" type="Timer" parent="." unique_id=1699131954]
 wait_time = 0.25
+
+[node name="WormTimer" type="Timer" parent="." unique_id=637608788]
+wait_time = 5.0
+
+[node name="WormTimer2" type="Timer" parent="." unique_id=88173728]
+wait_time = 0.25
+autostart = true
 
 [node name="AutoSaveTimer" type="Timer" parent="." unique_id=1935225833]
 wait_time = 2.5
@@ -999,6 +1016,7 @@ bus = &"SFX"
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/ShrimpButton" to="." method="_on_shrimp_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/WhaleButton" to="." method="_on_whale_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/SquirrelButton" to="." method="_on_squirrel_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/WormButton" to="." method="_on_worm_button_pressed"]
 [connection signal="timeout" from="SpoonTimer" to="." method="_on_spoon_timer_timeout"]
 [connection signal="timeout" from="TrowlTimer" to="." method="_on_trowl_timer_timeout"]
 [connection signal="timeout" from="PanTimer" to="." method="_on_pan_timer_timeout"]
@@ -1013,6 +1031,8 @@ bus = &"SFX"
 [connection signal="timeout" from="ShrimpTimer" to="." method="_on_shrimp_timer_timeout"]
 [connection signal="timeout" from="WhaleTimer" to="." method="_on_whale_timer_timeout"]
 [connection signal="timeout" from="SquirrelTimer" to="." method="_on_squirrel_timer_timeout"]
+[connection signal="timeout" from="WormTimer" to="." method="_on_worm_timer_timeout"]
+[connection signal="timeout" from="WormTimer2" to="." method="_on_worm_timer_2_timeout"]
 [connection signal="timeout" from="AutoSaveTimer" to="." method="_on_auto_save_timer_timeout"]
 [connection signal="pressed" from="Cheat" to="." method="_on_cheat_pressed"]
 [connection signal="pressed" from="SpaceCheat" to="." method="_on_space_cheat_pressed"]
