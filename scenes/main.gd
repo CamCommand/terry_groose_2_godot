@@ -17,6 +17,8 @@ var coin_scene: PackedScene = load("res://scenes/horse_coin.tscn")
 var golem_scene: PackedScene = load("res://scenes/golem_2d.tscn")
 var shrimp_scene: PackedScene = load("res://scenes/space_shrimp.tscn")
 var worm_scene: PackedScene = load("res://scenes/space_worm.tscn")
+var earned_points: PackedScene = load("res://scenes/points.tscn")
+
 @onready var bad_audio: AudioStreamPlayer2D = $negtone
 @onready var good_audio: AudioStreamPlayer2D = $postone
 
@@ -84,14 +86,14 @@ var qte1 = QTE_var.instantiate()
 @onready var whale_audio: AudioStreamPlayer2D = $WhaleAudio
 
 @export var SpaceSquirrelCheck: bool
-@export var SpaceSquirrelGambleCost: float = 100000
+@export var SpaceSquirrelGambleCost: float = 100000000
 @export var SpaceSquirrelGamble: float
 @onready var squirrel_audio: AudioStreamPlayer2D = $SquirrelAudio
 
 @export var Worm_Spawn_Time: float
-@export var Worm_Sand_Eat: int = 2500000
+@export var Worm_Sand_Eat: int = 250000000
 @export var SpaceWormCheck: bool
-@export var SpaceWormUpgradeCost: float = 5000000
+@export var SpaceWormUpgradeCost: float = 500000000
 
 var keyList = [
 	{"keyString": "C", "keyCode": KEY_C},
@@ -1023,6 +1025,9 @@ func _on_shrimp_button_pressed() -> void:
 	# this line keeps it in the save (not position tho but who cares rn)
 	shrimpin.owner = get_tree().current_scene
 	shrimpin.play_shrimp_sfx() #play sfx
+	Space_Sand -= SpaceShrimpUpgradeCost
+	$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
+	$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
 	SpaceShrimpCounter += 1
 	SpaceShrimpUpgradeCost *= 2.5
 	
@@ -1030,7 +1035,7 @@ func _on_shrimp_timer_timeout() -> void:
 	#space shrimp button update
 	if space_check == true:
 		if Space_Sand < SpaceShrimpUpgradeCost && SpaceShrimpUpgradeCost == 50000:
-			$ScrollContainer/VBoxContainer/ShrimpButton.text = "Buy ???" + "\n" + "???"
+			$ScrollContainer/VBoxContainer/ShrimpButton.text = "Buy ???" + "\n" + NumberFormatter.format_clicker_number(SpaceShrimpUpgradeCost, 5)
 			$ScrollContainer/VBoxContainer/ShrimpButton.disabled = true
 			$ScrollContainer/VBoxContainer/ShrimpButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
 		elif Space_Sand >= SpaceShrimpUpgradeCost:
@@ -1108,9 +1113,9 @@ func _on_squirrel_button_pressed() -> void:
 	#gamble with how much you gain or lose
 	else:
 		Space_Sand -= SpaceSquirrelGambleCost
-		SpaceSquirrelGambleCost += 100000
+		SpaceSquirrelGambleCost += 100000000
 		SpaceSquirrelGamble = randf_range(0.01, 1.99)
-		print(str(SpaceSquirrelGamble))
+		#print(str(SpaceSquirrelGamble))
 		Space_Sand *= SpaceSquirrelGamble
 	
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
@@ -1123,6 +1128,13 @@ func _on_squirrel_button_pressed() -> void:
 		else:
 			bad_audio.play()
 			trigger_glow($DozerSprite, Color(1, 0, 0))
+	
+	#spawn multiplcation		
+	var pts = earned_points.instantiate()
+	pts.text = "x" + NumberFormatter.format_clicker_number(SpaceSquirrelGamble, 5)
+	pts.global_position.x = $DozerSprite.global_position.x 
+	pts.global_position.y = $DozerSprite.global_position.y -150
+	add_child(pts)
 	
 func _on_squirrel_timer_timeout() -> void:
 	if space_check == true:
@@ -1139,7 +1151,7 @@ func _on_squirrel_timer_timeout() -> void:
 			$ScrollContainer/VBoxContainer/SquirrelButton.disabled = false
 			$ScrollContainer/VBoxContainer/SquirrelButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
 		elif SpaceSquirrelCheck == false && SpaceSquirrelGambleCost > Space_Sand:
-			$ScrollContainer/VBoxContainer/SquirrelButton.text = "Buy ???" + "\n" + "???"
+			$ScrollContainer/VBoxContainer/SquirrelButton.text = "Buy ???" + "\n" + NumberFormatter.format_clicker_number(SpaceSquirrelGambleCost, 5)
 			$ScrollContainer/VBoxContainer/SquirrelButton.disabled = true
 			$ScrollContainer/VBoxContainer/SquirrelButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
 			
@@ -1173,6 +1185,8 @@ func _on_worm_timer_timeout() -> void:
 	$StaticBody2D2.add_child(worm)
 	
 func _on_worm_button_pressed() -> void:
+	button_click_sfx.play()
+	
 	if !listItems.has("SpaceWorms"):
 		listItems.append("SpaceWorm")
 		SpaceWormCheck = true
@@ -1201,12 +1215,12 @@ func _on_worm_timer_2_timeout() -> void:
 		$ScrollContainer/VBoxContainer/WormButton.disabled = false
 		$ScrollContainer/VBoxContainer/WormButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
 	elif SpaceWormCheck == false && SpaceWormUpgradeCost > Space_Sand:
-		$ScrollContainer/VBoxContainer/WormButton.text = "Buy ???" + "\n" + "???"
+		$ScrollContainer/VBoxContainer/WormButton.text = "Buy ???" + "\n" + NumberFormatter.format_clicker_number(SpaceWormUpgradeCost, 5)
 		$ScrollContainer/VBoxContainer/WormButton.disabled = true
 		$ScrollContainer/VBoxContainer/WormButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
 		
-	#if $ScrollContainer/VBoxContainer/SquirrelButton.disabled == false:	
-		#$ScrollContainer/VBoxContainer/SquirrelButton.tooltip_text = "Randomly increase or decrease your Space Sand"
+	if $ScrollContainer/VBoxContainer/WormButton.disabled == false:	
+		$ScrollContainer/VBoxContainer/WormButton.tooltip_text = "Increase amount of Space Sand the Space Worm drops"
 
 func _on_horse_timer_timeout() -> void:
 	#horse only triggers on Earth

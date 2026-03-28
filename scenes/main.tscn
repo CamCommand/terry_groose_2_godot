@@ -611,10 +611,9 @@ CLSUpgradeCost = 100000.0
 DozerUpgradeCost = 1000000.0
 GolemUpgradeCost = 35000000.0
 SpaceWhaleSum = 0.0
-Worm_Spawn_Time = null
-Worm_Sand_Eat = null
-SpaceWormCheck = null
-SpaceWormUpgradeCost = null
+SpaceSquirrelGambleCost = 100000.0
+Worm_Sand_Eat = 2500000
+SpaceWormUpgradeCost = 5000000.0
 
 [node name="Background" type="AnimatedSprite2D" parent="." unique_id=1658395375]
 position = Vector2(960.50006, 360)

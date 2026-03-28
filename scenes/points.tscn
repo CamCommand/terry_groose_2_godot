@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://5yiqxb3gl8ik"]
+
+[ext_resource type="Script" uid="uid://ckj774oyfwfdq" path="res://scenes/points.gd" id="1_qq43p"]
+
+[node name="Points" type="Label" unique_id=504574518]
+text = "000"
+script = ExtResource("1_qq43p")
