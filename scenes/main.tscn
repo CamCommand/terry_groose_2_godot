@@ -261,6 +261,9 @@ animations = [{
 "speed": 45.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vtx2l"]
+size = Vector2(615.0755, 473.5537)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_5poiv"]
 animations = [{
 "frames": [{
@@ -639,6 +642,23 @@ frame = 42
 speed_scale = 0.5
 metadata/_edit_lock_ = true
 
+[node name="HorseCol" type="Area2D" parent="AnimatedHorseSprite" unique_id=1156390362]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedHorseSprite/HorseCol" unique_id=2064550622]
+position = Vector2(7.236206, 138.06616)
+shape = SubResource("RectangleShape2D_vtx2l")
+debug_color = Color(0.56079715, 0.53889304, 0.43091157, 0.41960785)
+
+[node name="HorseLabel" type="Label" parent="AnimatedHorseSprite/HorseCol/CollisionShape2D" unique_id=487324875]
+visible = false
+offset_left = 191.75877
+offset_top = -304.06818
+offset_right = 274.9748
+offset_bottom = -239.3902
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 60
+text = "000"
+
 [node name="Night" parent="." unique_id=117235679 instance=ExtResource("20_y6deb")]
 position = Vector2(641, 360.00003)
 scale = Vector2(1.501, 1.501)
@@ -829,11 +849,11 @@ wait_time = 0.25
 wait_time = 3.0
 
 [node name="CoinTimer" type="Timer" parent="." unique_id=2022307423]
-wait_time = 5.0
+wait_time = 55.0
 autostart = true
 
 [node name="HorseTimer" type="Timer" parent="." unique_id=1290690363]
-wait_time = 0.25
+wait_time = 0.5
 autostart = true
 
 [node name="GolemTimer" type="Timer" parent="." unique_id=1426424652]
@@ -949,25 +969,25 @@ volume_db = -5.0
 bus = &"SFX"
 
 [node name="Cheat" type="Button" parent="." unique_id=1691847081]
-offset_left = 17.0
-offset_top = 177.0
-offset_right = 119.0
-offset_bottom = 212.0
+offset_left = 15.0
+offset_top = 180.0
+offset_right = 117.0
+offset_bottom = 215.0
 theme_override_colors/icon_normal_color = Color(1, 0, 1, 1)
 text = "$$$"
 
 [node name="SpaceCheat" type="Button" parent="." unique_id=477705064]
-offset_left = 18.0
-offset_top = 224.0
-offset_right = 115.0
-offset_bottom = 257.0
+offset_left = 15.0
+offset_top = 229.0
+offset_right = 112.0
+offset_bottom = 262.0
 text = "Space"
 
 [node name="SpaceCheat2" type="Button" parent="." unique_id=1935229592]
-offset_left = 21.0
-offset_top = 269.0
-offset_right = 118.0
-offset_bottom = 323.0
+offset_left = 15.0
+offset_top = 290.0
+offset_right = 112.0
+offset_bottom = 344.0
 text = "Space Sand
 Cheat"
 
@@ -1004,6 +1024,8 @@ stream = ExtResource("86_63lxy")
 volume_db = 5.021
 bus = &"SFX"
 
+[connection signal="mouse_entered" from="AnimatedHorseSprite/HorseCol" to="." method="_on_horse_col_mouse_entered"]
+[connection signal="mouse_exited" from="AnimatedHorseSprite/HorseCol" to="." method="_on_horse_col_mouse_exited"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/SpoonButton" to="." method="_on_spoon_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/TrowlButton" to="." method="_on_trowl_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/PanButton" to="." method="_on_pan_button_pressed"]

@@ -226,6 +226,7 @@ func _process(delta: float) -> void:
 	
 	if terry_play:
 		terry_play.set_moving(moving)
+		
 	# very common way I'll display text on screen
 	if $Sand_Ate.text == "":
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
@@ -233,7 +234,7 @@ func _process(delta: float) -> void:
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 		
 	# Terry cheat
-	auto_input()
+	#auto_input()
 	
 	if Input.is_action_just_pressed("left") && next_input == false:
 		Sand_Total += Sand
@@ -243,6 +244,14 @@ func _process(delta: float) -> void:
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 		
 		next_input = true
+					
+		#spawn multiplcation		
+		#var pts = earned_points.instantiate()
+		#pts.text = "+" + NumberFormatter.format_clicker_number(Sand, 5)
+		#pts.global_position.x = 439.0
+		#pts.global_position.y = 642.07
+		#pts.rotation = 25
+		#add_child(pts)
 	
 	if Input.is_action_just_pressed("right") && next_input == true:
 		Sand_Total += Sand
@@ -252,6 +261,14 @@ func _process(delta: float) -> void:
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 		
 		next_input = false
+		
+		#spawn multiplcation		
+		#var pts = earned_points.instantiate()
+		#pts.text = "+" + NumberFormatter.format_clicker_number(Sand, 5)
+		#pts.global_position.x = 732.0
+		#pts.global_position.y = 642.07
+		#pts.rotation = 44.25
+		#add_child(pts)
 			
 func _on_spoon_timer_timeout() -> void:
 	# checking and setting Spoon Button conditions
@@ -330,8 +347,8 @@ func _on_spoon_button_pressed() -> void:
 		SpoonCounter += 1
 		$ScrollContainer/VBoxContainer/SpoonButton.text = "Upgrade" + "\n" + " Super Spoon " + "\n" + NumberFormatter.format_clicker_number(SpoonUpgradeCost, 5)
 
-	if Sand_Total >= 100 && SpoonCheck == false && SuperSpoonCheck == false:
-		Sand_Total -= 100
+	if Sand_Total >= SpoonUpgradeCost && SpoonCheck == false && SuperSpoonCheck == false:
+		Sand_Total -= SpoonUpgradeCost
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 		
@@ -526,8 +543,8 @@ func _on_pan_button_pressed() -> void:
 		PanCounter += 1
 		$ScrollContainer/VBoxContainer/PanButton.text = "Upgrade " + "\n" + "Super Pan " + "\n" + NumberFormatter.format_clicker_number(PanUpgradeCost, 5)
 
-	if Sand_Total >= 3000 && PanCheck == false && SuperPanCheck == false:
-		Sand_Total -= 3000
+	if Sand_Total >= PanUpgradeCost && PanCheck == false && SuperPanCheck == false:
+		Sand_Total -= PanUpgradeCost
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 		
@@ -626,8 +643,8 @@ func _on_shovel_button_pressed() -> void:
 		ShovelCounter += 1
 		$ScrollContainer/VBoxContainer/ShovelButton.text = "Upgrade " + "\n" + "Super Shovel " + "\n" + NumberFormatter.format_clicker_number(ShovelUpgradeCost, 5)
 
-	if Sand_Total >= 10000 && ShovelCheck == false && SuperShovelCheck == false:
-		Sand_Total -= 10000
+	if Sand_Total >= ShovelUpgradeCost && ShovelCheck == false && SuperShovelCheck == false:
+		Sand_Total -= ShovelUpgradeCost
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 		
@@ -724,8 +741,8 @@ func _on_cls_button_pressed() -> void:
 		CLSCounter += 1
 		$ScrollContainer/VBoxContainer/CLSButton.text = "Upgrade Funnier " + "\n" + "Comically Large" + "\n" + " SPOON " + "\n" + NumberFormatter.format_clicker_number(CLSUpgradeCost, 5)
 
-	if Sand_Total >= 500000 && CLSCheck == false && FCLSCheck == false:
-		Sand_Total -= 500000
+	if Sand_Total >= CLSUpgradeCost && CLSCheck == false && FCLSCheck == false:
+		Sand_Total -= CLSUpgradeCost
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 		
@@ -1167,7 +1184,8 @@ func _on_coin_timer_timeout() -> void:
 	
 	#horse coins stop spawning in space
 	if $Background.frame == 0:
-		Coin_Spawn_Time = randf_range(5, 8)
+		#Coin_Spawn_Time = randf_range(5, 8)
+		Coin_Spawn_Time = randf_range(55, 256)
 		#Coin_Spawn_Time = randf_range(100.05, 400.01)
 		$CoinTimer.wait_time = Coin_Spawn_Time
 	
@@ -1240,8 +1258,7 @@ func _on_horse_timer_timeout() -> void:
 func _on_cheat_pressed() -> void:
 	Sand_Total += 9223372036854775807
 	Sand_Total_Eaten += 9223372036854775807
-	auto_input()
-	
+		
 func _on_space_cheat_pressed() -> void:
 	space_check = false
 	SuperSpoonCheck = true
@@ -1269,7 +1286,7 @@ func stop_act1_timers():
 # loading save stops timers for some reason
 func start_timers():
 	get_node("AutoSaveTimer").autostart = true
-	
+	Coin_Spawn_Time = randf_range(55, 256)
 	if space_check == false:
 		get_node("CoinTimer").autostart = true
 		get_node("HorseTimer").autostart = true
@@ -1401,3 +1418,11 @@ func trigger_glow(sprite: AnimatedSprite2D, color: Color, strength: float = 75.5
 		0.0,
 		duration
 	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+
+func _on_horse_col_mouse_entered() -> void:
+	$AnimatedHorseSprite/HorseCol/CollisionShape2D/HorseLabel.visible = true
+	$AnimatedHorseSprite/HorseCol/CollisionShape2D/HorseLabel.text = str(Horse_Sand_Eat)
+
+func _on_horse_col_mouse_exited() -> void:
+	$AnimatedHorseSprite/HorseCol/CollisionShape2D/HorseLabel.visible = false
