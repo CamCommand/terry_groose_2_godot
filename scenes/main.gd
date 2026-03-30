@@ -376,7 +376,7 @@ func _on_spoon_button_mouse_entered() -> void:
 	if $ScrollContainer/VBoxContainer/SpoonButton.disabled == false:#play sfx if button is operable
 		button_hover_sfx.play()
 	#hover tips for specific button upgrades (hardcoded for sanity)
-	if SuperSpoonCheck == false && SpoonCounter != 11:
+	if SpoonCheck == false && SpoonCounter != 11 && SuperSpoonCheck == false:
 		$ScrollContainer/VBoxContainer/SpoonButton.tooltip_text = "Multiply Consumption rate by " + "1.1"
 	elif SuperSpoonCheck == false && SpoonCounter == 11:
 		$ScrollContainer/VBoxContainer/SpoonButton.tooltip_text = "Multiply Consumption rate by " + "1.3"
@@ -488,7 +488,7 @@ func _on_trowl_button_mouse_entered() -> void:
 	if $ScrollContainer/VBoxContainer/TrowlButton.disabled == false:#play sfx if button is operable
 		button_hover_sfx.play()
 	#hover tips for specific button upgrades (hardcoded for sanity)
-	if SuperTrowlCheck == false && TrowlCounter != 11:
+	if TrowlCheck == false && TrowlCounter != 11 && SuperTrowlCheck == false:
 		$ScrollContainer/VBoxContainer/TrowlButton.tooltip_text = "Multiply Consumption rate by " + "1.2"
 	elif SuperTrowlCheck == false && TrowlCounter == 11:
 		$ScrollContainer/VBoxContainer/TrowlButton.tooltip_text = "Multiply Consumption rate by " + "1.4"
@@ -600,8 +600,8 @@ func _on_pan_button_mouse_entered() -> void:
 	if $ScrollContainer/VBoxContainer/PanButton.disabled == false:#play sfx if button is operable
 		button_hover_sfx.play()
 	#hover tips for specific button upgrades (hardcoded for sanity)
-	if SuperPanCheck == false && PanCounter != 11:
-		$ScrollContainer/VBoxContainer/PanButton.tooltip_text = "Multiply Consumption rate by " + "1.25"
+	if PanCheck == false && PanCounter != 11 && SuperPanCheck == false:
+		$ScrollContainer/VBoxContainer/PanButton.tooltip_text = "Multiply Consumption rate by " + "1.3"
 	elif SuperPanCheck == false && PanCounter == 11:
 		$ScrollContainer/VBoxContainer/PanButton.tooltip_text = "Multiply Consumption rate by " + "1.6"
 		
@@ -714,7 +714,7 @@ func _on_shovel_button_mouse_entered() -> void:
 	if $ScrollContainer/VBoxContainer/ShovelButton.disabled == false:#play sfx if button is operable
 		button_hover_sfx.play()
 	#hover tips for specific button upgrades (hardcoded for sanity)
-	if SuperShovelCheck == false && ShovelCounter != 11:
+	if ShovelCheck == false && ShovelCounter != 11 && SuperShovelCheck == false:
 		$ScrollContainer/VBoxContainer/ShovelButton.tooltip_text = "Multiply Consumption rate by " + "1.5"
 	elif SuperShovelCheck == false && ShovelCounter == 11:
 		$ScrollContainer/VBoxContainer/ShovelButton.tooltip_text = "Multiply Consumption rate by " + "1.8"
@@ -825,9 +825,9 @@ func _on_cls_button_mouse_entered() -> void:
 	if $ScrollContainer/VBoxContainer/CLSButton.disabled == false:#play sfx if button is operable
 		button_hover_sfx.play()
 	#hover tips for specific button upgrades (hardcoded for sanity)
-	if CLSCheck == false && CLSCounter != 11:
+	if CLSCheck == false && CLSCounter != 11 && FCLSCheck == false:
 		$ScrollContainer/VBoxContainer/CLSButton.tooltip_text = "Multiply Consumption rate by " + "1.75"
-	elif CLSCheck == false && CLSCounter == 11:
+	elif FCLSCheck == false && CLSCounter == 11:
 		$ScrollContainer/VBoxContainer/CLSButton.tooltip_text = "Multiply Consumption rate by " + "1.85"
 		
 	if CLSCheck == true && CLSCounter > 11:
@@ -939,9 +939,9 @@ func _on_dozer_button_mouse_entered() -> void:
 	if $ScrollContainer/VBoxContainer/DozerButton.disabled == false:#play sfx if button is operable
 		button_hover_sfx.play()
 	#hover tips for specific button upgrades (hardcoded for sanity)
-	if DozerCheck == false && DozerCounter != 11:
+	if DozerCheck == false && DozerCounter != 11 && BiggerDozerCheck == false:
 		$ScrollContainer/VBoxContainer/DozerButton.tooltip_text = "Multiply Consumption rate by " + "2"
-	elif DozerCheck == false && DozerCounter == 11:
+	elif BiggerDozerCheck == false && DozerCounter == 11:
 		$ScrollContainer/VBoxContainer/DozerButton.tooltip_text = "Multiply Consumption rate by " + "2.5"
 		
 	if DozerCheck == true && DozerCounter > 11:
@@ -1041,7 +1041,21 @@ func _on_golem_buton_pressed() -> void:
 		$ScrollContainer/VBoxContainer/GolemButton.text = "Upgrade Golem " + "\n" + NumberFormatter.format_clicker_number(GolemUpgradeCost, 5)
 		
 	$Sand_Mult.text = NumberFormatter.format_clicker_number(Sand, 3)
-
+#golem tooltips
+func _on_golem_button_mouse_entered() -> void:
+	if $ScrollContainer/VBoxContainer/GolemButton.disabled == false:#play sfx if button is operable
+		button_hover_sfx.play()
+	#hover tips for specific button upgrades (hardcoded for sanity)
+	if GolemCheck == false && GolemCounter != 5:
+		$ScrollContainer/VBoxContainer/GolemButton.tooltip_text = "Multiply Consumption rate by " + "1.5"
+	elif HelperGolemCheck == false && GolemCounter == 5:
+		$ScrollContainer/VBoxContainer/GolemButton.tooltip_text = "Have Golems collect sand for you"
+		
+	if HelperGolemCheck == true && GolemCounter > 5:
+		$ScrollContainer/VBoxContainer/GolemButton.tooltip_text = "Increase rate of Helper Golems"
+		if GolemCounter >= 26:
+			$ScrollContainer/VBoxContainer/GolemButton.tooltip_text = ""
+	
 func _on_cat_button_pressed() -> void:
 	#Space Cat will have quick time events that 2x your Space Sand total each time
 	get_node("CatQTETimer").start()
@@ -1342,6 +1356,13 @@ func _on_horse_timer_timeout() -> void:
 		Sand_Total += GolemCounter * Sand
 		Sand_Total_Eaten += GolemCounter * Sand
 
+func _on_horse_col_mouse_entered() -> void:
+	$AnimatedHorseSprite/HorseCol/CollisionShape2D/HorseLabel.visible = true
+	$AnimatedHorseSprite/HorseCol/CollisionShape2D/HorseLabel.text = str(Horse_Sand_Eat)
+
+func _on_horse_col_mouse_exited() -> void:
+	$AnimatedHorseSprite/HorseCol/CollisionShape2D/HorseLabel.visible = false
+
 func _on_cheat_pressed() -> void:
 	Sand_Total += 9223372036854775807
 	Sand_Total_Eaten += 9223372036854775807
@@ -1505,11 +1526,3 @@ func trigger_glow(sprite: AnimatedSprite2D, color: Color, strength: float = 75.5
 		0.0,
 		duration
 	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-
-
-func _on_horse_col_mouse_entered() -> void:
-	$AnimatedHorseSprite/HorseCol/CollisionShape2D/HorseLabel.visible = true
-	$AnimatedHorseSprite/HorseCol/CollisionShape2D/HorseLabel.text = str(Horse_Sand_Eat)
-
-func _on_horse_col_mouse_exited() -> void:
-	$AnimatedHorseSprite/HorseCol/CollisionShape2D/HorseLabel.visible = false

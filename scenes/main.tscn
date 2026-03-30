@@ -1043,6 +1043,7 @@ bus = &"SFX"
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/CLSButton" to="." method="_on_cls_button_pressed"]
 [connection signal="mouse_entered" from="ScrollContainer/VBoxContainer/DozerButton" to="." method="_on_dozer_button_mouse_entered"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/DozerButton" to="." method="_on_dozer_button_pressed"]
+[connection signal="mouse_entered" from="ScrollContainer/VBoxContainer/GolemButton" to="." method="_on_golem_button_mouse_entered"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/GolemButton" to="." method="_on_golem_buton_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/CatButton" to="." method="_on_cat_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/ShrimpButton" to="." method="_on_shrimp_button_pressed"]
