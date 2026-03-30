@@ -67,6 +67,7 @@
 [ext_resource type="Texture2D" uid="uid://cbfuxnyromvrf" path="res://graphics/Whale/SpaceWhale/whale22.png" id="62_73205"]
 [ext_resource type="Texture2D" uid="uid://co3yrwgqmjbnr" path="res://graphics/Whale/SpaceWhale/whale23.png" id="63_0tljd"]
 [ext_resource type="AudioStream" uid="uid://d3o1my7el05rp" path="res://sfx/spacewhale.ogg" id="63_11yus"]
+[ext_resource type="AudioStream" uid="uid://dtnbskq10ucvg" path="res://sfx/Sand_button_hover_sfx.ogg" id="64_63lxy"]
 [ext_resource type="Texture2D" uid="uid://dtiko3nq36b6t" path="res://graphics/Whale/SpaceWhale/whale24.png" id="64_mgpkq"]
 [ext_resource type="Texture2D" uid="uid://4tll2bpgqnis" path="res://graphics/Whale/SpaceWhale/whale25.png" id="65_xmrkg"]
 [ext_resource type="Texture2D" uid="uid://ceeya64bavuyw" path="res://graphics/Whale/SpaceWhale/whale26.png" id="66_wvlrk"]
@@ -813,6 +814,11 @@ disabled = true
 text = "Buy ???
 ???"
 
+[node name="ButtonHoverSFX" type="AudioStreamPlayer2D" parent="ScrollContainer/VBoxContainer" unique_id=1440117698]
+stream = ExtResource("64_63lxy")
+volume_db = 5.961
+bus = &"SFX"
+
 [node name="ButtonClickSFX" type="AudioStreamPlayer2D" parent="ScrollContainer/VBoxContainer" unique_id=1411028935]
 stream = ExtResource("21_fv21b")
 volume_db = -15.0
@@ -874,7 +880,6 @@ wait_time = 5.0
 
 [node name="WormTimer2" type="Timer" parent="." unique_id=88173728]
 wait_time = 0.25
-autostart = true
 
 [node name="AutoSaveTimer" type="Timer" parent="." unique_id=1935225833]
 wait_time = 2.5
@@ -1026,11 +1031,17 @@ bus = &"SFX"
 
 [connection signal="mouse_entered" from="AnimatedHorseSprite/HorseCol" to="." method="_on_horse_col_mouse_entered"]
 [connection signal="mouse_exited" from="AnimatedHorseSprite/HorseCol" to="." method="_on_horse_col_mouse_exited"]
+[connection signal="mouse_entered" from="ScrollContainer/VBoxContainer/SpoonButton" to="." method="_on_spoon_button_mouse_entered"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/SpoonButton" to="." method="_on_spoon_button_pressed"]
+[connection signal="mouse_entered" from="ScrollContainer/VBoxContainer/TrowlButton" to="." method="_on_trowl_button_mouse_entered"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/TrowlButton" to="." method="_on_trowl_button_pressed"]
+[connection signal="mouse_entered" from="ScrollContainer/VBoxContainer/PanButton" to="." method="_on_pan_button_mouse_entered"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/PanButton" to="." method="_on_pan_button_pressed"]
+[connection signal="mouse_entered" from="ScrollContainer/VBoxContainer/ShovelButton" to="." method="_on_shovel_button_mouse_entered"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/ShovelButton" to="." method="_on_shovel_button_pressed"]
+[connection signal="mouse_entered" from="ScrollContainer/VBoxContainer/CLSButton" to="." method="_on_cls_button_mouse_entered"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/CLSButton" to="." method="_on_cls_button_pressed"]
+[connection signal="mouse_entered" from="ScrollContainer/VBoxContainer/DozerButton" to="." method="_on_dozer_button_mouse_entered"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/DozerButton" to="." method="_on_dozer_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/GolemButton" to="." method="_on_golem_buton_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/CatButton" to="." method="_on_cat_button_pressed"]
