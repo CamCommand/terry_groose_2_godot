@@ -1,5 +1,6 @@
 extends Control
 @onready var options: bool = false
+@onready var button_hover_sfx: AudioStreamPlayer2D = $ButtonHoverSFX
 
 func _ready() -> void:
 	$MarginContainer/VBoxContainer/ColorRect/ScrollContainer/RichTextLabel.bbcode_enabled = true
@@ -61,3 +62,18 @@ func _on_volume_slider_value_changed(value: float) -> void:
 
 func _on_sfx_volume_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), linear_to_db(value))
+	
+func play_hover_sound():
+	button_hover_sfx.play()
+
+func _on_resume_btn_mouse_entered() -> void:
+	play_hover_sound()
+
+func _on_music_mouse_entered() -> void:
+	play_hover_sound()
+
+func _on_conversion_btn_mouse_entered() -> void:
+	play_hover_sound()
+
+func _on_quit_button_mouse_entered() -> void:
+	play_hover_sound()

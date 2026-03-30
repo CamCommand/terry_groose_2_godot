@@ -776,13 +776,13 @@ text = "Buy ???
 layout_mode = 2
 disabled = true
 text = "Buy ???
-15000000"
+150000000"
 
 [node name="GolemButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=632077218]
 layout_mode = 2
 disabled = true
 text = "Buy ???
-350000000"
+5000000000"
 
 [node name="CatButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=1299608684]
 layout_mode = 2
@@ -816,7 +816,7 @@ text = "Buy ???
 
 [node name="ButtonHoverSFX" type="AudioStreamPlayer2D" parent="ScrollContainer/VBoxContainer" unique_id=1440117698]
 stream = ExtResource("64_63lxy")
-volume_db = 5.961
+volume_db = -10.0
 bus = &"SFX"
 
 [node name="ButtonClickSFX" type="AudioStreamPlayer2D" parent="ScrollContainer/VBoxContainer" unique_id=1411028935]

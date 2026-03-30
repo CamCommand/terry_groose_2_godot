@@ -13,7 +13,7 @@ var next_input: bool = false
 @export var s_label_d: String
 
 @onready var button_click_sfx: AudioStreamPlayer2D = $ScrollContainer/VBoxContainer/ButtonClickSFX
-@onready var button_hover_sfx: AudioStreamPlayer2D = $ScrollContainer/VBoxContainer/ButtonClickSFX
+@onready var button_hover_sfx: AudioStreamPlayer2D = $ScrollContainer/VBoxContainer/ButtonHoverSFX
 @onready var terry_play = $terry
 var coin_scene: PackedScene = load("res://scenes/horse_coin.tscn")
 var golem_scene: PackedScene = load("res://scenes/golem_2d.tscn")
@@ -54,13 +54,13 @@ var earned_points: PackedScene = load("res://scenes/points.tscn")
 @export var FCLSCheck: bool
 @onready var cspoon_audio: AudioStreamPlayer2D = $CSpoonAudio
 
-@export var DozerUpgradeCost: float = 15000000
+@export var DozerUpgradeCost: float = 150000000
 @export var DozerCounter: float
 @export var DozerCheck: bool
 @export var BiggerDozerCheck: bool
 @onready var dozer_audio: AudioStreamPlayer2D = $DozerAudio
 
-@export var GolemUpgradeCost: float = 350000000
+@export var GolemUpgradeCost: float = 5000000000
 @export var GolemCounter: float
 @export var GolemCheck: bool
 @export var HelperGolemCheck: bool #have golems start automatically eating sand
@@ -432,7 +432,7 @@ func _on_trowl_button_pressed() -> void:
 			TrowlUpgradeCost = TrowlUpgradeCost * 2.5
 			$ScrollContainer/VBoxContainer/TrowlButton.text = "Buy " + "\n" + "Super Trowl " + "\n" + NumberFormatter.format_clicker_number(TrowlUpgradeCost, 5)
 		else:
-			TrowlUpgradeCost = TrowlUpgradeCost + (150 * TrowlCounter)
+			TrowlUpgradeCost = TrowlUpgradeCost + (175 * TrowlCounter)
 			$ScrollContainer/VBoxContainer/TrowlButton.text = "Upgrade Trowl " +"\n" + NumberFormatter.format_clicker_number(TrowlUpgradeCost, 5)
 
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
@@ -544,7 +544,7 @@ func _on_pan_button_pressed() -> void:
 			PanUpgradeCost = PanUpgradeCost * 2.5
 			$ScrollContainer/VBoxContainer/PanButton.text = "Buy " + "\n" + "Super Pan " + "\n" + NumberFormatter.format_clicker_number(PanUpgradeCost, 5)
 		else:
-			PanUpgradeCost = PanUpgradeCost + (200 * PanCounter)
+			PanUpgradeCost = PanUpgradeCost + (215 * PanCounter)
 			$ScrollContainer/VBoxContainer/PanButton.text = "Upgrade Pan " +"\n" + NumberFormatter.format_clicker_number(PanUpgradeCost, 5)
 
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
@@ -653,10 +653,10 @@ func _on_shovel_button_pressed() -> void:
 		
 	#multiplyer for bigger upgrades
 		if ShovelCounter == 11:
-			ShovelUpgradeCost = ShovelUpgradeCost * 2.5
+			ShovelUpgradeCost = ShovelUpgradeCost * 3.0
 			$ScrollContainer/VBoxContainer/ShovelButton.text = "Buy " + "\n" + "Super Shovel " + "\n" + NumberFormatter.format_clicker_number(ShovelUpgradeCost, 5)
 		else:
-			ShovelUpgradeCost = ShovelUpgradeCost + (600 * ShovelCounter)
+			ShovelUpgradeCost = ShovelUpgradeCost + (900 * ShovelCounter)
 			$ScrollContainer/VBoxContainer/ShovelButton.text = "Upgrade Shovel " +"\n" + NumberFormatter.format_clicker_number(ShovelUpgradeCost, 5)
 
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
@@ -767,10 +767,10 @@ func _on_cls_button_pressed() -> void:
 		
 	#multiplyer for bigger upgrades
 		if CLSCounter == 11:
-			CLSUpgradeCost = CLSUpgradeCost * 2.5
+			CLSUpgradeCost = CLSUpgradeCost * 3.5
 			$ScrollContainer/VBoxContainer/CLSButton.text = "Buy Funnier " + "\n" + "Comically Large" + "\n" + " SPOON " + "\n" + NumberFormatter.format_clicker_number(CLSUpgradeCost, 5)
 		else:
-			CLSUpgradeCost = CLSUpgradeCost + (550 * CLSCounter)
+			CLSUpgradeCost = CLSUpgradeCost + (1000 * CLSCounter)
 			$ScrollContainer/VBoxContainer/CLSButton.text = "Upgrade Comically " + "\n" + " Large SPOON " + "\n" + NumberFormatter.format_clicker_number(CLSUpgradeCost, 5)
 
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
@@ -878,10 +878,10 @@ func _on_dozer_button_pressed() -> void:
 		
 	#multiplyer for bigger upgrades
 		if DozerCounter == 11:
-			DozerUpgradeCost = DozerUpgradeCost * 3
+			DozerUpgradeCost = DozerUpgradeCost * 4.5
 			$ScrollContainer/VBoxContainer/DozerButton.text = "Buy Bigger " + "\n" + "Dozer" + "\n" + NumberFormatter.format_clicker_number(DozerUpgradeCost, 5)
 		else:
-			DozerUpgradeCost = DozerUpgradeCost + (100000 * DozerCounter)
+			DozerUpgradeCost = DozerUpgradeCost + (1000000 * DozerCounter)
 			$ScrollContainer/VBoxContainer/DozerButton.text = "Upgrade Dozer " + "\n" + NumberFormatter.format_clicker_number(DozerUpgradeCost, 5)
 
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
@@ -971,7 +971,7 @@ func _on_golem_timer_timeout() -> void:
 		$ScrollContainer/VBoxContainer/GolemButton.disabled = false
 		$ScrollContainer/VBoxContainer/GolemButton.modulate = Color(0.812, 0.145, 0.0, 1.0)
 	elif Sand_Total < GolemUpgradeCost && GolemCounter == 5:
-		$ScrollContainer/VBoxContainer/GolemButton.text = "Buy Helper " + "\n" + "Golem" + "\n" +  NumberFormatter.format_clicker_number(GolemUpgradeCost, 5)
+		$ScrollContainer/VBoxContainer/GolemButton.text = "Buy Helper " + "\n" + "Golem" + "\n" + NumberFormatter.format_clicker_number(GolemUpgradeCost, 5)
 		$ScrollContainer/VBoxContainer/GolemButton.disabled = true
 		$ScrollContainer/VBoxContainer/GolemButton.modulate = Color(1.0, 1.0, 1.0, 1.0)	
 	elif HelperGolemCheck == true && GolemCounter >= 26:
@@ -995,10 +995,10 @@ func _on_golem_buton_pressed() -> void:
 		
 	#multiplyer for bigger upgrades
 		if GolemCounter == 5:
-			GolemUpgradeCost = GolemUpgradeCost * 5
+			GolemUpgradeCost = GolemUpgradeCost * 7.5
 			$ScrollContainer/VBoxContainer/GolemButton.text = "Buy Helper " + "\n" + "Golems" + "\n" + NumberFormatter.format_clicker_number(GolemUpgradeCost, 5)
 		else:
-			GolemUpgradeCost = GolemUpgradeCost + (10000000 * GolemCounter)
+			GolemUpgradeCost = GolemUpgradeCost + (100000000 * GolemCounter)
 			$ScrollContainer/VBoxContainer/GolemButton.text = "Upgrade Golem " + "\n" + NumberFormatter.format_clicker_number(GolemUpgradeCost, 5)
 
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
@@ -1286,7 +1286,7 @@ func _on_coin_timer_timeout() -> void:
 	#horse coins stop spawning in space
 	if $Background.frame == 0:
 		#Coin_Spawn_Time = randf_range(5, 8)
-		Coin_Spawn_Time = randf_range(55, 256)
+		Coin_Spawn_Time = randf_range(45, 100)
 		#Coin_Spawn_Time = randf_range(100.05, 400.01)
 		$CoinTimer.wait_time = Coin_Spawn_Time
 	
