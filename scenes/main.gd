@@ -6,7 +6,6 @@ extends Node2D
 @export var Sand_Total_Eaten: float 
 @export var Space_Sand: float
 @export var Space_Sand_Mult: float
-var test = 0
 
 var next_input: bool = false
 @export var s_label: String
@@ -225,9 +224,6 @@ func _process(delta: float) -> void:
 	
 	var moving := Input.is_action_pressed("left") \
 	or Input.is_action_pressed("right")
-	
-	if terry_play:
-		terry_play.set_moving(moving)
 		
 	# very common way I'll display text on screen
 	if $Sand_Ate.text == "":
@@ -236,7 +232,7 @@ func _process(delta: float) -> void:
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 		
 	# Terry cheat
-	auto_input()
+	#auto_input()
 	
 	if Input.is_action_just_pressed("left") && next_input == false:
 		Sand_Total += Sand
@@ -246,6 +242,9 @@ func _process(delta: float) -> void:
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 		
 		next_input = true
+		
+		if terry_play:
+			terry_play.set_moving(moving)
 					
 		#spawn multiplcation		
 		#var pts = earned_points.instantiate()
@@ -263,6 +262,9 @@ func _process(delta: float) -> void:
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 		
 		next_input = false
+		
+		if terry_play:
+			terry_play.set_moving(moving)
 		
 		#spawn multiplcation		
 		#var pts = earned_points.instantiate()
