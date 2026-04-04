@@ -87,14 +87,14 @@ var qte1 = QTE_var.instantiate()
 @onready var whale_audio: AudioStreamPlayer2D = $WhaleAudio
 
 @export var SpaceSquirrelCheck: bool
-@export var SpaceSquirrelGambleCost: float = 100000000
+@export var SpaceSquirrelGambleCost: float = 1000000000
 @export var SpaceSquirrelGamble: float
 @onready var squirrel_audio: AudioStreamPlayer2D = $SquirrelAudio
 
 @export var Worm_Spawn_Time: float
-@export var Worm_Sand_Eat: int = 250000000
+@export var Worm_Sand_Eat: int = 50000000000
 @export var SpaceWormCheck: bool
-@export var SpaceWormUpgradeCost: float = 500000000
+@export var SpaceWormUpgradeCost: float = 10000000000000
 
 var keyList = [
 	{"keyString": "C", "keyCode": KEY_C},
@@ -1233,7 +1233,7 @@ func _on_squirrel_button_pressed() -> void:
 	#gamble with how much you gain or lose
 	else:
 		Space_Sand -= SpaceSquirrelGambleCost
-		SpaceSquirrelGambleCost += 100000000
+		SpaceSquirrelGambleCost += 500000000
 		SpaceSquirrelGamble = randf_range(0.01, 1.99)
 		#print(str(SpaceSquirrelGamble))
 		Space_Sand *= SpaceSquirrelGamble
@@ -1248,15 +1248,19 @@ func _on_squirrel_button_pressed() -> void:
 		else:
 			bad_audio.play()
 			trigger_glow($DozerSprite, Color(1, 0, 0))
-	
-	#spawn multiplcation		
-	var pts = earned_points.instantiate()
-	pts.text = "x" + NumberFormatter.format_clicker_number(SpaceSquirrelGamble, 5)
-	pts.global_position.x = $DozerSprite.global_position.x 
-	pts.global_position.y = $DozerSprite.global_position.y -150
-	add_child(pts)
+			
+		#spawn multiplcation		
+		var pts = earned_points.instantiate()
+		pts.text = "x" + NumberFormatter.format_clicker_number(SpaceSquirrelGamble, 5)
+		pts.global_position.x = $DozerSprite.global_position.x 
+		pts.global_position.y = $DozerSprite.global_position.y -150
+		add_child(pts)
 	
 func _on_squirrel_timer_timeout() -> void:
+	#for some reason this variable is not changing natrually from declaration
+	if SpaceSquirrelGambleCost == 100000:
+		SpaceSquirrelGambleCost = 1000000000
+
 	if space_check == true:
 		if SpaceSquirrelCheck == true && SpaceSquirrelGambleCost <= Space_Sand:
 			$ScrollContainer/VBoxContainer/SquirrelButton.text = "Beseech The" + "\n" + "Chaos Squirrel" + "\n" + NumberFormatter.format_clicker_number(SpaceSquirrelGambleCost, 5)
@@ -1271,13 +1275,13 @@ func _on_squirrel_timer_timeout() -> void:
 			$ScrollContainer/VBoxContainer/SquirrelButton.disabled = false
 			$ScrollContainer/VBoxContainer/SquirrelButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
 		elif SpaceSquirrelCheck == false && SpaceSquirrelGambleCost > Space_Sand:
-			$ScrollContainer/VBoxContainer/SquirrelButton.text = "Buy ???" + "\n" + NumberFormatter.format_clicker_number(SpaceSquirrelGambleCost, 5)
+			$ScrollContainer/VBoxContainer/SquirrelButton.text = "Buy ???" + "\n" + NumberFormatter.format_clicker_number(SpaceSquirrelGambleCost, 5) 
 			$ScrollContainer/VBoxContainer/SquirrelButton.disabled = true
 			$ScrollContainer/VBoxContainer/SquirrelButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
 			
 		if $ScrollContainer/VBoxContainer/SquirrelButton.disabled == false:	
 			$ScrollContainer/VBoxContainer/SquirrelButton.tooltip_text = "Randomly increase or decrease your Space Sand"
-
+		
 func _on_coin_timer_timeout() -> void:
 	# random coin drop time
 	#var coin_drop:= RandomNumberGenerator.new()
@@ -1299,7 +1303,7 @@ func _on_coin_timer_timeout() -> void:
 # worm spawn timer
 func _on_worm_timer_timeout() -> void:
 	# spawns worms randomly
-	Worm_Spawn_Time = randf_range(5, 8)
+	Worm_Spawn_Time = randf_range(15, 22)
 	$WormTimer.wait_time = Worm_Spawn_Time
 	
 	var worm = worm_scene.instantiate()
@@ -1320,7 +1324,7 @@ func _on_worm_button_pressed() -> void:
 	Worm_Sand_Eat += Worm_Sand_Eat
 	$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 	$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
-	
+		
 # worm button timer
 func _on_worm_timer_2_timeout() -> void:
 	if SpaceWormCheck == true && SpaceWormUpgradeCost <= Space_Sand:
@@ -1498,6 +1502,13 @@ func _on_qte_success(amount_Space_Sand):
 	$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
 	#print("Space Cat Counter is " + str(SpaceCatCounter))
 	#print("Space Sand is at " + str(Space_Sand) + " by being x by " + str(amount_Space_Sand))
+	
+	#spawn multiplcation		
+	var pts = earned_points.instantiate()
+	pts.text = "+" + NumberFormatter.format_clicker_number(amount_Space_Sand * SpaceCatCounter, 5)
+	pts.global_position.x = $"CatSprite-o".global_position.x 
+	pts.global_position.y = $"CatSprite-o".global_position.y -100
+	add_child(pts)
 #failure on the cat qte
 func _on_ate_fail(amount_Space_Sand):
 	if SpaceCatCounter >= 2 && Space_Sand >= 2:

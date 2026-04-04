@@ -48,16 +48,19 @@ func _on_button_pressed() -> void:
 	#points appearing test
 	var pts = earned_points.instantiate()
 	pts.text = "+" + NumberFormatter.format_clicker_number(main.Worm_Sand_Eat, 5)
-	pts.global_position = Vector2(100, 100)#get_viewport().get_mouse_position() / 2
-	
+	pts.global_position = global_position
 	add_child(pts)
 	
 	#print("Worm hit")
 	if main:	
 		main.Sand_Total_Eaten += main.Worm_Sand_Eat
 		main.Space_Sand += main.Worm_Sand_Eat
-	#deletes worm
-	queue_free()	
+		
+	#deletes worm/not the pts
+	remove_child(pts)             # only needed if you already added as child of worm
+	get_tree().root.add_child(pts)
+	pts.global_position = global_position
+	queue_free()
 	
 func _input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.pressed:

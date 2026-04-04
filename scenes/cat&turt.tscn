@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://eh28aguo0vwj"]
+
+[ext_resource type="Script" uid="uid://dqsru2rk7pr55" path="res://cat&turt.gd" id="1_u2bk5"]
+[ext_resource type="Texture2D" uid="uid://xqoyl6km7vlt" path="res://graphics/001.png" id="2_s5inc"]
+[ext_resource type="Texture2D" uid="uid://cukkha6a6edk8" path="res://graphics/horse.png" id="3_evrxg"]
+
+[node name="Cat&Turt" type="Node2D" unique_id=1966025700]
+script = ExtResource("1_u2bk5")
+
+[node name="Sphinx" type="Sprite2D" parent="." unique_id=27981343]
+position = Vector2(90, 61.000004)
+scale = Vector2(0.3104167, 0.15820313)
+texture = ExtResource("2_s5inc")
+
+[node name="Turtle" type="Sprite2D" parent="." unique_id=34562524]
+position = Vector2(428, 67.99999)
+scale = Vector2(0.58666664, 0.40333334)
+texture = ExtResource("3_evrxg")
+
+[node name="TurtleButton" type="Button" parent="Turtle" unique_id=1989472122]
+self_modulate = Color(1, 0.41568628, 1, 1)
+offset_left = -151.70457
+offset_top = -141.3223
+offset_right = 136.36366
+offset_bottom = 146.28098
+
+[connection signal="button_down" from="Turtle/TurtleButton" to="." method="_on_turtle_button_button_down"]
+[connection signal="button_up" from="Turtle/TurtleButton" to="." method="_on_turtle_button_button_up"]
