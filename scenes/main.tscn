@@ -85,6 +85,7 @@
 [ext_resource type="Texture2D" uid="uid://uh1sww684323" path="res://graphics/Whale/SpaceWhale/whale38.png" id="78_eh25q"]
 [ext_resource type="Texture2D" uid="uid://c6eqvhvppcl52" path="res://graphics/Whale/SpaceWhale/whale39.png" id="79_joh2r"]
 [ext_resource type="AudioStream" uid="uid://c23whljwxmg1" path="res://sfx/squirrelaudio.ogg" id="81_b6ruc"]
+[ext_resource type="PackedScene" uid="uid://eh28aguo0vwj" path="res://scenes/cat&turt.tscn" id="83_fjhjs"]
 [ext_resource type="AudioStream" uid="uid://p0x26axjfwjg" path="res://sfx/tonelo.ogg" id="85_vtx2l"]
 [ext_resource type="AudioStream" uid="uid://b2tf7j5pqw5go" path="res://sfx/tonehi.ogg" id="86_63lxy"]
 
@@ -1028,6 +1029,10 @@ bus = &"SFX"
 stream = ExtResource("86_63lxy")
 volume_db = 5.021
 bus = &"SFX"
+
+[node name="Cat&Turt" parent="." unique_id=1966025700 instance=ExtResource("83_fjhjs")]
+position = Vector2(1076, 536)
+scale = Vector2(0.5, 0.5)
 
 [connection signal="mouse_entered" from="AnimatedHorseSprite/HorseCol" to="." method="_on_horse_col_mouse_entered"]
 [connection signal="mouse_exited" from="AnimatedHorseSprite/HorseCol" to="." method="_on_horse_col_mouse_exited"]
