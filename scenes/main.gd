@@ -8,6 +8,7 @@ extends Node2D
 @export var Space_Sand_Mult: float
 
 var next_input: bool = false
+var dev_bool: bool = false
 @export var s_label: String
 @export var s_label_d: String
 
@@ -19,6 +20,7 @@ var golem_scene: PackedScene = load("res://scenes/golem_2d.tscn")
 var shrimp_scene: PackedScene = load("res://scenes/space_shrimp.tscn")
 var worm_scene: PackedScene = load("res://scenes/space_worm.tscn")
 var earned_points: PackedScene = load("res://scenes/points.tscn")
+var animals_scene: PackedScene = load("res://scenes/cat&turt.tscn")
 
 @onready var bad_audio: AudioStreamPlayer2D = $negtone
 @onready var good_audio: AudioStreamPlayer2D = $postone
@@ -92,9 +94,14 @@ var qte1 = QTE_var.instantiate()
 @onready var squirrel_audio: AudioStreamPlayer2D = $SquirrelAudio
 
 @export var Worm_Spawn_Time: float
-@export var Worm_Sand_Eat: int = 50000000000
+@export var Worm_Sand_Eat: int = 500000000000
 @export var SpaceWormCheck: bool
-@export var SpaceWormUpgradeCost: float = 10000000000000
+@export var SpaceWormUpgradeCost: float = 1000000000000000
+
+@export var SpaceTurtleUpgradeCounter: int
+@export var SpaceTurtleUpgradeCost: float = 25000000000000000
+@export var SpaceTurtleCheck: bool
+@export var SpaceTurtleMultiplyer: float = 1.5
 
 var keyList = [
 	{"keyString": "C", "keyCode": KEY_C},
@@ -233,7 +240,18 @@ func _process(delta: float) -> void:
 		
 	# Terry cheat
 	#auto_input()
-	
+	# dev cheat buttons toggle
+	if Input.is_action_just_pressed("dev_buttons") && dev_bool == false:
+		$Cheat.visible = true
+		$SpaceCheat.visible = true
+		$SpaceCheat2.visible = true
+		dev_bool = true
+	elif Input.is_action_just_pressed("dev_buttons") && dev_bool == true:
+		$Cheat.visible = false
+		$SpaceCheat.visible = false
+		$SpaceCheat2.visible = false
+		dev_bool = false
+		
 	if Input.is_action_just_pressed("left") && next_input == false:
 		Sand_Total += Sand
 		Sand_Total_Eaten += Sand
@@ -1327,6 +1345,9 @@ func _on_worm_button_pressed() -> void:
 		
 # worm button timer
 func _on_worm_timer_2_timeout() -> void:
+	# again I have no idea why these values aren't lining up?
+	if SpaceWormUpgradeCost == 5000000.0:
+		SpaceWormUpgradeCost = 10000000000000
 	if SpaceWormCheck == true && SpaceWormUpgradeCost <= Space_Sand:
 		$ScrollContainer/VBoxContainer/WormButton.text = "Improve Potency" + "\n" + "of Space Worm" + "\n" + NumberFormatter.format_clicker_number(SpaceWormUpgradeCost, 5)
 		$ScrollContainer/VBoxContainer/WormButton.disabled = false
@@ -1340,17 +1361,73 @@ func _on_worm_timer_2_timeout() -> void:
 		$ScrollContainer/VBoxContainer/WormButton.disabled = false
 		$ScrollContainer/VBoxContainer/WormButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
 	elif SpaceWormCheck == false && SpaceWormUpgradeCost > Space_Sand:
-		$ScrollContainer/VBoxContainer/WormButton.text = "Buy ???" + "\n" + "???"
+		$ScrollContainer/VBoxContainer/WormButton.text = "Buy ???" + "\n" + NumberFormatter.format_clicker_number(SpaceWormUpgradeCost, 5)
 		$ScrollContainer/VBoxContainer/WormButton.disabled = true
 		$ScrollContainer/VBoxContainer/WormButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
 		
 	if $ScrollContainer/VBoxContainer/WormButton.disabled == false:	
 		$ScrollContainer/VBoxContainer/WormButton.tooltip_text = "Increase amount of Space Sand the Space Worm drops"
 
+func _on_sphinx_turtle_button_pressed() -> void:
+	button_click_sfx.play()
+	if SpaceTurtleCheck == false:
+		SpaceTurtleCheck = true
+		listItems.append("SpaceFriends")
+		
+		Space_Sand -= SpaceTurtleUpgradeCost
+		
+		var animals = animals_scene.instantiate()
+		$StaticBody2D2.add_child(animals)
+		animals.global_position = Vector2(1076, 536)
+		animals.scale = Vector2(.5, .5)
+		# this line keeps it in the save (not position tho but who cares rn)
+		animals.owner = get_tree().current_scene
+		#maths
+		SpaceTurtleUpgradeCounter += 1
+		SpaceTurtleUpgradeCost *= SpaceTurtleMultiplyer
+		
+	if SpaceTurtleUpgradeCounter <= 10:
+		Space_Sand -= SpaceTurtleUpgradeCost
+		SpaceTurtleUpgradeCost *= SpaceTurtleMultiplyer
+		SpaceTurtleUpgradeCounter += 1
+		SpaceTurtleMultiplyer *= SpaceTurtleMultiplyer
+	else:
+		pass
+	
+	$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
+	$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
+
+func _on_sphinx_turtle_timer_timeout() -> void:
+	$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
+	$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
+	
+	if SpaceTurtleCheck == true && SpaceTurtleUpgradeCost <= Space_Sand && SpaceTurtleUpgradeCounter <= 10:
+		$ScrollContainer/VBoxContainer/SphinxTurtleButton.text = "Increase Power" + "\n" + "of Space Turtle" + "\n" + NumberFormatter.format_clicker_number(SpaceTurtleUpgradeCost, 5)
+		$ScrollContainer/VBoxContainer/SphinxTurtleButton.disabled = false
+		$ScrollContainer/VBoxContainer/SphinxTurtleButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
+	elif SpaceTurtleCheck == true && SpaceTurtleUpgradeCost > Space_Sand && SpaceTurtleUpgradeCounter <= 10:
+		$ScrollContainer/VBoxContainer/SphinxTurtleButton.text = "Increase Power" + "\n" + "of Space Turtle" + "\n" + NumberFormatter.format_clicker_number(SpaceTurtleUpgradeCost, 5)
+		$ScrollContainer/VBoxContainer/SphinxTurtleButton.disabled = true
+		$ScrollContainer/VBoxContainer/SphinxTurtleButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
+	elif SpaceTurtleCheck == false && SpaceTurtleUpgradeCost <= Space_Sand && SpaceTurtleUpgradeCounter <= 10:
+		$ScrollContainer/VBoxContainer/SphinxTurtleButton.text = "Observe the" + "\n" + "Space Rivalry" + "\n" + NumberFormatter.format_clicker_number(SpaceTurtleUpgradeCost, 5)
+		$ScrollContainer/VBoxContainer/SphinxTurtleButton.disabled = false
+		$ScrollContainer/VBoxContainer/SphinxTurtleButton.modulate = Color(0.825, 0.741, 0.0, 1.0)
+	elif SpaceTurtleCheck == false && SpaceTurtleUpgradeCost > Space_Sand:
+		$ScrollContainer/VBoxContainer/SphinxTurtleButton.text = "Buy ???" + "\n" + NumberFormatter.format_clicker_number(SpaceTurtleUpgradeCost, 5)
+		$ScrollContainer/VBoxContainer/SphinxTurtleButton.disabled = true
+		$ScrollContainer/VBoxContainer/SphinxTurtleButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
+	elif SpaceTurtleUpgradeCounter >= 11:
+		$ScrollContainer/VBoxContainer/SphinxTurtleButton.text = "Peaked Cutness"
+		$ScrollContainer/VBoxContainer/SphinxTurtleButton.disabled = true
+		$ScrollContainer/VBoxContainer/SphinxTurtleButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
+		
+	if $ScrollContainer/VBoxContainer/SphinxTurtleButton.disabled == false:	
+		$ScrollContainer/VBoxContainer/SphinxTurtleButton.tooltip_text = "More Space Sand gained when the Space Turtle crawls"
+	
 func _on_horse_timer_timeout() -> void:
 	#horse only triggers on Earth
 	if !$Background.frame == 1:
-		HorseCheck = true
 		Sand_Total += Horse_Sand_Eat
 		Sand_Total_Eaten += Horse_Sand_Eat
 
@@ -1427,6 +1504,7 @@ func start_timers():
 		get_node("WhaleTimer").start()
 		get_node("SquirrelTimer").start()
 		get_node("WormTimer2").start()
+		get_node("SphinxTurtleTimer").start()
 		if listItems.has("SpaceCat"):
 			get_node("CatQTETimer").start()
 		if listItems.has("SpaceWorm"):
@@ -1497,7 +1575,8 @@ func _on_qte_success(amount_Space_Sand):
 		SpaceCatCounter = 2
 	else:
 		SpaceCatCounter = SpaceCatCounter * 2
-	Space_Sand += amount_Space_Sand * SpaceCatCounter
+	var sp_gained = (amount_Space_Sand * SpaceCatCounter) / 2
+	Space_Sand += sp_gained
 	$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 	$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
 	#print("Space Cat Counter is " + str(SpaceCatCounter))
@@ -1505,9 +1584,9 @@ func _on_qte_success(amount_Space_Sand):
 	
 	#spawn multiplcation		
 	var pts = earned_points.instantiate()
-	pts.text = "+" + NumberFormatter.format_clicker_number(amount_Space_Sand * SpaceCatCounter, 5)
+	pts.text = "+" + NumberFormatter.format_clicker_number(sp_gained, 5)
 	pts.global_position.x = $"CatSprite-o".global_position.x 
-	pts.global_position.y = $"CatSprite-o".global_position.y -100
+	pts.global_position.y = $"CatSprite-o".global_position.y - 100
 	add_child(pts)
 #failure on the cat qte
 func _on_ate_fail(amount_Space_Sand):

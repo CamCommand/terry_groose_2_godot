@@ -14,6 +14,11 @@ var float_speed := 2.0
 @onready var turtle: Sprite2D = $"Turtle-o"
 @onready var sphinx: Sprite2D = $"Sphinx-o"
 
+#moving target variables
+@export var stop_distance = 100 #stopping right "before" they are exactly same position
+@export var speed = 25.0 # pixels/sec
+
+@onready var sphinx_sfx: AudioStreamPlayer2D = $Cat2Audio
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -45,18 +50,22 @@ func _process(delta: float) -> void:
 	var dist = to_sphinx.length()
 	#flip when on other side of cat
 	turtle.flip_h = (turtle.global_position.x < sphinx.global_position.x)	
-	#moving target variables
-	var stop_distance = 100 #stopping right "before" they are exactly same position
-	var speed = 25.0 # pixels/sec
 	
 	var main = get_tree().get_first_node_in_group("main")
 	if dist > stop_distance:
 		var dir = to_sphinx.normalized()
-		turtle.global_position += dir * speed * delta
-		#main.Sand_Total_Eaten += main.Worm_Sand_Eat
-		#main.Space_Sand += main.Worm_Sand_Eat
+		turtle.global_position += dir * speed * delta #moves turtle towards sphinx
+		#adding the distance x the muliplyer to the sand counts
+		main.Sand_Total_Eaten += main.SpaceTurtleMultiplyer * dist * 1000000
+		main.Space_Sand += main.SpaceTurtleMultiplyer * dist * 1000000
+		sphinx_sfx.autoplay = false
 	else:
-		pass
+		#subtracting the distance x the muliplyer to the sand counts
+		main.Space_Sand -= main.SpaceTurtleMultiplyer * dist
+		sphinx_sfx.autoplay = true
+		#play sfx when turtle touches sphinx
+		if not sphinx_sfx.is_playing():
+			sphinx_sfx.play()
 
 func _on_turtle_button_button_down() -> void:
 	dragging = true

@@ -36,8 +36,8 @@ func _on_button_pressed() -> void:
 	#var main2 = get_tree().get_nodes_in_group("main")
 	var horse = get_tree().get_first_node_in_group("horse_vars") as AnimatedSprite2D
 	
-	if HorseCheck == false:
-		HorseCheck = true
+	if main.HorseCheck == false:
+		main.HorseCheck = true
 		horse.visible = true
 		# moves in the horse
 		var horse_tween := create_tween().bind_node(horse).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)

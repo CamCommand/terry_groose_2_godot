@@ -85,7 +85,6 @@
 [ext_resource type="Texture2D" uid="uid://uh1sww684323" path="res://graphics/Whale/SpaceWhale/whale38.png" id="78_eh25q"]
 [ext_resource type="Texture2D" uid="uid://c6eqvhvppcl52" path="res://graphics/Whale/SpaceWhale/whale39.png" id="79_joh2r"]
 [ext_resource type="AudioStream" uid="uid://c23whljwxmg1" path="res://sfx/squirrelaudio.ogg" id="81_b6ruc"]
-[ext_resource type="PackedScene" uid="uid://eh28aguo0vwj" path="res://scenes/cat&turt.tscn" id="83_fjhjs"]
 [ext_resource type="AudioStream" uid="uid://p0x26axjfwjg" path="res://sfx/tonelo.ogg" id="85_vtx2l"]
 [ext_resource type="AudioStream" uid="uid://b2tf7j5pqw5go" path="res://sfx/tonehi.ogg" id="86_63lxy"]
 
@@ -619,6 +618,10 @@ SpaceWhaleSum = 0.0
 SpaceSquirrelGambleCost = 100000.0
 Worm_Sand_Eat = 2500000
 SpaceWormUpgradeCost = 5000000.0
+SpaceTurtleUpgradeCounter = null
+SpaceTurtleUpgradeCost = null
+SpaceTurtleCheck = null
+SpaceTurtleMultiplyer = null
 
 [node name="Background" type="AnimatedSprite2D" parent="." unique_id=1658395375]
 position = Vector2(960.50006, 360)
@@ -815,6 +818,12 @@ disabled = true
 text = "Buy ???
 ???"
 
+[node name="SphinxTurtleButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=417628813]
+layout_mode = 2
+disabled = true
+text = "Buy ???
+???"
+
 [node name="ButtonHoverSFX" type="AudioStreamPlayer2D" parent="ScrollContainer/VBoxContainer" unique_id=1440117698]
 stream = ExtResource("64_63lxy")
 volume_db = -10.0
@@ -880,6 +889,9 @@ wait_time = 0.25
 wait_time = 5.0
 
 [node name="WormTimer2" type="Timer" parent="." unique_id=88173728]
+wait_time = 0.25
+
+[node name="SphinxTurtleTimer" type="Timer" parent="." unique_id=1675249059]
 wait_time = 0.25
 
 [node name="AutoSaveTimer" type="Timer" parent="." unique_id=1935225833]
@@ -975,6 +987,7 @@ volume_db = -5.0
 bus = &"SFX"
 
 [node name="Cheat" type="Button" parent="." unique_id=1691847081]
+visible = false
 offset_left = 15.0
 offset_top = 180.0
 offset_right = 117.0
@@ -983,6 +996,7 @@ theme_override_colors/icon_normal_color = Color(1, 0, 1, 1)
 text = "$$$"
 
 [node name="SpaceCheat" type="Button" parent="." unique_id=477705064]
+visible = false
 offset_left = 15.0
 offset_top = 229.0
 offset_right = 112.0
@@ -990,6 +1004,7 @@ offset_bottom = 262.0
 text = "Space"
 
 [node name="SpaceCheat2" type="Button" parent="." unique_id=1935229592]
+visible = false
 offset_left = 15.0
 offset_top = 290.0
 offset_right = 112.0
@@ -1030,10 +1045,6 @@ stream = ExtResource("86_63lxy")
 volume_db = 5.021
 bus = &"SFX"
 
-[node name="Cat&Turt" parent="." unique_id=1966025700 instance=ExtResource("83_fjhjs")]
-position = Vector2(1076, 536)
-scale = Vector2(0.5, 0.5)
-
 [connection signal="mouse_entered" from="AnimatedHorseSprite/HorseCol" to="." method="_on_horse_col_mouse_entered"]
 [connection signal="mouse_exited" from="AnimatedHorseSprite/HorseCol" to="." method="_on_horse_col_mouse_exited"]
 [connection signal="mouse_entered" from="ScrollContainer/VBoxContainer/SpoonButton" to="." method="_on_spoon_button_mouse_entered"]
@@ -1055,6 +1066,7 @@ scale = Vector2(0.5, 0.5)
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/WhaleButton" to="." method="_on_whale_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/SquirrelButton" to="." method="_on_squirrel_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/WormButton" to="." method="_on_worm_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/SphinxTurtleButton" to="." method="_on_sphinx_turtle_button_pressed"]
 [connection signal="timeout" from="SpoonTimer" to="." method="_on_spoon_timer_timeout"]
 [connection signal="timeout" from="TrowlTimer" to="." method="_on_trowl_timer_timeout"]
 [connection signal="timeout" from="PanTimer" to="." method="_on_pan_timer_timeout"]
@@ -1071,6 +1083,7 @@ scale = Vector2(0.5, 0.5)
 [connection signal="timeout" from="SquirrelTimer" to="." method="_on_squirrel_timer_timeout"]
 [connection signal="timeout" from="WormTimer" to="." method="_on_worm_timer_timeout"]
 [connection signal="timeout" from="WormTimer2" to="." method="_on_worm_timer_2_timeout"]
+[connection signal="timeout" from="SphinxTurtleTimer" to="." method="_on_sphinx_turtle_timer_timeout"]
 [connection signal="timeout" from="AutoSaveTimer" to="." method="_on_auto_save_timer_timeout"]
 [connection signal="pressed" from="Cheat" to="." method="_on_cheat_pressed"]
 [connection signal="pressed" from="SpaceCheat" to="." method="_on_space_cheat_pressed"]
