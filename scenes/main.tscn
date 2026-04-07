@@ -4,6 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://bgh761v2nh5bu" path="res://scenes/terry.tscn" id="1_o5qli"]
 [ext_resource type="Texture2D" uid="uid://bnqw0e81kmeeq" path="res://graphics/Beach_background.png" id="2_tbgi4"]
 [ext_resource type="Texture2D" uid="uid://bu8q4qri2fhx" path="res://graphics/space.png" id="3_pibwh"]
+[ext_resource type="Texture2D" uid="uid://bw28iid5wqe36" path="res://graphics/horror_1.png" id="6_r4ag1"]
+[ext_resource type="Texture2D" uid="uid://c0a4u5nrds643" path="res://graphics/horror_2.png" id="7_v0wtd"]
+[ext_resource type="Texture2D" uid="uid://2xd1iy1r8dhb" path="res://graphics/horror_3.png" id="8_sgvw8"]
 [ext_resource type="Texture2D" uid="uid://cjejcp6dm2cp4" path="res://graphics/009.png" id="12_dgi5k"]
 [ext_resource type="Texture2D" uid="uid://ukj25frxxebq" path="res://graphics/010.png" id="14_kmb1v"]
 [ext_resource type="Texture2D" uid="uid://ujoq4a2i8w1n" path="res://graphics/011.png" id="15_fuf3a"]
@@ -26,6 +29,8 @@
 [ext_resource type="AudioStream" uid="uid://b5homgpb4bmft" path="res://sfx/trowl.ogg" id="23_pm3ni"]
 [ext_resource type="Texture2D" uid="uid://dniejlldajlqj" path="res://graphics/019.png" id="23_vchkt"]
 [ext_resource type="Texture2D" uid="uid://wpsjycccu5s5" path="res://graphics/020.png" id="24_txyw0"]
+[ext_resource type="Shader" uid="uid://cfjk7ugm1aat4" path="res://scenes/turtle.gdshader" id="25_sgvw8"]
+[ext_resource type="Texture2D" uid="uid://dc30ojinmpggq" path="res://graphics/portal.png" id="25_v0wtd"]
 [ext_resource type="Texture2D" uid="uid://bc5v14idkny3s" path="res://graphics/021.png" id="25_vc5cj"]
 [ext_resource type="Texture2D" uid="uid://coka0faata34n" path="res://graphics/Pan.png" id="25_vxglm"]
 [ext_resource type="Texture2D" uid="uid://di6aoa8bjxcnr" path="res://graphics/SuperPan.png" id="26_2f3dj"]
@@ -114,6 +119,26 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bfu41"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_r4ag1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_v0wtd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_sgvw8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_v0wtd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
 }]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_85g3d"]
@@ -264,6 +289,23 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtx2l"]
 size = Vector2(615.0755, 473.5537)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6nfnn"]
+shader = ExtResource("25_sgvw8")
+shader_parameter/glow_strength = 0.6
+shader_parameter/pulse_speed = 2.0
+shader_parameter/glow_color = Color(0.518, 0.871, 0.506, 1)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sgvw8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("25_v0wtd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5poiv"]
 animations = [{
@@ -618,6 +660,7 @@ SpaceWhaleSum = 0.0
 SpaceSquirrelGambleCost = 100000.0
 Worm_Sand_Eat = 2500000
 SpaceWormUpgradeCost = 5000000.0
+HorrorSummonCost = null
 
 [node name="Background" type="AnimatedSprite2D" parent="." unique_id=1658395375]
 position = Vector2(960.50006, 360)
@@ -630,6 +673,15 @@ visible = false
 position = Vector2(430, 500)
 scale = Vector2(0.11212227, 0.15195315)
 sprite_frames = SubResource("SpriteFrames_kmb1v")
+
+[node name="HorrorSpritex" type="AnimatedSprite2D" parent="." unique_id=1293969501]
+visible = false
+position = Vector2(958, -145)
+scale = Vector2(1.003125, 0.4795719)
+sprite_frames = SubResource("SpriteFrames_bfu41")
+autoplay = "default"
+frame = 3
+frame_progress = 0.91945446
 
 [node name="terry" parent="." unique_id=592085347 instance=ExtResource("1_o5qli")]
 position = Vector2(0, 6)
@@ -659,6 +711,20 @@ offset_bottom = -239.3902
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 60
 text = "000"
+
+[node name="PortalAnimatedSprite" type="AnimatedSprite2D" parent="AnimatedHorseSprite" unique_id=213151352]
+visible = false
+material = SubResource("ShaderMaterial_6nfnn")
+position = Vector2(3878.593, 42.839157)
+scale = Vector2(1, 1.753047)
+sprite_frames = SubResource("SpriteFrames_sgvw8")
+
+[node name="PortalButton" type="Button" parent="AnimatedHorseSprite/PortalAnimatedSprite" unique_id=765468145]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = -213.4674
+offset_top = -330.85803
+offset_right = 242.41193
+offset_bottom = 335.05023
 
 [node name="Night" parent="." unique_id=117235679 instance=ExtResource("20_y6deb")]
 position = Vector2(641, 360.00003)
@@ -820,6 +886,12 @@ disabled = true
 text = "Buy ???
 ???"
 
+[node name="HorrorButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=117392035]
+layout_mode = 2
+disabled = true
+text = "Buy ???
+???"
+
 [node name="ButtonHoverSFX" type="AudioStreamPlayer2D" parent="ScrollContainer/VBoxContainer" unique_id=1440117698]
 stream = ExtResource("64_63lxy")
 volume_db = -10.0
@@ -891,6 +963,9 @@ wait_time = 5.0
 wait_time = 0.25
 
 [node name="SphinxTurtleTimer" type="Timer" parent="." unique_id=1675249059]
+wait_time = 0.25
+
+[node name="HorrorTimer" type="Timer" parent="." unique_id=1122143850]
 wait_time = 0.25
 
 [node name="AutoSaveTimer" type="Timer" parent="." unique_id=1935225833]
@@ -1046,6 +1121,7 @@ bus = &"SFX"
 
 [connection signal="mouse_entered" from="AnimatedHorseSprite/HorseCol" to="." method="_on_horse_col_mouse_entered"]
 [connection signal="mouse_exited" from="AnimatedHorseSprite/HorseCol" to="." method="_on_horse_col_mouse_exited"]
+[connection signal="pressed" from="AnimatedHorseSprite/PortalAnimatedSprite/PortalButton" to="." method="_on_portal_button_pressed"]
 [connection signal="mouse_entered" from="ScrollContainer/VBoxContainer/SpoonButton" to="." method="_on_spoon_button_mouse_entered"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/SpoonButton" to="." method="_on_spoon_button_pressed"]
 [connection signal="mouse_entered" from="ScrollContainer/VBoxContainer/TrowlButton" to="." method="_on_trowl_button_mouse_entered"]
@@ -1066,6 +1142,7 @@ bus = &"SFX"
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/SquirrelButton" to="." method="_on_squirrel_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/WormButton" to="." method="_on_worm_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/SphinxTurtleButton" to="." method="_on_sphinx_turtle_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/HorrorButton" to="." method="_on_horror_button_pressed"]
 [connection signal="timeout" from="SpoonTimer" to="." method="_on_spoon_timer_timeout"]
 [connection signal="timeout" from="TrowlTimer" to="." method="_on_trowl_timer_timeout"]
 [connection signal="timeout" from="PanTimer" to="." method="_on_pan_timer_timeout"]
@@ -1084,6 +1161,7 @@ bus = &"SFX"
 [connection signal="timeout" from="WormTimer" to="." method="_on_worm_timer_timeout"]
 [connection signal="timeout" from="WormTimer2" to="." method="_on_worm_timer_2_timeout"]
 [connection signal="timeout" from="SphinxTurtleTimer" to="." method="_on_sphinx_turtle_timer_timeout"]
+[connection signal="timeout" from="HorrorTimer" to="." method="_on_horror_timer_timeout"]
 [connection signal="timeout" from="AutoSaveTimer" to="." method="_on_auto_save_timer_timeout"]
 [connection signal="pressed" from="Cheat" to="." method="_on_cheat_pressed"]
 [connection signal="pressed" from="SpaceCheat" to="." method="_on_space_cheat_pressed"]
