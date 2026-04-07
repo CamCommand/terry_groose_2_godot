@@ -618,10 +618,6 @@ SpaceWhaleSum = 0.0
 SpaceSquirrelGambleCost = 100000.0
 Worm_Sand_Eat = 2500000
 SpaceWormUpgradeCost = 5000000.0
-SpaceTurtleUpgradeCounter = null
-SpaceTurtleUpgradeCost = null
-SpaceTurtleCheck = null
-SpaceTurtleMultiplyer = null
 
 [node name="Background" type="AnimatedSprite2D" parent="." unique_id=1658395375]
 position = Vector2(960.50006, 360)
@@ -864,6 +860,9 @@ wait_time = 0.25
 [node name="CatQTETimer" type="Timer" parent="." unique_id=1219536200]
 wait_time = 3.0
 
+[node name="CatQTETimer2" type="Timer" parent="." unique_id=770025657]
+wait_time = 3.0
+
 [node name="CoinTimer" type="Timer" parent="." unique_id=2022307423]
 wait_time = 55.0
 autostart = true
@@ -1075,6 +1074,7 @@ bus = &"SFX"
 [connection signal="timeout" from="DozerTimer" to="." method="_on_dozer_timer_timeout"]
 [connection signal="timeout" from="CatTimer" to="." method="_on_cat_timer_timeout"]
 [connection signal="timeout" from="CatQTETimer" to="." method="_on_cat_qte_timer_timeout"]
+[connection signal="timeout" from="CatQTETimer2" to="." method="_on_cat_qte_timer_timeout"]
 [connection signal="timeout" from="CoinTimer" to="." method="_on_coin_timer_timeout"]
 [connection signal="timeout" from="HorseTimer" to="." method="_on_horse_timer_timeout"]
 [connection signal="timeout" from="GolemTimer" to="." method="_on_golem_timer_timeout"]

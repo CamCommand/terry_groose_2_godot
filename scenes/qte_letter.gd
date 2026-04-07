@@ -7,28 +7,32 @@ signal qte_failure(Space_Sand)
 @export var keyString: String = "Q"
 @export var keyCode: Key = KEY_Q
 @onready var letter: Label = $Letter
-var tween : Tween
+var tween : Tween = null
 var success = false
 @export var Space_Sand: int = 2
 @export var space_counter: int = 0
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	#make once and keep idle until used
+	tween = create_tween()
+	tween.pause() 
+	
 	letter.text = keyString
 	await _animation()
 	#time after tween is complete
 	await get_tree().create_timer(.25).timeout
-	
+	#fail
 	if not success:
 		finished.emit(false)
 		#print("missed window")
 		emit_signal("qte_failure", Space_Sand)
 		queue_free()
 
-func _animation():
+func _animation():#slowly get bigger
+	#print("spawned")
 	tween = create_tween()
-	tween.tween_property($Letter, "scale", Vector2(1,1), 2.0).from(Vector2(0.5, 0.5))
+	tween.tween_property($Letter, "scale", Vector2(1,1), 2.0).from(Vector2(0.5,0.5))
 	await tween.finished
 	
 func _input(event: InputEvent) -> void:
@@ -39,13 +43,12 @@ func _input(event: InputEvent) -> void:
 			space_counter += 2
 			Space_Sand = space_counter * 2
 			emit_signal("qte_success", Space_Sand)
-			
+			#remove if correct
 			if tween:
 				tween.kill()
-
 			finished.emit(true)
 			queue_free()
-		else:
+		else:#failure emit
 			#print("wrong key")
 			emit_signal("qte_failure", Space_Sand)
 			if tween:

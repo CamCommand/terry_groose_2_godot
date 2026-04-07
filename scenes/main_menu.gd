@@ -51,7 +51,6 @@ func _on_load_game_pressed() -> void:
 	#get_tree().change_scene_to_file(new_scene)
 	self.queue_free()
 
-
 func _on_credit_pressed() -> void:
 	await play_sfx()
 	OS.shell_open("https://camcommand.itch.io")

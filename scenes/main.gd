@@ -131,6 +131,14 @@ var float_speed := 2.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	
+	#print("$CatQTETimer is_autostart:", $CatQTETimer.autostart, "is_stopped:", $CatQTETimer.is_stopped())
+	#if listItems.has("SpaceCat"):
+		#get_node("CatQTETimer").start()
+		#print("started", " ", $CatQTETimer.is_stopped())
+		#$CatQTETimer.start()
+		#print("started 2", " ", $CatQTETimer.is_stopped())
+	#$CatQTETimer.timeout.connect(_on_cat_qte_timer_timeout, [], CONNECT_ONESHOT) # optional for testing
 	#makes format_clicker_number not scream in error log
 	$terry.visible = true
 	if Engine.is_editor_hint():
@@ -1309,8 +1317,8 @@ func _on_coin_timer_timeout() -> void:
 	
 	#horse coins stop spawning in space
 	if $Background.frame == 0:
-		#Coin_Spawn_Time = randf_range(5, 8)
-		Coin_Spawn_Time = randf_range(45, 100)
+		Coin_Spawn_Time = randf_range(5, 6)
+		#Coin_Spawn_Time = randf_range(45, 100)
 		#Coin_Spawn_Time = randf_range(100.05, 400.01)
 		$CoinTimer.wait_time = Coin_Spawn_Time
 	
@@ -1507,6 +1515,7 @@ func start_timers():
 		get_node("SphinxTurtleTimer").start()
 		if listItems.has("SpaceCat"):
 			get_node("CatQTETimer").start()
+			#$CatQTETimer.start()
 		if listItems.has("SpaceWorm"):
 			get_node("WormTimer").start()
 
@@ -1539,28 +1548,41 @@ func _on_auto_save_timer_timeout() -> void:
 
 # picking and spawning the letters on Space Cat, also setting the range of wait time
 func _on_cat_qte_timer_timeout() -> void:
+	if QTE == null:
+		print("QTE PackedScene is null"); return
+	if keyList == null or keyList.size() == 0:
+		print("keyList empty"); $CatQTETimer.wait_time = randf_range(SC_Check_Min, SC_Check_Max); return
+
+	# only spawn if no active key
 	if active_key_node != null:
 		$CatQTETimer.wait_time = randf_range(SC_Check_Min, SC_Check_Max)
 		return
 
+	var keyData = keyList.pick_random()
 	var keyNode = QTE.instantiate()
-	active_key_node = keyNode
+	if keyNode == null:
+		print("instantiate returned null"); return
 
-	# loading qte rates
+	# set data and connect once
+	keyNode.keyCode = keyData.keyCode
+	keyNode.keyString = keyData.keyString
 	keyNode.finished.connect(_on_key_finished)
 	keyNode.qte_success.connect(_on_qte_success)
 	keyNode.qte_failure.connect(_on_ate_fail)
 
-	var keyData = keyList.pick_random()
-	keyNode.keyCode = keyData.keyCode
-	keyNode.keyString = keyData.keyString
+	var container = $CanvasLayer.get_node_or_null("ControlContainer")
+	if container == null:
+		print("ControlContainer missing"); return
 
-	$CanvasLayer/ControlContainer.add_child(keyNode)
+	container.add_child(keyNode)
+	active_key_node = keyNode
 	key_count += 1
-	$CatQTETimer.wait_time = randf_range(SC_Check_Min, SC_Check_Max)
 	$CatQTETimer.wait_time = randf_range(SC_Check_Min, SC_Check_Max)
 	
 func _on_key_finished(keySuc):
+	if active_key_node != null and is_instance_valid(active_key_node):
+		active_key_node.queue_free() # if you want to remove
+	active_key_node = null
 	keyPressedList.append(keySuc)
 	# if the signal provides the node instance instead of data, adjust accordingly.
 	if active_key_node != null:

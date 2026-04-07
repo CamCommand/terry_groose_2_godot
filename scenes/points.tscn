@@ -3,5 +3,6 @@
 [ext_resource type="Script" uid="uid://ckj774oyfwfdq" path="res://scenes/points.gd" id="1_qq43p"]
 
 [node name="Points" type="Label" unique_id=504574518]
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.44705883)
 text = "000"
 script = ExtResource("1_qq43p")
