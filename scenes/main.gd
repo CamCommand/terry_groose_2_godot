@@ -14,7 +14,9 @@ var dev_bool: bool = false
 
 @onready var button_click_sfx: AudioStreamPlayer2D = $ScrollContainer/VBoxContainer/ButtonClickSFX
 @onready var button_hover_sfx: AudioStreamPlayer2D = $ScrollContainer/VBoxContainer/ButtonHoverSFX
+@onready var horse_sfx: AudioStreamPlayer2D = $horse_die_sfx
 @onready var terry_play = $terry
+
 var coin_scene: PackedScene = load("res://scenes/horse_coin.tscn")
 var golem_scene: PackedScene = load("res://scenes/golem_2d.tscn")
 var shrimp_scene: PackedScene = load("res://scenes/space_shrimp.tscn")
@@ -140,14 +142,6 @@ var float_speed := 2.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	
-	#print("$CatQTETimer is_autostart:", $CatQTETimer.autostart, "is_stopped:", $CatQTETimer.is_stopped())
-	#if listItems.has("SpaceCat"):
-		#get_node("CatQTETimer").start()
-		#print("started", " ", $CatQTETimer.is_stopped())
-		#$CatQTETimer.start()
-		#print("started 2", " ", $CatQTETimer.is_stopped())
-	#$CatQTETimer.timeout.connect(_on_cat_qte_timer_timeout, [], CONNECT_ONESHOT) # optional for testing
 	#makes format_clicker_number not scream in error log
 	$terry.visible = true
 	if Engine.is_editor_hint():
@@ -163,9 +157,6 @@ func _ready() -> void:
 	# Initialize the MusicManager with the AudioStreamPlayer
 	MusicManager.init(music_player)
 	
-	#speed = float_rng.randi_range(1, 5)
-	#roataion_speed = float_rng.randi_range(5, 10)
-	#direction_x = float_rng.randf_range(0, 1)
 	start_timers()
 
 	$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
@@ -175,7 +166,6 @@ func create_music_folder():
 	var dir = DirAccess.open("user://")
 	if not dir.dir_exists("music"):
 		dir.make_dir("music")
-
 	
 func float_named_sprites(delta: float) -> void:
 	float_time += delta
@@ -234,7 +224,6 @@ func auto_input():
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)
 		Input.action_press("ui_right")
 		next_input = false
-
 		
 func _process(delta: float) -> void:
 	#makes format_clicker_number not scream in error log	
@@ -256,6 +245,7 @@ func _process(delta: float) -> void:
 		
 	# Terry cheat
 	#auto_input()
+	
 	# dev cheat buttons toggle
 	if Input.is_action_just_pressed("dev_buttons") && dev_bool == false:
 		$Cheat.visible = true
@@ -279,15 +269,7 @@ func _process(delta: float) -> void:
 		
 		if terry_play:
 			terry_play.set_moving(moving)
-					
-		#spawn multiplcation		
-		#var pts = earned_points.instantiate()
-		#pts.text = "+" + NumberFormatter.format_clicker_number(Sand, 5)
-		#pts.global_position.x = 439.0
-		#pts.global_position.y = 642.07
-		#pts.rotation = 25
-		#add_child(pts)
-	
+						
 	if Input.is_action_just_pressed("right") && next_input == true:
 		Sand_Total += Sand
 		Sand_Total_Eaten += Sand
@@ -299,14 +281,6 @@ func _process(delta: float) -> void:
 		
 		if terry_play:
 			terry_play.set_moving(moving)
-		
-		#spawn multiplcation		
-		#var pts = earned_points.instantiate()
-		#pts.text = "+" + NumberFormatter.format_clicker_number(Sand, 5)
-		#pts.global_position.x = 732.0
-		#pts.global_position.y = 642.07
-		#pts.rotation = 44.25
-		#add_child(pts)
 			
 func _on_spoon_timer_timeout() -> void:
 	# checking and setting Spoon Button conditions
@@ -1440,24 +1414,49 @@ func _on_horror_button_pressed() -> void:
 	$WhaleTimer.stop()
 	$WormTimer2.stop()
 	$SphinxTurtleTimer.stop()
-
-	# use get_node for names with non-identifier characters
+	$CatQTETimer2.stop()
+	$CatQTETimer.stop()
+	$WormTimer.stop()
+	
 	var horror_sprite = get_node("HorrorSpritex")
 	horror_sprite.visible = true
 
+	# Create tweens and add tweeners before awaiting
 	var horror_tween = create_tween()
 	var horse_tween = create_tween()
 
-	# start both before awaiting if you want concurrency
 	horror_tween.tween_property(horror_sprite, "position", Vector2(958, 358), 5.0)
 	var horse_sprite = $AnimatedHorseSprite
 	horse_tween.tween_property(horse_sprite, "position", Vector2(1033, 504), 5.0)
-	
+
 	await horror_tween.finished
 	await horse_tween.finished
-	#print(horse_sprite.position)
-	horse_sprite.set_meta("base_y", 504)# so the horse doesn't clip up after tween
+	horse_sprite.set_meta("base_y", 504)
+	horse_sfx.play()
+	var overlay = $CanvasLayerOne/ColorRect   # adjust path
+	overlay.modulate.a = 0.0
+	$CanvasLayerOne.visible = true
+	var tween = create_tween()
+	tween.tween_property(overlay, "modulate:a", 1.0, 3.0)
+	await tween.finished
 	
+	# remove most sprites safely, collect then free
+	var to_free = []
+	for node in get_children():
+		if node is AnimatedSprite2D and node.name.ends_with("Sprite") or node.name.ends_with("-o")  or node.name.ends_with("-ko") or node.name.ends_with("x"):
+			to_free.append(node)
+	for n in to_free:
+		n.queue_free()
+	get_tree().call_group("spawned shrimp", "queue_free")# the shrimps
+	$StaticBody2D2.queue_free()#just get rid of everything here
+	
+	$PortalSpriteAnimated.visible = true
+	#other tween to come back in bc idk how to use the other one to do it right without messing crap up
+	var tween2 = create_tween()
+	tween2.tween_property(overlay, "modulate:a", 0.0, 3.0)
+	await tween2.finished
+	$CanvasLayerOne.visible = false
+
 func _on_horror_timer_timeout() -> void:
 
 	if HorrorSummonCost <= Space_Sand:
@@ -1501,6 +1500,7 @@ func _on_cheat_pressed() -> void:
 	Sand_Total_Eaten += 9223372036854775807
 	var coin = coin_scene.instantiate()
 	$StaticBody2D2.add_child(coin)
+	
 func _on_space_cheat_pressed() -> void:
 	space_check = false
 	SuperSpoonCheck = true
@@ -1524,6 +1524,7 @@ func stop_act1_timers():
 	$CLSTimer.stop()
 	$DozerTimer.stop()
 	$GolemTimer.stop()
+	$HorseTimer.stop()
 	
 # loading save stops timers for some reason
 func start_timers():

@@ -92,6 +92,7 @@
 [ext_resource type="AudioStream" uid="uid://c23whljwxmg1" path="res://sfx/squirrelaudio.ogg" id="81_b6ruc"]
 [ext_resource type="AudioStream" uid="uid://p0x26axjfwjg" path="res://sfx/tonelo.ogg" id="85_vtx2l"]
 [ext_resource type="AudioStream" uid="uid://b2tf7j5pqw5go" path="res://sfx/tonehi.ogg" id="86_63lxy"]
+[ext_resource type="AudioStream" uid="uid://v164teyppi0c" path="res://sfx/horse_die.ogg" id="93_6nfnn"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_c6pm6"]
 animations = [{
@@ -660,7 +661,17 @@ SpaceWhaleSum = 0.0
 SpaceSquirrelGambleCost = 100000.0
 Worm_Sand_Eat = 2500000
 SpaceWormUpgradeCost = 5000000.0
-HorrorSummonCost = null
+
+[node name="CanvasLayerOne" type="CanvasLayer" parent="." unique_id=1705840095]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayerOne" unique_id=90916824]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [node name="Background" type="AnimatedSprite2D" parent="." unique_id=1658395375]
 position = Vector2(960.50006, 360)
@@ -712,14 +723,14 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 60
 text = "000"
 
-[node name="PortalAnimatedSprite" type="AnimatedSprite2D" parent="AnimatedHorseSprite" unique_id=213151352]
+[node name="PortalSpriteAnimated" type="AnimatedSprite2D" parent="." unique_id=213151352]
 visible = false
 material = SubResource("ShaderMaterial_6nfnn")
-position = Vector2(3878.593, 42.839157)
-scale = Vector2(1, 1.753047)
+position = Vector2(972, 400)
+scale = Vector2(0.27638888, 0.3273724)
 sprite_frames = SubResource("SpriteFrames_sgvw8")
 
-[node name="PortalButton" type="Button" parent="AnimatedHorseSprite/PortalAnimatedSprite" unique_id=765468145]
+[node name="PortalButton" type="Button" parent="PortalSpriteAnimated" unique_id=765468145]
 self_modulate = Color(1, 1, 1, 0)
 offset_left = -213.4674
 offset_top = -330.85803
@@ -1119,9 +1130,14 @@ stream = ExtResource("86_63lxy")
 volume_db = 5.021
 bus = &"SFX"
 
+[node name="horse_die_sfx" type="AudioStreamPlayer2D" parent="." unique_id=1594803189]
+stream = ExtResource("93_6nfnn")
+volume_db = 5.021
+bus = &"SFX"
+
 [connection signal="mouse_entered" from="AnimatedHorseSprite/HorseCol" to="." method="_on_horse_col_mouse_entered"]
 [connection signal="mouse_exited" from="AnimatedHorseSprite/HorseCol" to="." method="_on_horse_col_mouse_exited"]
-[connection signal="pressed" from="AnimatedHorseSprite/PortalAnimatedSprite/PortalButton" to="." method="_on_portal_button_pressed"]
+[connection signal="pressed" from="PortalSpriteAnimated/PortalButton" to="." method="_on_portal_button_pressed"]
 [connection signal="mouse_entered" from="ScrollContainer/VBoxContainer/SpoonButton" to="." method="_on_spoon_button_mouse_entered"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/SpoonButton" to="." method="_on_spoon_button_pressed"]
 [connection signal="mouse_entered" from="ScrollContainer/VBoxContainer/TrowlButton" to="." method="_on_trowl_button_mouse_entered"]
