@@ -679,8 +679,6 @@ func _on_shovel_button_pressed() -> void:
 		ShovelCheck = false	
 		$ShovelSprite.frame = 2
 		
-		#add on screen text and or menu to display items here
-		
 		Sand_Total -= ShovelUpgradeCost
 		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 		$Sand_Dollar.text = NumberFormatter.format_clicker_number(Sand_Total, 2)

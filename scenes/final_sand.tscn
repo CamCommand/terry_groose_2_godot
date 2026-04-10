@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bpj3lrvjfvkub"]
+
+[ext_resource type="Script" uid="uid://bbxidt8cpxxv8" path="res://scenes/final_sand.gd" id="1_v1s8a"]
+[ext_resource type="Texture2D" uid="uid://cb2x7vp1uu1q0" path="res://graphics/sandsand.png" id="1_y86om"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2clpn"]
+radius = 56.0803
+
+[node name="Sand" type="Area2D" unique_id=946579529]
+script = ExtResource("1_v1s8a")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1655622257]
+position = Vector2(2.000122, -0.9999695)
+scale = Vector2(0.392, 0.392)
+texture = ExtResource("1_y86om")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2072166586]
+position = Vector2(-2.1949463, 1)
+shape = SubResource("CircleShape2D_2clpn")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
