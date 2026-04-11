@@ -37,6 +37,10 @@ folder_colors={
 "res://graphics/Whale/": "red"
 }
 
+[global_group]
+
+sand_manager=""
+
 [importer_defaults]
 
 texture={

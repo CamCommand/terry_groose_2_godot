@@ -14,9 +14,26 @@ var speed
 var roataion_speed: int
 var sand_scene: PackedScene = load("res://scenes/final_sand.tscn")
 
+@export var New_Sand_Total_Eaten: float
+@export var New_Sand_Mult: float
+@export var New_Sand_Counter: int = 1
+
+
 func _ready():
-	pass
-		
+	#var main = get_tree().get_first_node_in_group("main")
+	#if $Sand_Ate.text != null:
+		#$Sand_Ate.text = NumberFormatter.format_clicker_number(main.Sand_Total_Eaten, 1)
+	#else:
+		#$Sand_Ate.text = NumberFormatter.format_clicker_number(0, 1)
+	pass	
+# call this to add to the sand modifiers on screen
+func add_sand(amount: int) -> void:
+	New_Sand_Counter *= amount + New_Sand_Counter
+	New_Sand_Mult += New_Sand_Counter
+	$Sand_Mult.text = NumberFormatter.format_clicker_number(New_Sand_Mult, 3)
+	#print(New_Sand_Mult)
+	print(str(New_Sand_Mult))
+	
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("Float"):
 		velocity = -jump_impulse
@@ -45,7 +62,8 @@ func _physics_process(delta: float) -> void:
 		left_impulse = 0.0
 	if $CharacterBody2D.position.x > right_wall and not $CharacterBody2D.position.y > floor_y:
 		right_impulse = 0.0
-	
+		
+
 	#print(str($CharacterBody2D.position))
 	#print(str(left_impulse))
 func _on_sand_timer_timeout() -> void:

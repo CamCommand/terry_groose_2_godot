@@ -9,7 +9,7 @@ radius = 56.0803
 [node name="Sand" type="Area2D" unique_id=946579529]
 script = ExtResource("1_v1s8a")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1655622257]
+[node name="SandSprite" type="Sprite2D" parent="." unique_id=1655622257]
 position = Vector2(2.000122, -0.9999695)
 scale = Vector2(0.392, 0.392)
 texture = ExtResource("1_y86om")

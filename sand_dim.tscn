@@ -22,13 +22,35 @@ size = Vector2(269, 66)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6v18u"]
 size = Vector2(516, 20)
 
-[node name="SandDim" type="Node2D" unique_id=1326680223]
+[node name="SandDim" type="Node2D" unique_id=1326680223 groups=["sand_manager"]]
 script = ExtResource("1_6v18u")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1918165711]
 position = Vector2(959, 360)
 scale = Vector2(1, 0.9230769)
 texture = ExtResource("2_2clpn")
+
+[node name="Sand_Ate" type="Label" parent="." unique_id=1955193611]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 157.0
+offset_bottom = 33.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 20
+text = "Sand Ate: 0.0 oz"
+
+[node name="Sand_Mult" type="Label" parent="." unique_id=1477118327]
+offset_left = 5.0
+offset_top = 45.0
+offset_right = 270.0
+offset_bottom = 80.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 20
+text = "Consumption Rate: 1x"
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=399745094]
 
