@@ -3,7 +3,6 @@ extends Area2D
 var direction_x: float
 var speed
 var roataion_speed: int
-
 func _ready():	
 	var sand_rng := RandomNumberGenerator.new()
 	# textures: make more later
@@ -30,11 +29,19 @@ func _ready():
 	var width = get_viewport().get_visible_rect().size[0]#width of screen
 	var random_x = sand_rng.randi_range(50, width-50)#spawning zones/position
 	var random_y = sand_rng.randi_range(-150, -50)
-	position = Vector2(random_x, random_y)
+	var random_x2 = sand_rng.randi_range(-50, 50) # left edge (slightly off-screen to on-screen)
+	var random_y2 = sand_rng.randi_range(-300, 300)
 	
-	speed = sand_rng.randi_range(200, 650)#
+	var random_direction: int = sand_rng.randi_range(1,2)
+	if random_direction == 1:#going down
+		position = Vector2(random_x, random_y)
+		direction_x = sand_rng.randf_range(-1, 1)
+		speed = sand_rng.randi_range(200, 650)
+	else:#going right
+		position = Vector2(random_x2, random_y2)
+		direction_x = sand_rng.randf_range(3, 5)
+		speed = sand_rng.randi_range(100, 350)
 	roataion_speed = sand_rng.randi_range(40, 100)
-	direction_x = sand_rng.randf_range(-1, 1)
 	#print(size)
 	$SandSprite.scale =  Vector2(size, size)
 	
@@ -51,12 +58,13 @@ func _process(delta):
 	rotation_degrees += roataion_speed * delta
 	
 func _on_body_entered(body) -> void:
+	Global.amount_increase += .1
 	if body is CharacterBody2D:
 		var managers = get_tree().get_nodes_in_group("sand_manager")
 		if managers.size() > 0:
-			managers[0].call_deferred("add_sand", 1)
+			managers[0].call_deferred("add_sand", Global.amount_increase)
+	queue_free() #eats the sand
 		
-	
 func _on_free_timeout():
 	queue_free()
 	

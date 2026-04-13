@@ -1491,8 +1491,10 @@ func _on_horse_col_mouse_exited() -> void:
 	$AnimatedHorseSprite/HorseCol/CollisionShape2D/HorseLabel.visible = false
 
 func _on_portal_button_pressed() -> void:
-	print("Portal clicked")
-
+	#print("Portal clicked")
+	Global.Sand_Total_Eaten = Sand_Total_Eaten
+	get_tree().change_scene_to_file("res://sand_dim.tscn")
+	
 func _on_cheat_pressed() -> void:
 	Sand_Total += 9223372036854775807
 	Sand_Total_Eaten += 9223372036854775807

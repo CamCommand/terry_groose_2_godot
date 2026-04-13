@@ -724,7 +724,6 @@ theme_override_font_sizes/font_size = 60
 text = "000"
 
 [node name="PortalSpriteAnimated" type="AnimatedSprite2D" parent="." unique_id=213151352]
-visible = false
 material = SubResource("ShaderMaterial_6nfnn")
 position = Vector2(972, 400)
 scale = Vector2(0.27638888, 0.3273724)
