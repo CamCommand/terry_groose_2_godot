@@ -1,45 +1,110 @@
 [gd_scene format=3 uid="uid://d3fbrjmddkwap"]
 
 [ext_resource type="Script" uid="uid://b4bi0nuq8r6a3" path="res://sand_dim.gd" id="1_6v18u"]
-[ext_resource type="Texture2D" uid="uid://chd1n3j2sk7e5" path="res://graphics/TerryMenu.png" id="2_2clpn"]
-[ext_resource type="Texture2D" uid="uid://b7hluesdnklka" path="res://horse frames/edited/Edited v2/horsevideo.00_00_00_02.Still087.png" id="2_d4wvx"]
+[ext_resource type="Texture2D" uid="uid://cr7ukf3f1300t" path="res://graphics/Sands/Sand_BKG_1.png" id="2_5eqse"]
+[ext_resource type="Texture2D" uid="uid://bntpwaronngok" path="res://graphics/Sands/Sand_BKG_2.png" id="3_8avn8"]
 [ext_resource type="PackedScene" uid="uid://bjqj2c8qr4aut" path="res://scenes/PauseMenu.tscn" id="3_d4wvx"]
+[ext_resource type="Texture2D" uid="uid://cp2hagqh0lg6l" path="res://graphics/Sands/Sand_BKG_3.png" id="4_2fceo"]
+[ext_resource type="Texture2D" uid="uid://t85qplkhquec" path="res://graphics/Terry/Terry_Sand_Dim_1.png" id="5_8avn8"]
+[ext_resource type="AudioStream" uid="uid://dtnbskq10ucvg" path="res://sfx/Sand_button_hover_sfx.ogg" id="5_uuipw"]
+[ext_resource type="Texture2D" uid="uid://y5tcsu4i7mgn" path="res://graphics/Terry/Terry_Sand_Dim_2.png" id="6_2fceo"]
+[ext_resource type="AudioStream" uid="uid://b2ownsjihloyg" path="res://sfx/ButtonClick.ogg" id="6_k0m3c"]
+[ext_resource type="Texture2D" uid="uid://dmx8h2jalmdn0" path="res://graphics/Terry/Terry_Sand_Dim_3.png" id="7_2r2ft"]
+[ext_resource type="Texture2D" uid="uid://cbemrv8i1n0po" path="res://graphics/Terry/200.png" id="9_sc6g2"]
+[ext_resource type="Texture2D" uid="uid://ufq3lij7twhd" path="res://graphics/Terry/GreenHat.png" id="10_jqglk"]
+[ext_resource type="Texture2D" uid="uid://bivq34u327sh2" path="res://graphics/Terry/GreenHat_2.png" id="11_uuipw"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2r2ft"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_5eqse")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_8avn8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_2fceo")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_2clpn"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_d4wvx")
+"texture": ExtResource("5_8avn8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_2fceo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_2r2ft")
 }],
 "loop": true,
 "name": &"default",
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_d4wvx"]
-size = Vector2(269, 66)
+[sub_resource type="CircleShape2D" id="CircleShape2D_8avn8"]
+radius = 89.005615
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6v18u"]
 size = Vector2(516, 20)
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_k0m3c"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_sc6g2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_jqglk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_uuipw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="SandDim" type="Node2D" unique_id=1326680223 groups=["sand_manager"]]
 script = ExtResource("1_6v18u")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1918165711]
-position = Vector2(959, 360)
-scale = Vector2(1, 0.9230769)
-texture = ExtResource("2_2clpn")
+[node name="SandBGK" type="AnimatedSprite2D" parent="." unique_id=437207362]
+position = Vector2(973, 360)
+scale = Vector2(1.0145833, 0.9230769)
+sprite_frames = SubResource("SpriteFrames_2r2ft")
+autoplay = "default"
+frame = 1
+frame_progress = 0.5486799
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=399745094]
+[node name="ButtonHoverSFX" type="AudioStreamPlayer2D" parent="." unique_id=1837156317]
+stream = ExtResource("5_uuipw")
+volume_db = -5.0
+bus = &"SFX"
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=2122062467]
-position = Vector2(276, 199.00003)
-scale = Vector2(0.51111114, 0.175)
+[node name="ButtonClickSFX" type="AudioStreamPlayer2D" parent="." unique_id=2064562614]
+stream = ExtResource("6_k0m3c")
+volume_db = -15.0
+bus = &"SFX"
+
+[node name="Terry" type="CharacterBody2D" parent="." unique_id=399745094]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Terry" unique_id=2122062467]
+position = Vector2(248.00003, 240)
+scale = Vector2(0.51111114, 0.33749992)
 sprite_frames = SubResource("SpriteFrames_2clpn")
+autoplay = "default"
+frame_progress = 0.862195
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=34090024]
-position = Vector2(273, 219)
-shape = SubResource("RectangleShape2D_d4wvx")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Terry" unique_id=34090024]
+visible = false
+position = Vector2(269, 234)
+shape = SubResource("CircleShape2D_8avn8")
 
 [node name="Bottom" type="Node2D" parent="." unique_id=198656075]
 
@@ -50,8 +115,14 @@ position = Vector2(257, 729)
 shape = SubResource("RectangleShape2D_6v18u")
 
 [node name="SandTimer" type="Timer" parent="." unique_id=1970551620]
-wait_time = 0.5
 autostart = true
+
+[node name="Button" type="Button" parent="." unique_id=119826862]
+offset_left = 20.64
+offset_top = 659.0
+offset_right = 90.64
+offset_bottom = 690.0
+text = "Test me"
 
 [node name="Sand_Ate" type="Label" parent="." unique_id=1955193611]
 offset_left = 5.0
@@ -88,4 +159,50 @@ offset_top = 360.0
 offset_right = 960.0
 offset_bottom = 360.0
 
+[node name="LabelGrowTimer" type="Timer" parent="." unique_id=502073331]
+autostart = true
+
+[node name="HatTimer" type="Timer" parent="." unique_id=1044841711]
+wait_time = 0.25
+autostart = true
+
+[node name="HatButton" type="Button" parent="." unique_id=1480293972]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 1791.0
+offset_top = 101.0
+offset_right = 1894.0
+offset_bottom = 155.0
+disabled = true
+text = "Buy ???
+???"
+icon_alignment = 1
+
+[node name="auto_save_Timer" type="Timer" parent="." unique_id=174126443]
+wait_time = 0.5
+autostart = true
+
+[node name="Terry_Final" type="AnimatedSprite2D" parent="." unique_id=1847014627]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(973, 484)
+sprite_frames = SubResource("SpriteFrames_k0m3c")
+
+[node name="Thank U" type="Label" parent="." unique_id=974929143]
+visible = false
+offset_left = 498.0
+offset_top = 121.0
+offset_right = 1499.0
+offset_bottom = 307.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_constants/shadow_offset_x = 7
+theme_override_constants/shadow_offset_y = 4
+theme_override_font_sizes/font_size = 94
+text = "Thank You For Playing"
+
 [connection signal="timeout" from="SandTimer" to="." method="_on_sand_timer_timeout"]
+[connection signal="mouse_entered" from="Button" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="timeout" from="LabelGrowTimer" to="." method="_on_label_grow_timer_timeout"]
+[connection signal="timeout" from="HatTimer" to="." method="_on_hat_timer_timeout"]
+[connection signal="pressed" from="HatButton" to="." method="_on_hat_button_pressed"]
+[connection signal="timeout" from="auto_save_Timer" to="." method="_on_auto_save_timer_timeout"]

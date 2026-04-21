@@ -9,16 +9,25 @@ extends Node2D
 @export var right_wall: float = 1494
 var velocity: float = 0.0
 
-
 var speed
 var roataion_speed: int
 var sand_scene: PackedScene = load("res://scenes/final_sand.tscn")
+@onready var sand_ate: Label = $Sand_Ate
+@export var sand_ate_growth: float = 1
 
 @export var New_Sand_Total_Eaten: float
 @export var New_Sand_Mult: float = 1
 @export var New_Sand_Counter: int = 1
 @export var Sand_Dim_Sand_Eat: float = 1
 var Timer_dif_counter: int = 0
+
+@onready var terry: CharacterBody2D = $Terry
+@onready var terry_final: AnimatedSprite2D = $Terry_Final
+
+var step_tween: Tween = null
+const STEPS := 9
+const STEP_AMOUNT := 1.0 / STEPS
+const STEP_DURATION := 0.15
 
 func _ready():
 	$SandTimer.wait_time = 1.0
@@ -96,29 +105,53 @@ func add_sand(amount: int) -> void:#currently not using sand_mult
 		_next_sand_advance()
 	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 27 and Timer_dif_counter == 7:#0.2 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 40 and Timer_dif_counter == 7:#0.1 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 40 and Timer_dif_counter == 8:#0.1 seconds
 		_next_sand_advance()
+	else:
+		pass
 	#print(str($SandTimer.wait_time))
 func _next_sand_advance():
+	#increases the amount of sand that spawns
 	Timer_dif_counter += 1
-	$SandTimer.wait_time -= 0.1
+	if Timer_dif_counter != 8:
+		$SandTimer.wait_time = max(0.1, $SandTimer.wait_time - 0.1)
+	else:
+		$SandTimer.wait_time = 0.1
+	#print(str($SandTimer.wait_time))
+	#makes the hat button arrive slowly
+	var current = $HatButton.self_modulate.a
+	if current >= 1.0:
+		return
+	var target = min(1.0, current + STEP_AMOUNT)
+
+	if step_tween:
+		step_tween.kill()
+		step_tween = null
+
+	step_tween = create_tween()
+	step_tween.tween_property($HatButton, "self_modulate:a", target, STEP_DURATION).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	step_tween.connect("finished", Callable(self, "_on_step_tween_finished"))
+
+func _on_step_tween_finished():
+	step_tween = null
 	
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("Float"):
 		velocity = -jump_impulse
 	if Input.is_action_just_pressed("left") or Input.is_action_pressed("left"):
-		$CharacterBody2D.position.x -= left_impulse * delta 
+		terry.position.x -= left_impulse * delta 
+		$Terry/AnimatedSprite2D.flip_h = true
 	if Input.is_action_just_pressed("right") or Input.is_action_pressed("right"):
-		$CharacterBody2D.position.x += right_impulse * delta 
-	
+		terry.position.x += right_impulse * delta 
+		$Terry/AnimatedSprite2D.flip_h = false
 	#gravity
 	velocity += gravity * delta
 	#position
-	$CharacterBody2D.position.y += velocity * delta
+	terry.position.y += velocity * delta
 
 	# clamp to floor after falling down
-	if $CharacterBody2D.position.y > floor_y:
-		$CharacterBody2D.position.y = floor_y
+	if terry.position.y > floor_y:
+		terry.position.y = floor_y
 		velocity = 0.0
 		left_impulse = 0.0
 		right_impulse = 0.0
@@ -126,12 +159,12 @@ func _physics_process(delta: float) -> void:
 		impluse_reset()
 		
 	#disable left and right movement on the floor so you can just slide
-	if $CharacterBody2D.position.x < left_wall and not $CharacterBody2D.position.y > floor_y:
+	if terry.position.x < left_wall and not terry.position.y > floor_y:
 		left_impulse = 0.0
-	if $CharacterBody2D.position.x > right_wall and not $CharacterBody2D.position.y > floor_y:
+	if terry.position.x > right_wall and not terry.position.y > floor_y:
 		right_impulse = 0.0
 		
-	#print(str($CharacterBody2D.position))
+	#print(str(terry.position))
 	#print(str(left_impulse))
 func _on_sand_timer_timeout() -> void:
 	var sandy = sand_scene.instantiate()
@@ -141,3 +174,50 @@ func impluse_reset():
 	#reset impulses
 	left_impulse = 350
 	right_impulse = 350
+
+func _on_button_pressed() -> void:
+	_next_sand_advance()
+
+func _on_label_grow_timer_timeout() -> void:
+	var tween = create_tween()
+	sand_ate_growth += 0.005
+	tween.tween_property(sand_ate, "scale", Vector2(sand_ate_growth,sand_ate_growth), 0.5)
+ 
+func _on_hat_button_pressed() -> void:
+	$ButtonClickSFX.play()
+	var tween = create_tween()
+	#stop the game
+	$HatTimer.stop()
+	$LabelGrowTimer.stop()
+	$SandTimer.stop()
+	$auto_save_Timer.stop()
+	$HatButton.visible = false
+	$Terry.visible = false
+	sand_ate.visible = false
+	#final animations
+	tween.tween_property(terry_final, "self_modulate:a", 1, 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	await get_tree().create_timer(2).timeout
+	terry_final.frame = 1
+	await get_tree().create_timer(1.5).timeout
+	terry_final.frame = 2
+	$"Thank U".visible = true
+	await get_tree().create_timer(4.5).timeout
+	Global.has_won_flag = true
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	
+func _on_hat_timer_timeout() -> void:
+	print(str(snapped(New_Sand_Total_Eaten, 0.01)).length())
+	if str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 10:
+		$HatButton.disabled = false
+		$HatButton.text = "Buy A New" + "\n" + "Hat" + "\n" + "∞"
+		$HatButton.modulate = Color(0.812, 0.145, 0.0, 1.0)
+		
+func _on_auto_save_timer_timeout() -> void:
+	#print("Game saved teehee")
+	var root = get_tree().current_scene
+	var scene = PackedScene.new()
+	scene.pack(root)
+	ResourceSaver.save(scene, "user://SavedGame.tscn")
+
+func _on_button_mouse_entered() -> void:
+	$ButtonHoverSFX.play()

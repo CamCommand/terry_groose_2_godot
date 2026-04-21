@@ -251,11 +251,13 @@ func _process(delta: float) -> void:
 		$Cheat.visible = true
 		$SpaceCheat.visible = true
 		$SpaceCheat2.visible = true
+		$SandDimCheat.visible = true
 		dev_bool = true
 	elif Input.is_action_just_pressed("dev_buttons") && dev_bool == true:
 		$Cheat.visible = false
 		$SpaceCheat.visible = false
 		$SpaceCheat2.visible = false
+		$SandDimCheat.visible = false
 		dev_bool = false
 		
 	if Input.is_action_just_pressed("left") && next_input == false:
@@ -1511,6 +1513,9 @@ func _on_space_cheat_pressed() -> void:
 	BiggerDozerCheck = true
 	HorseCheck = true
 	Sand_Total_Eaten = 9223372036854775807
+	
+func _on_sand_dim_cheat_pressed() -> void:
+	_on_portal_button_pressed()
 	
 func _on_space_cheat_2_pressed() -> void:
 	Space_Sand += 9223372036854775807

@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dn1fwsnau8bxb" path="res://scenes/main_menu.gd" id="1_l6cm7"]
 [ext_resource type="Shader" uid="uid://hbeyy0pbky1x" path="res://scenes/main_menu.gdshader" id="2_bqqt6"]
 [ext_resource type="Texture2D" uid="uid://chd1n3j2sk7e5" path="res://graphics/TerryMenu.png" id="2_ekxnf"]
+[ext_resource type="Texture2D" uid="uid://cu5g48f1mr8p8" path="res://graphics/TerryMenu_2.png" id="3_1ajci"]
 [ext_resource type="Texture2D" uid="uid://b1sg23jgj6ntc" path="res://graphics/Logo/Terry_Groose1.png" id="4_oa1go"]
 [ext_resource type="AudioStream" uid="uid://b2ownsjihloyg" path="res://sfx/ButtonClick.ogg" id="4_tbmy8"]
 [ext_resource type="Texture2D" uid="uid://iv746123io46" path="res://graphics/Logo/Sand_Text_box.png" id="5_flqon"]
@@ -84,10 +85,16 @@ animations = [{
 [node name="MainMenu" type="Node2D" unique_id=1618588052]
 script = ExtResource("1_l6cm7")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=563227961]
+[node name="BKG1" type="Sprite2D" parent="." unique_id=563227961]
 position = Vector2(959, 360)
 scale = Vector2(1, 0.9230769)
 texture = ExtResource("2_ekxnf")
+
+[node name="BKG2" type="Sprite2D" parent="." unique_id=503793157]
+visible = false
+position = Vector2(959, 360.00003)
+scale = Vector2(1, 0.923077)
+texture = ExtResource("3_1ajci")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=920989627]
 visible = false

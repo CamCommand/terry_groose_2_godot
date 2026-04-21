@@ -34,7 +34,14 @@ func _ready() -> void:
 		$CanvasLayer/MarginContainer/VBoxContainer/LoadGame.disabled = true
 	else:
 		$CanvasLayer/MarginContainer/VBoxContainer/LoadGame.disabled= false
-
+		
+	#main menu Terry's hat color
+	if Global.has_won_flag == true:
+		$BKG1.visible = false
+		$BKG2.visible = true
+	else:
+		$BKG1.visible = true
+		$BKG2.visible = false
 func _on_new_game_pressed() -> void:
 	await play_sfx()
 	get_tree().change_scene_to_file("res://scenes/main.tscn")
@@ -47,7 +54,12 @@ func _on_load_game_pressed() -> void:
 	await play_sfx()
 	#get_tree().change_scene_to_file("res://scenes/main.tscn")
 	#var new_scene = load("user://SavedGame.tscn")
-	get_tree().change_scene_to_file("user://SavedGame.tscn")
+	#loads differently if you won already
+	if Global.has_won_flag == true:
+		get_tree().change_scene_to_file("res://scenes/main.tscn")
+		Global.has_won_flag = false
+	else:
+		get_tree().change_scene_to_file("user://SavedGame.tscn")
 	#get_tree().change_scene_to_file(new_scene)
 	self.queue_free()
 
