@@ -12,7 +12,7 @@ var velocity: float = 0.0
 var speed
 var roataion_speed: int
 var sand_scene: PackedScene = load("res://scenes/final_sand.tscn")
-@onready var sand_ate: Label = $Sand_Ate
+@onready var sand_ate: RichTextLabel = $Sand_Ate
 @export var sand_ate_growth: float = 1
 
 @export var New_Sand_Total_Eaten: float
@@ -33,7 +33,7 @@ func _ready():
 	$SandTimer.wait_time = 1.0
 	New_Sand_Total_Eaten = Global.Sand_Total_Eaten
 	if New_Sand_Total_Eaten == 0: New_Sand_Total_Eaten += 1
-	$Sand_Ate.text = NumberFormatter.format_clicker_number(New_Sand_Total_Eaten, 1)
+	$Sand_Ate.text = NumberFormatter.format_clicker_number(New_Sand_Total_Eaten, 6)
 # call this to add to the sand modifiers on screen
 	#await label_animation($Test, 1, 200, 0.0001)
 
@@ -80,7 +80,7 @@ func add_sand(amount: int) -> void:#currently not using sand_mult
 	#print(str(New_Sand_Mult))
 	
 	#label_animation($Sand_Ate, adding_animation_value, New_Sand_Total_Eaten, 0.025)
-	$Sand_Ate.text = NumberFormatter.format_clicker_number(New_Sand_Total_Eaten, 1)
+	$Sand_Ate.text = NumberFormatter.format_clicker_number(New_Sand_Total_Eaten, 6)
 	#$Sand_Mult.text = NumberFormatter.format_clicker_number(New_Sand_Mult, 3)
 	#print(str(New_Sand_Mult))
 	#New_Sand_Mult = New_Sand_Mult + amount
@@ -93,19 +93,19 @@ func add_sand(amount: int) -> void:#currently not using sand_mult
 		#print(str($SandTimer.wait_time))
 	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 10 and Timer_dif_counter == 1:#.8 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 15 and Timer_dif_counter == 2:#.7 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 20 and Timer_dif_counter == 2:#.7 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 16 and Timer_dif_counter == 3:#0.6 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 40 and Timer_dif_counter == 3:#0.6 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 18 and Timer_dif_counter == 4:#0.5 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 55 and Timer_dif_counter == 4:#0.5 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 20 and Timer_dif_counter == 5:#0.4 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 70 and Timer_dif_counter == 5:#0.4 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 23 and Timer_dif_counter == 6:#0.3 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 90 and Timer_dif_counter == 6:#0.3 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 27 and Timer_dif_counter == 7:#0.2 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 110 and Timer_dif_counter == 7:#0.2 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 40 and Timer_dif_counter == 8:#0.1 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 135 and Timer_dif_counter == 8:#0.1 seconds
 		_next_sand_advance()
 	else:
 		pass
@@ -185,7 +185,14 @@ func _on_label_grow_timer_timeout() -> void:
  
 func _on_hat_button_pressed() -> void:
 	$ButtonClickSFX.play()
+	$PauseMenu.queue_free()#get rid of pause menu
 	var tween = create_tween()
+	#removes all lingering sand from screen
+	var parent = $Bottom
+	for area in parent.get_children():
+		if area is Area2D:
+			parent.remove_child(area)
+			area.queue_free()
 	#stop the game
 	$HatTimer.stop()
 	$LabelGrowTimer.stop()
@@ -201,19 +208,19 @@ func _on_hat_button_pressed() -> void:
 	await get_tree().create_timer(1.5).timeout
 	terry_final.frame = 2
 	$"Thank U".visible = true
-	await get_tree().create_timer(4.5).timeout
+	await get_tree().create_timer(5.5).timeout
 	Global.has_won_flag = true
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 	
 func _on_hat_timer_timeout() -> void:
 	print(str(snapped(New_Sand_Total_Eaten, 0.01)).length())
-	if str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 10:
+	#when the button unlock !!!
+	if str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 5:#160:
 		$HatButton.disabled = false
 		$HatButton.text = "Buy A New" + "\n" + "Hat" + "\n" + "∞"
-		$HatButton.modulate = Color(0.812, 0.145, 0.0, 1.0)
+		$HatButton.modulate = Color(0.0, 0.775, 0.351, 1.0)
 		
 func _on_auto_save_timer_timeout() -> void:
-	#print("Game saved teehee")
 	var root = get_tree().current_scene
 	var scene = PackedScene.new()
 	scene.pack(root)

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bbxidt8cpxxv8" path="res://scenes/final_sand.gd" id="1_v1s8a"]
 [ext_resource type="Texture2D" uid="uid://cb2x7vp1uu1q0" path="res://graphics/sandsand.png" id="1_y86om"]
+[ext_resource type="AudioStream" uid="uid://dtnbskq10ucvg" path="res://sfx/Sand_button_hover_sfx.ogg" id="3_qeml4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2clpn"]
 radius = 56.0803
@@ -17,5 +18,10 @@ texture = ExtResource("1_y86om")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2072166586]
 position = Vector2(-2.1949463, 1)
 shape = SubResource("CircleShape2D_2clpn")
+
+[node name="SandCollectSFX" type="AudioStreamPlayer2D" parent="." unique_id=772769326]
+stream = ExtResource("3_qeml4")
+volume_db = 5.0
+bus = &"SFX"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

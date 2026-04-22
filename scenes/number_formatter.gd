@@ -20,5 +20,7 @@ func format_clicker_number(value: float, check: int) -> String:
 			return "[rainbow freq=1.0 sat=0.8 val=0.8 speed=1.0][wave]Space Sand: " + "%.2f%s" % [abs_value, suffixes[index]]
 		5:# for buttons
 			return  "%.2f%s" % [abs_value, suffixes[index]]	
+		6:# sand dim text
+			return "[shake] Sand Ate: " + "%.2f%s" % [abs_value, suffixes[index]] + " oz"		
 		_:
 			return "%.2f%s" % [abs_value, suffixes[index]]	

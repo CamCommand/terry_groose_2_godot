@@ -99,7 +99,8 @@ position = Vector2(248.00003, 240)
 scale = Vector2(0.51111114, 0.33749992)
 sprite_frames = SubResource("SpriteFrames_2clpn")
 autoplay = "default"
-frame_progress = 0.862195
+frame = 1
+frame_progress = 0.91943157
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Terry" unique_id=34090024]
 visible = false
@@ -124,16 +125,15 @@ offset_right = 90.64
 offset_bottom = 690.0
 text = "Test me"
 
-[node name="Sand_Ate" type="Label" parent="." unique_id=1955193611]
+[node name="Sand_Ate" type="RichTextLabel" parent="." unique_id=1922449457]
 offset_left = 5.0
 offset_top = 5.0
-offset_right = 157.0
+offset_right = 2620.0
 offset_bottom = 33.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 20
-text = "Sand Ate: 0.0 oz"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+bbcode_enabled = true
+text = " Sand Ate: 0.0 oz"
 
 [node name="Sand_Mult" type="Label" parent="." unique_id=1477118327]
 visible = false

@@ -3,15 +3,15 @@ extends Area2D
 var direction_x: float
 var speed
 var roataion_speed: int
+@onready var sand_collect_sfx: AudioStreamPlayer2D = $SandCollectSFX
+
 func _ready():	
 	var sand_rng := RandomNumberGenerator.new()
-	# textures: make more later
-	var yellow: String = "res://graphics/Sands/yellow_sand" + str(sand_rng.randi_range(1, 2)) + ".png"
-	var orange: String = "res://graphics/Sands/orange_sand" + str(sand_rng.randi_range(1, 2)) + ".png"
-	var black: String = "res://graphics/Sands/black_sand" + str(sand_rng.randi_range(1, 2)) + ".png"
-	var white: String = "res://graphics/Sands/white_sand" + str(sand_rng.randi_range(1, 2)) + ".png"
-	
-	#connect("body_entered", Callable(self, "_on_body_entered"))
+	# sand textures
+	var yellow: String = "res://graphics/Sands/yellow_sand" + str(sand_rng.randi_range(1, 10)) + ".png"
+	var orange: String = "res://graphics/Sands/orange_sand" + str(sand_rng.randi_range(1, 10)) + ".png"
+	var black: String = "res://graphics/Sands/black_sand" + str(sand_rng.randi_range(1, 11)) + ".png"
+	var white: String = "res://graphics/Sands/white_sand" + str(sand_rng.randi_range(1, 10)) + ".png"
 	
 	# randomly select texture
 	var path: int = sand_rng.randi_range(1,4)	
@@ -25,7 +25,7 @@ func _ready():
 		4:
 			$SandSprite.texture = load(white)
 			
-	var size: float = sand_rng.randf_range(0.30, 0.65)#size of sand
+	var size: float = sand_rng.randf_range(0.25, 0.55)#size of sand
 	var width = get_viewport().get_visible_rect().size[0]#width of screen
 	var random_x = sand_rng.randi_range(50, width-50)#spawning zones/position
 	var random_y = sand_rng.randi_range(-150, -50)
@@ -58,13 +58,17 @@ func _process(delta):
 	rotation_degrees += roataion_speed * delta
 	
 func _on_body_entered(body) -> void:
+	_play_sfx()
 	Global.amount_increase += .1
 	if body is CharacterBody2D:
 		var managers = get_tree().get_nodes_in_group("sand_manager")
 		if managers.size() > 0:
 			managers[0].call_deferred("add_sand", Global.amount_increase)
+	await get_tree().create_timer(.1).timeout
 	queue_free() #eats the sand
 		
 func _on_free_timeout():
 	queue_free()
 	
+func _play_sfx():
+	sand_collect_sfx.play()
