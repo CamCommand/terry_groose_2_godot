@@ -29,6 +29,9 @@ const STEPS := 9
 const STEP_AMOUNT := 1.0 / STEPS
 const STEP_DURATION := 0.15
 
+@onready var hat_fan_fare_1: AudioStreamPlayer2D = $HatFanFare1
+@onready var hat_fan_fare_2: AudioStreamPlayer2D = $HatFanFare2
+
 func _ready():
 	$SandTimer.wait_time = 1.0
 	New_Sand_Total_Eaten = Global.Sand_Total_Eaten
@@ -59,32 +62,13 @@ func add_sand(amount: int) -> void:#currently not using sand_mult
 	var sand_rng2 := RandomNumberGenerator.new()
 	var multiply: float = sand_rng2.randf_range(1.1, 3.0)#random multipler bc I can't decide
 	#amount is always increments 1 
-	#var adding_animation_value = New_Sand_Total_Eaten
-	#var New_Sand_Value_test = New_Sand_Mult
-	#var New_Sand_Eat_test = Sand_Dim_Sand_Eat
 	if amount == 0: amount = 1
 	Sand_Dim_Sand_Eat *= multiply
 	New_Sand_Total_Eaten += Sand_Dim_Sand_Eat
-	#Sand_Dim_Sand_Eat *= amount
-	#New_Sand_Total_Eaten += Sand_Dim_Sand_Eat
-	#when there is an overflow, fix the value roughly
-	#below works just not using anymore
-	#if New_Sand_Mult < New_Sand_Value_test or Sand_Dim_Sand_Eat < New_Sand_Eat_test:
-		#New_Sand_Mult = abs(New_Sand_Value_test) * 2
-		#Sand_Dim_Sand_Eat = abs(New_Sand_Eat_test) * 2
-		#New_Sand_Total_Eaten += Sand_Dim_Sand_Eat
-	#else:
-		#New_Sand_Total_Eaten += Sand_Dim_Sand_Eat
-		
-	#print("Mult " + str(multiply) + " Total " + str(New_Sand_Total_Eaten))
 	#print(str(New_Sand_Mult))
 	
 	#label_animation($Sand_Ate, adding_animation_value, New_Sand_Total_Eaten, 0.025)
 	$Sand_Ate.text = NumberFormatter.format_clicker_number(New_Sand_Total_Eaten, 6)
-	#$Sand_Mult.text = NumberFormatter.format_clicker_number(New_Sand_Mult, 3)
-	#print(str(New_Sand_Mult))
-	#New_Sand_Mult = New_Sand_Mult + amount
-	#print(str(snapped(New_Sand_Total_Eaten, 0.01)))
 	#speeds up sand spawning the more you get
 	if str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 5 and Timer_dif_counter == 0:#.9 seconds
 		_next_sand_advance()
@@ -204,8 +188,10 @@ func _on_hat_button_pressed() -> void:
 	#final animations
 	tween.tween_property(terry_final, "self_modulate:a", 1, 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	await get_tree().create_timer(2).timeout
+	hat_fan_fare_1.play()
 	terry_final.frame = 1
 	await get_tree().create_timer(1.5).timeout
+	hat_fan_fare_2.play()
 	terry_final.frame = 2
 	$"Thank U".visible = true
 	await get_tree().create_timer(5.5).timeout

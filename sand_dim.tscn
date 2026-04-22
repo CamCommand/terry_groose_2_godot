@@ -13,6 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://cbemrv8i1n0po" path="res://graphics/Terry/200.png" id="9_sc6g2"]
 [ext_resource type="Texture2D" uid="uid://ufq3lij7twhd" path="res://graphics/Terry/GreenHat.png" id="10_jqglk"]
 [ext_resource type="Texture2D" uid="uid://bivq34u327sh2" path="res://graphics/Terry/GreenHat_2.png" id="11_uuipw"]
+[ext_resource type="AudioStream" uid="uid://c0nb2wi0ekpa7" path="res://sfx/hatfanfare1.ogg" id="14_7v0ml"]
+[ext_resource type="AudioStream" uid="uid://cym102jvownk" path="res://sfx/hatfanfare2.ogg" id="15_qidac"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_2r2ft"]
 animations = [{
@@ -185,6 +187,17 @@ autostart = true
 self_modulate = Color(1, 1, 1, 0)
 position = Vector2(973, 484)
 sprite_frames = SubResource("SpriteFrames_k0m3c")
+
+[node name="HatFanFare1" type="AudioStreamPlayer2D" parent="." unique_id=744329758]
+position = Vector2(960, 360)
+stream = ExtResource("14_7v0ml")
+volume_db = -0.145
+bus = &"SFX"
+
+[node name="HatFanFare2" type="AudioStreamPlayer2D" parent="." unique_id=1953760563]
+position = Vector2(1920, 720)
+stream = ExtResource("15_qidac")
+bus = &"SFX"
 
 [node name="Thank U" type="Label" parent="." unique_id=974929143]
 visible = false
