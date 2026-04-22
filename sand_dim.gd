@@ -201,7 +201,7 @@ func _on_hat_button_pressed() -> void:
 func _on_hat_timer_timeout() -> void:
 	print(str(snapped(New_Sand_Total_Eaten, 0.01)).length())
 	#when the button unlock !!!
-	if str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 5:#160:
+	if str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 160:
 		$HatButton.disabled = false
 		$HatButton.text = "Buy A New" + "\n" + "Hat" + "\n" + "∞"
 		$HatButton.modulate = Color(0.0, 0.775, 0.351, 1.0)
