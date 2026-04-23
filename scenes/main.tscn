@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://bw28iid5wqe36" path="res://graphics/horror_1.png" id="6_r4ag1"]
 [ext_resource type="Texture2D" uid="uid://c0a4u5nrds643" path="res://graphics/horror_2.png" id="7_v0wtd"]
 [ext_resource type="Texture2D" uid="uid://2xd1iy1r8dhb" path="res://graphics/horror_3.png" id="8_sgvw8"]
+[ext_resource type="AudioStream" uid="uid://0ixlv8akyag4" path="res://Ambiance/BeachAmbiance.ogg" id="9_4ue30"]
+[ext_resource type="AudioStream" uid="uid://tpjt320elfc3" path="res://sfx/Sand_Scoop.ogg" id="9_k42av"]
 [ext_resource type="Texture2D" uid="uid://cjejcp6dm2cp4" path="res://graphics/009.png" id="12_dgi5k"]
 [ext_resource type="Texture2D" uid="uid://ukj25frxxebq" path="res://graphics/010.png" id="14_kmb1v"]
 [ext_resource type="Texture2D" uid="uid://ujoq4a2i8w1n" path="res://graphics/011.png" id="15_fuf3a"]
@@ -694,6 +696,15 @@ autoplay = "default"
 frame = 3
 frame_progress = 0.91945446
 
+[node name="SandScoopAmbiance" type="AudioStreamPlayer2D" parent="." unique_id=281113554]
+stream = ExtResource("9_k42av")
+bus = &"SFX"
+
+[node name="BeachAmbiance" type="AudioStreamPlayer2D" parent="." unique_id=778735514]
+stream = ExtResource("9_4ue30")
+volume_db = -7.037
+bus = &"SFX"
+
 [node name="terry" parent="." unique_id=592085347 instance=ExtResource("1_o5qli")]
 position = Vector2(0, 6)
 
@@ -947,7 +958,7 @@ wait_time = 3.0
 wait_time = 3.0
 
 [node name="CoinTimer" type="Timer" parent="." unique_id=2022307423]
-wait_time = 55.0
+wait_time = 30.0
 autostart = true
 
 [node name="HorseTimer" type="Timer" parent="." unique_id=1290690363]

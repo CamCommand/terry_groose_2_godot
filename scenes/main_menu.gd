@@ -2,6 +2,7 @@ extends Node2D
 
 const SAVE_PATH = "user://savegame.json"
 @onready var button_click_sfx: AudioStreamPlayer2D = $CanvasLayer/MarginContainer/VBoxContainer/ButtonClickSFX
+@onready var button_hover_sfx: AudioStreamPlayer2D = $CanvasLayer/MarginContainer/VBoxContainer/ButtonHoverSFX
 # Variables to control the breathing effect
 var min_opacity: float = 0.5 
 var max_opacity: float = 1.0  
@@ -96,3 +97,18 @@ func display_sand_fact():
 			$DustBaby.visible = true
 	else:
 		sand_fact_label.text = "Sand Fact! \n Deleting me will not stop what is to come."
+
+func _hover_play():
+	button_hover_sfx.play()
+
+func _on_new_game_mouse_entered() -> void:
+	_hover_play()
+
+func _on_load_game_mouse_entered() -> void:
+	_hover_play()
+
+func _on_quit_game_mouse_entered() -> void:
+	_hover_play()
+
+func _on_credit_mouse_entered() -> void:
+	_hover_play()

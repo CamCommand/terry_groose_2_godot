@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://b2ownsjihloyg" path="res://sfx/ButtonClick.ogg" id="4_tbmy8"]
 [ext_resource type="Texture2D" uid="uid://iv746123io46" path="res://graphics/Logo/Sand_Text_box.png" id="5_flqon"]
 [ext_resource type="Texture2D" uid="uid://dw8n4audbl78l" path="res://graphics/Logo/Terry_Groose2.png" id="5_tbmy8"]
+[ext_resource type="AudioStream" uid="uid://dtnbskq10ucvg" path="res://sfx/Sand_button_hover_sfx.ogg" id="6_7b55j"]
 [ext_resource type="FontFile" uid="uid://cas3cn3g5rquf" path="res://fonts/Quando-Regular.ttf" id="6_flqon"]
 [ext_resource type="Texture2D" uid="uid://cojd7attq34m6" path="res://graphics/Logo/Eats_Sand1.png" id="6_jk1qb"]
 [ext_resource type="Texture2D" uid="uid://da72lmxs6fc62" path="res://graphics/Logo/Eats_Sand2.png" id="7_5dd4i"]
@@ -145,6 +146,11 @@ text = "Quit"
 stream = ExtResource("4_tbmy8")
 volume_db = -15.0
 
+[node name="ButtonHoverSFX" type="AudioStreamPlayer2D" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=972391578]
+stream = ExtResource("6_7b55j")
+volume_db = -10.0
+bus = &"SFX"
+
 [node name="Title" type="Label" parent="." unique_id=595372310]
 visible = false
 offset_left = 73.0
@@ -226,7 +232,11 @@ scale = Vector2(0.6967096, 0.8433333)
 sprite_frames = SubResource("SpriteFrames_5dd4i")
 autoplay = "default"
 
+[connection signal="mouse_entered" from="CanvasLayer/MarginContainer/VBoxContainer/NewGame" to="." method="_on_new_game_mouse_entered"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="mouse_entered" from="CanvasLayer/MarginContainer/VBoxContainer/LoadGame" to="." method="_on_load_game_mouse_entered"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/LoadGame" to="." method="_on_load_game_pressed"]
+[connection signal="mouse_entered" from="CanvasLayer/MarginContainer/VBoxContainer/QuitGame" to="." method="_on_quit_game_mouse_entered"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/QuitGame" to="." method="_on_quit_game_pressed"]
+[connection signal="mouse_entered" from="Credit" to="." method="_on_credit_mouse_entered"]
 [connection signal="pressed" from="Credit" to="." method="_on_credit_pressed"]

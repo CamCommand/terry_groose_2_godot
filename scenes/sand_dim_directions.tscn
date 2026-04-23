@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://b3gsusn0nqlul"]
+
+[ext_resource type="Script" uid="uid://cipbre871j1eg" path="res://scenes/sand_dim_directions.gd" id="1_1ja23"]
+
+[node name="SandDimDirections" type="Label" unique_id=1320522894]
+offset_right = 455.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 7
+theme_override_font_sizes/font_size = 30
+text = "Use the space bar and arrow keys to catch sand"
+script = ExtResource("1_1ja23")

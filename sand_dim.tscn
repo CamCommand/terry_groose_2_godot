@@ -121,6 +121,7 @@ shape = SubResource("RectangleShape2D_6v18u")
 autostart = true
 
 [node name="Button" type="Button" parent="." unique_id=119826862]
+visible = false
 offset_left = 20.64
 offset_top = 659.0
 offset_right = 90.64

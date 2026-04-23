@@ -151,6 +151,7 @@ icon_alignment = 1
 
 [node name="Music" type="Button" parent="CenterContainer/VBoxContainer" unique_id=158667972]
 layout_mode = 2
+tooltip_text = "Add your own music"
 theme_override_font_sizes/font_size = 51
 text = "Music Folder"
 icon_alignment = 1
@@ -203,6 +204,26 @@ value = 0.5
 stream = ExtResource("3_komsw")
 volume_db = -10.0
 bus = &"SFX"
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=466988298]
+layout_mode = 0
+offset_left = 265.0
+offset_top = -253.0
+offset_right = 718.0
+offset_bottom = -121.0
+color = Color(0.65836334, 0.5993282, 0.20788503, 1)
+
+[node name="Controls2" type="Label" parent="ColorRect" unique_id=511368708]
+layout_mode = 0
+offset_left = 14.0
+offset_right = 456.0
+offset_bottom = 124.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 28
+text = "Controls:
+Z <> X or ← <> → to eat sand
+Mouse Left to select upgrades"
 
 [connection signal="mouse_entered" from="CenterContainer/VBoxContainer/ResumeBtn" to="." method="_on_resume_btn_mouse_entered"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ResumeBtn" to="." method="_on_resume_btn_pressed"]

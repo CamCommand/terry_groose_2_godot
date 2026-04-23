@@ -31,8 +31,15 @@ const STEP_DURATION := 0.15
 
 @onready var hat_fan_fare_1: AudioStreamPlayer2D = $HatFanFare1
 @onready var hat_fan_fare_2: AudioStreamPlayer2D = $HatFanFare2
+var direction_var: PackedScene = load("res://scenes/sand_dim_directions.tscn")
 
 func _ready():
+	#spawn directions
+	var directions = direction_var.instantiate()
+	directions.global_position.x = 650
+	directions.global_position.y = 300
+	add_child(directions)
+	
 	$SandTimer.wait_time = 1.0
 	New_Sand_Total_Eaten = Global.Sand_Total_Eaten
 	if New_Sand_Total_Eaten == 0: New_Sand_Total_Eaten += 1

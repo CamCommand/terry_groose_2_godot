@@ -16,6 +16,7 @@ var dev_bool: bool = false
 @onready var button_hover_sfx: AudioStreamPlayer2D = $ScrollContainer/VBoxContainer/ButtonHoverSFX
 @onready var horse_sfx: AudioStreamPlayer2D = $horse_die_sfx
 @onready var terry_play = $terry
+@onready var sand_scoop_ambiance: AudioStreamPlayer2D = $SandScoopAmbiance
 
 var coin_scene: PackedScene = load("res://scenes/horse_coin.tscn")
 var golem_scene: PackedScene = load("res://scenes/golem_2d.tscn")
@@ -153,7 +154,16 @@ func _ready() -> void:
 	var dir = DirAccess.open("user://")
 	if not dir.dir_exists("music"):
 		dir.make_dir("music")
-		
+	#set coin wait time
+	Coin_Spawn_Time = randf_range(29, 59)	
+	$CoinTimer.wait_time = Coin_Spawn_Time
+	print(str($CoinTimer.wait_time))
+	
+	if space_check == true:
+		Global.level_flag = 1
+	if Global.level_flag == 0:
+		$BeachAmbiance.play()
+		$BeachAmbiance.autoplay = true
 	# Initialize the MusicManager with the AudioStreamPlayer
 	MusicManager.init(music_player)
 	
@@ -271,6 +281,7 @@ func _process(delta: float) -> void:
 		
 		if terry_play:
 			terry_play.set_moving(moving)
+			sand_scoop_ambiance.play()
 						
 	if Input.is_action_just_pressed("right") && next_input == true:
 		Sand_Total += Sand
@@ -1293,7 +1304,6 @@ func _on_squirrel_timer_timeout() -> void:
 func _on_coin_timer_timeout() -> void:
 	#horse coins stop spawning in space
 	if $Background.frame == 0:
-		Coin_Spawn_Time = randf_range(5, 6)
 		#Coin_Spawn_Time = randf_range(45, 100)
 		#Coin_Spawn_Time = randf_range(100.05, 400.01)
 		$CoinTimer.wait_time = Coin_Spawn_Time
@@ -1494,6 +1504,7 @@ func _on_horse_col_mouse_exited() -> void:
 
 func _on_portal_button_pressed() -> void:
 	#print("Portal clicked")
+	Global.level_flag = 2
 	Global.Sand_Total_Eaten = Sand_Total_Eaten
 	get_tree().change_scene_to_file("res://sand_dim.tscn")
 	
@@ -1579,6 +1590,9 @@ func _on_auto_save_timer_timeout() -> void:
 	# doubling the use of this timer to check for scene transition into space
 	if (!space_check && SuperSpoonCheck && SuperTrowlCheck && SuperPanCheck && SuperShovelCheck && FCLSCheck && BiggerDozerCheck && HorseCheck && Sand_Total_Eaten >= 9223372000000000000):
 		space_check = true
+		Global.level_flag = 1
+		$BeachAmbiance.stop()
+		$BeachAmbiance.autoplay = false
 		# change background and sprite rotations
 		if $Background.frame == 0:
 			var tween = create_tween()
