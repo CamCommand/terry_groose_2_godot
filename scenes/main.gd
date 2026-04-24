@@ -1304,7 +1304,8 @@ func _on_squirrel_timer_timeout() -> void:
 func _on_coin_timer_timeout() -> void:
 	#horse coins stop spawning in space
 	if $Background.frame == 0:
-		#Coin_Spawn_Time = randf_range(45, 100)
+		Coin_Spawn_Time = randf_range(30, 75)
+		print(str(Coin_Spawn_Time))
 		#Coin_Spawn_Time = randf_range(100.05, 400.01)
 		$CoinTimer.wait_time = Coin_Spawn_Time
 	
