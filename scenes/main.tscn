@@ -82,6 +82,7 @@
 [ext_resource type="Texture2D" uid="uid://sp5vnaj045a1" path="res://graphics/Whale/SpaceWhale/whale28.png" id="68_raiwf"]
 [ext_resource type="Texture2D" uid="uid://b8f4swon5cqha" path="res://graphics/Whale/SpaceWhale/whale29.png" id="69_roort"]
 [ext_resource type="Texture2D" uid="uid://cfxxkanhoad0r" path="res://graphics/Whale/SpaceWhale/whale30.png" id="70_gm02q"]
+[ext_resource type="Script" uid="uid://bslvoglqlrfs2" path="res://scenes/whale_sprite_ko.gd" id="70_gr8w0"]
 [ext_resource type="Texture2D" uid="uid://c84dj7iwcotqp" path="res://graphics/Whale/SpaceWhale/whale31.png" id="71_07pt3"]
 [ext_resource type="Texture2D" uid="uid://cuexhcdmvcbje" path="res://graphics/Whale/SpaceWhale/whale32.png" id="72_37xlc"]
 [ext_resource type="Texture2D" uid="uid://dglv60qaqj7ma" path="res://graphics/Whale/SpaceWhale/whale33.png" id="73_83607"]
@@ -659,6 +660,7 @@ script = ExtResource("1_0wfyh")
 CLSUpgradeCost = 100000.0
 DozerUpgradeCost = 1000000.0
 GolemUpgradeCost = 35000000.0
+SpaceCatCounter_2 = null
 SpaceWhaleSum = 0.0
 SpaceSquirrelGambleCost = 100000.0
 Worm_Sand_Eat = 2500000
@@ -761,6 +763,34 @@ sprite_frames = SubResource("SpriteFrames_5poiv")
 autoplay = "default"
 frame = 29
 frame_progress = 0.94517195
+script = ExtResource("70_gr8w0")
+
+[node name="WhaleClickerButton" type="Button" parent="WhaleSprite-ko" unique_id=2143143664]
+modulate = Color(1, 1, 1, 0)
+offset_left = -743.397
+offset_top = -187.27591
+offset_right = 578.19727
+offset_bottom = 286.76605
+
+[node name="SandCPUParticles2D" type="CPUParticles2D" parent="WhaleSprite-ko" unique_id=591004639]
+modulate = Color(0.9858478, 0.60946816, 9.241105e-06, 1)
+position = Vector2(-165.19928, 1141.2122)
+emitting = false
+amount = 500
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.1
+randomness = 0.2
+emission_shape = 3
+emission_rect_extents = Vector2(605, 300)
+direction = Vector2(0, 1)
+spread = 30.0
+gravity = Vector2(0, 6000)
+initial_velocity_min = 200.0
+initial_velocity_max = 200.0
+damping_min = 0.2
+damping_max = 1.2
+scale_amount_max = 2.0
 
 [node name="WhaleAudio" type="AudioStreamPlayer2D" parent="." unique_id=1295496771]
 stream = ExtResource("63_11yus")
@@ -1158,6 +1188,7 @@ bus = &"SFX"
 [connection signal="mouse_entered" from="AnimatedHorseSprite/HorseCol" to="." method="_on_horse_col_mouse_entered"]
 [connection signal="mouse_exited" from="AnimatedHorseSprite/HorseCol" to="." method="_on_horse_col_mouse_exited"]
 [connection signal="pressed" from="PortalSpriteAnimated/PortalButton" to="." method="_on_portal_button_pressed"]
+[connection signal="pressed" from="WhaleSprite-ko/WhaleClickerButton" to="." method="_on_whale_clicker_button_pressed"]
 [connection signal="mouse_entered" from="ScrollContainer/VBoxContainer/SpoonButton" to="." method="_on_spoon_button_mouse_entered"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/SpoonButton" to="." method="_on_spoon_button_pressed"]
 [connection signal="mouse_entered" from="ScrollContainer/VBoxContainer/TrowlButton" to="." method="_on_trowl_button_mouse_entered"]

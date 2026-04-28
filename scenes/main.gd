@@ -78,6 +78,7 @@ var animals_scene: PackedScene = load("res://scenes/cat&turt.tscn")
 
 @export var SpaceCatUpgradeCost: float = 1
 @export var SpaceCatCounter: int
+@export var SpaceCatCounter_2: int = 0
 @export var SpaceCatCheck: bool
 @onready var cat_audio: AudioStreamPlayer2D = $CatAudio
 const QTE = preload("res://scenes/QTE_Letter.tscn")
@@ -1168,7 +1169,7 @@ func _on_shrimp_button_pressed() -> void:
 	$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 	$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
 	SpaceShrimpCounter += 1
-	SpaceShrimpUpgradeCost *= 2.5
+	SpaceShrimpUpgradeCost *= 1.9
 	
 func _on_shrimp_timer_timeout() -> void:
 	#space shrimp button update
@@ -1188,7 +1189,16 @@ func _on_shrimp_timer_timeout() -> void:
 				
 		if $ScrollContainer/VBoxContainer/ShrimpButton.disabled == false:
 			$ScrollContainer/VBoxContainer/ShrimpButton.tooltip_text = "Feed them to a lurking mammal"
-		
+
+func _on_whale_clicker_button_pressed() -> void:
+	sand_scoop_ambiance.play()
+	if SpaceWhaleCheck == true && $Background.frame == 1:
+		SpaceWhaleSum += SpaceWhaleUpgradeCost * 0.5
+		Sand_Total_Eaten += SpaceWhaleSum
+		Space_Sand += SpaceWhaleSum
+		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
+		$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
+	
 func _on_whale_button_pressed() -> void:
 	if SpaceWhaleCheck != true:
 		$"WhaleSprite-ko".visible = true
@@ -1201,7 +1211,7 @@ func _on_whale_button_pressed() -> void:
 		var whaletween = create_tween()
 		whaletween.tween_property($"WhaleSprite-ko", "scale", Vector2(current_scale), 0.5)#.from(current_scale)
 		SpaceWhaleSum *= 1000
-		print(str(current_scale))
+		#print(str(current_scale))
 	SpaceShrimpCounter = 0
 	SpaceWhaleUpgradeCost += 5
 	# remove the bought shrimp
@@ -1227,14 +1237,7 @@ func _on_whale_timer_timeout() -> void:
 			$ScrollContainer/VBoxContainer/WhaleButton.modulate = Color(1.0, 1.0, 1.0, 1.0)
 		
 		if $ScrollContainer/VBoxContainer/WhaleButton.disabled == false:
-			$ScrollContainer/VBoxContainer/WhaleButton.tooltip_text = "Increase how much Space Sand is consumed"			
-			
-	if SpaceWhaleCheck == true && $Background.frame == 1:
-		SpaceWhaleSum = (SpaceCatUpgradeCost / 100000) * SpaceWhaleUpgradeCost
-		Sand_Total_Eaten += SpaceWhaleSum
-		Space_Sand += SpaceWhaleSum
-		$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
-		$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
+			$ScrollContainer/VBoxContainer/WhaleButton.tooltip_text = "Increase how much Space Sand is dropped on Terry"			
 	
 # the Chaos Squirrel is a gamble
 func _on_squirrel_button_pressed() -> void:
@@ -1316,7 +1319,7 @@ func _on_coin_timer_timeout() -> void:
 # worm spawn timer
 func _on_worm_timer_timeout() -> void:
 	# spawns worms randomly
-	Worm_Spawn_Time = randf_range(15, 22)
+	Worm_Spawn_Time = randf_range(10, 20)
 	$WormTimer.wait_time = Worm_Spawn_Time
 	
 	var worm = worm_scene.instantiate()
@@ -1333,7 +1336,7 @@ func _on_worm_button_pressed() -> void:
 	#further testing, maybe include upgrade limit
 	#further test to bets reflect upgrade costs and space sand values
 	Space_Sand -= SpaceWormUpgradeCost
-	SpaceWormUpgradeCost *= 1.5
+	SpaceWormUpgradeCost *= 1.31
 	Worm_Sand_Eat += Worm_Sand_Eat
 	$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 	$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
@@ -1460,7 +1463,7 @@ func _on_horror_button_pressed() -> void:
 		n.queue_free()
 	get_tree().call_group("spawned shrimp", "queue_free")# the shrimps
 	$StaticBody2D2.queue_free()#just get rid of everything here
-	
+	$CanvasLayerOne.queue_free()
 	$PortalSpriteAnimated.visible = true
 	#other tween to come back in bc idk how to use the other one to do it right without messing crap up
 	var tween2 = create_tween()
@@ -1656,13 +1659,17 @@ func _on_key_finished(keySuc):
 	
 #success on the cat qte
 func _on_qte_success(amount_Space_Sand):
+	SpaceCatCounter_2 += 1
+	print("Space Cat Counter is " + str(SpaceCatCounter_2))
 	#print("got me right")
 	trigger_glow($"CatSprite-o", Color(0, 1, 0))
-	if SpaceCatCounter <= 1:
+	if SpaceCatCounter <= 1 && SpaceCatCounter_2 <= 62:
 		SpaceCatCounter = 2
-	else:
+	elif SpaceCatCounter_2 <= 63:#stop prevent overflow, so this is the max multiplication
 		SpaceCatCounter = SpaceCatCounter * 2
-	var sp_gained = (amount_Space_Sand * SpaceCatCounter) / 2
+	else:
+		pass
+	var sp_gained = abs((amount_Space_Sand * SpaceCatCounter) / 2)
 	Space_Sand += sp_gained
 	$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 	$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)

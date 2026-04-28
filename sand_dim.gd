@@ -82,21 +82,21 @@ func add_sand(amount: int) -> void:#currently not using sand_mult
 		#print("hit")
 		#print(str(snapped(New_Sand_Total_Eaten, 0.01)).length())
 		#print(str($SandTimer.wait_time))
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 10 and Timer_dif_counter == 1:#.8 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 25 and Timer_dif_counter == 1:#.8 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 20 and Timer_dif_counter == 2:#.7 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 40 and Timer_dif_counter == 2:#.7 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 40 and Timer_dif_counter == 3:#0.6 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 80 and Timer_dif_counter == 3:#0.6 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 55 and Timer_dif_counter == 4:#0.5 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 95 and Timer_dif_counter == 4:#0.5 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 70 and Timer_dif_counter == 5:#0.4 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 110 and Timer_dif_counter == 5:#0.4 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 90 and Timer_dif_counter == 6:#0.3 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 130 and Timer_dif_counter == 6:#0.3 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 110 and Timer_dif_counter == 7:#0.2 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 140 and Timer_dif_counter == 7:#0.2 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 135 and Timer_dif_counter == 8:#0.1 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 155 and Timer_dif_counter == 8:#0.1 seconds
 		_next_sand_advance()
 	else:
 		pass
