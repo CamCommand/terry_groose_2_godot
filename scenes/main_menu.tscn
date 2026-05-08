@@ -151,17 +151,6 @@ stream = ExtResource("6_7b55j")
 volume_db = -10.0
 bus = &"SFX"
 
-[node name="Title" type="Label" parent="." unique_id=595372310]
-visible = false
-offset_left = 73.0
-offset_top = 41.0
-offset_right = 1859.0
-offset_bottom = 157.0
-theme_override_constants/outline_size = 15
-theme_override_font_sizes/font_size = 85
-text = "Terry    Groose 		                                Eats    Sand
-New Frontier"
-
 [node name="Credit" type="Button" parent="." unique_id=697623080]
 offset_left = 1478.0
 offset_top = 633.0

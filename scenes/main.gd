@@ -62,7 +62,6 @@ var animals_scene: PackedScene = load("res://scenes/cat&turt.tscn")
 @export var FCLSCheck: bool
 @onready var cspoon_audio: AudioStreamPlayer2D = $CSpoonAudio
 @onready var cspoonButton: Button = $ScrollContainer/VBoxContainer/CLSButton
-
 @export var DozerUpgradeCost: float = 150000000
 @export var DozerCounter: float
 @export var DozerCheck: bool
@@ -1169,7 +1168,7 @@ func _on_shrimp_button_pressed() -> void:
 	$Sand_Ate.text = NumberFormatter.format_clicker_number(Sand_Total_Eaten, 1)
 	$Space_Sand_Ate.text = NumberFormatter.format_clicker_number(Space_Sand, 4)
 	SpaceShrimpCounter += 1
-	SpaceShrimpUpgradeCost *= 1.9
+	SpaceShrimpUpgradeCost *= 1.5
 	
 func _on_shrimp_timer_timeout() -> void:
 	#space shrimp button update
@@ -1191,7 +1190,9 @@ func _on_shrimp_timer_timeout() -> void:
 			$ScrollContainer/VBoxContainer/ShrimpButton.tooltip_text = "Feed them to a lurking mammal"
 
 func _on_whale_clicker_button_pressed() -> void:
-	sand_scoop_ambiance.play()
+	if not sand_scoop_ambiance.is_playing():
+		sand_scoop_ambiance.play()
+		
 	if SpaceWhaleCheck == true && $Background.frame == 1:
 		SpaceWhaleSum += SpaceWhaleUpgradeCost * 0.5
 		Sand_Total_Eaten += SpaceWhaleSum
@@ -1210,7 +1211,7 @@ func _on_whale_button_pressed() -> void:
 		current_scale.y += SpaceWhaleTweenGrowth
 		var whaletween = create_tween()
 		whaletween.tween_property($"WhaleSprite-ko", "scale", Vector2(current_scale), 0.5)#.from(current_scale)
-		SpaceWhaleSum *= 1000
+		SpaceWhaleSum *= 50000
 		#print(str(current_scale))
 	SpaceShrimpCounter = 0
 	SpaceWhaleUpgradeCost += 5
@@ -1256,7 +1257,7 @@ func _on_squirrel_button_pressed() -> void:
 	else:
 		Space_Sand -= SpaceSquirrelGambleCost
 		SpaceSquirrelGambleCost += 500000000
-		SpaceSquirrelGamble = randf_range(0.01, 1.99)
+		SpaceSquirrelGamble = randf_range(0.35, 2.25)
 		#print(str(SpaceSquirrelGamble))
 		Space_Sand *= SpaceSquirrelGamble
 	

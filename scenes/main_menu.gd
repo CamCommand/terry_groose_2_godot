@@ -96,7 +96,10 @@ func display_sand_fact():
 			sand_fact_label.text + " "
 			$DustBaby.visible = true
 	else:
-		sand_fact_label.text = "Sand Fact! \n Deleting me will not stop what is to come."
+		if OS.has_feature("standalone"):
+			sand_fact_label.text = "Sand Fact! \nDeleting me will not stop what is to come."
+		else:
+			sand_fact_label.text = "Sand Facts! \nCome with the full version, sorry, download me please, thank you..."
 
 func _hover_play():
 	button_hover_sfx.play()

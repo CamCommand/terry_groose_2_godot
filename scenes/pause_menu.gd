@@ -53,7 +53,10 @@ func add_super_text():
 	
 #button opens up game's music folder
 func _on_music_pressed() -> void:
-	OS.shell_open(ProjectSettings.globalize_path("user://music"))
+	if OS.has_feature("standalone"):
+		OS.shell_open(ProjectSettings.globalize_path("user://music"))
+	else:
+		pass
 	
 #volume slider
 func _on_volume_slider_value_changed(value: float) -> void:

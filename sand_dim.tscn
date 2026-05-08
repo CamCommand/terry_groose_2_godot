@@ -120,6 +120,16 @@ shape = SubResource("RectangleShape2D_6v18u")
 [node name="SandTimer" type="Timer" parent="." unique_id=1970551620]
 autostart = true
 
+[node name="Cheat Button" type="Button" parent="." unique_id=1365839043]
+visible = false
+offset_left = 15.0
+offset_top = 180.0
+offset_right = 117.0
+offset_bottom = 215.0
+focus_mode = 0
+theme_override_colors/icon_normal_color = Color(1, 0, 1, 1)
+text = "$$$"
+
 [node name="Button" type="Button" parent="." unique_id=119826862]
 visible = false
 offset_left = 20.64
@@ -215,6 +225,7 @@ theme_override_font_sizes/font_size = 94
 text = "Thank You For Playing"
 
 [connection signal="timeout" from="SandTimer" to="." method="_on_sand_timer_timeout"]
+[connection signal="pressed" from="Cheat Button" to="." method="_on_cheat_button_pressed"]
 [connection signal="mouse_entered" from="Button" to="." method="_on_button_mouse_entered"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="timeout" from="LabelGrowTimer" to="." method="_on_label_grow_timer_timeout"]

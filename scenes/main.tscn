@@ -660,7 +660,6 @@ script = ExtResource("1_0wfyh")
 CLSUpgradeCost = 100000.0
 DozerUpgradeCost = 1000000.0
 GolemUpgradeCost = 35000000.0
-SpaceCatCounter_2 = null
 SpaceWhaleSum = 0.0
 SpaceSquirrelGambleCost = 100000.0
 Worm_Sand_Eat = 2500000

@@ -15,6 +15,8 @@ var sand_scene: PackedScene = load("res://scenes/final_sand.tscn")
 @onready var sand_ate: RichTextLabel = $Sand_Ate
 @export var sand_ate_growth: float = 1
 
+var dev_bool: bool = false
+
 @export var New_Sand_Total_Eaten: float
 @export var New_Sand_Mult: float = 1
 @export var New_Sand_Counter: int = 1
@@ -82,21 +84,21 @@ func add_sand(amount: int) -> void:#currently not using sand_mult
 		#print("hit")
 		#print(str(snapped(New_Sand_Total_Eaten, 0.01)).length())
 		#print(str($SandTimer.wait_time))
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 25 and Timer_dif_counter == 1:#.8 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= ceil(Global.sand_dim_digit_final * .111) and Timer_dif_counter == 1:#.8 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 40 and Timer_dif_counter == 2:#.7 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= ceil(Global.sand_dim_digit_final * .222) and Timer_dif_counter == 2:#.7 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 80 and Timer_dif_counter == 3:#0.6 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= ceil(Global.sand_dim_digit_final * .333) and Timer_dif_counter == 3:#0.6 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 95 and Timer_dif_counter == 4:#0.5 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= ceil(Global.sand_dim_digit_final * .444) and Timer_dif_counter == 4:#0.5 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 110 and Timer_dif_counter == 5:#0.4 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= ceil(Global.sand_dim_digit_final * .555) and Timer_dif_counter == 5:#0.4 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 130 and Timer_dif_counter == 6:#0.3 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= ceil(Global.sand_dim_digit_final * .666) and Timer_dif_counter == 6:#0.3 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 140 and Timer_dif_counter == 7:#0.2 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= ceil(Global.sand_dim_digit_final * .777) and Timer_dif_counter == 7:#0.2 seconds
 		_next_sand_advance()
-	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 155 and Timer_dif_counter == 8:#0.1 seconds
+	elif str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= ceil(Global.sand_dim_digit_final * .888) and Timer_dif_counter == 8:#0.1 seconds
 		_next_sand_advance()
 	else:
 		pass
@@ -125,7 +127,7 @@ func _next_sand_advance():
 
 func _on_step_tween_finished():
 	step_tween = null
-	
+		
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("Float"):
 		velocity = -jump_impulse
@@ -135,6 +137,13 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("right") or Input.is_action_pressed("right"):
 		terry.position.x += right_impulse * delta 
 		$Terry/AnimatedSprite2D.flip_h = false
+		
+	if Input.is_action_just_pressed("dev_buttons") && dev_bool == false:
+		$"Cheat Button".visible = true
+		dev_bool = true
+	elif Input.is_action_just_pressed("dev_buttons") && dev_bool == true:
+		$"Cheat Button".visible = false
+		dev_bool = false
 	#gravity
 	velocity += gravity * delta
 	#position
@@ -206,11 +215,11 @@ func _on_hat_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 	
 func _on_hat_timer_timeout() -> void:
-	print(str(snapped(New_Sand_Total_Eaten, 0.01)).length())
+	#print(str(snapped(New_Sand_Total_Eaten, 0.01)).length())
 	#when the button unlock !!!
-	if str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= 160:
+	if str(snapped(New_Sand_Total_Eaten, 0.01)).length() >= Global.sand_dim_digit_final:
 		$HatButton.disabled = false
-		$HatButton.text = "Buy A New" + "\n" + "Hat" + "\n" + "∞"
+		$HatButton.text = "Buy A New" + "\n" + "Hat" + "\n" + "∞ Sand"
 		$HatButton.modulate = Color(0.0, 0.775, 0.351, 1.0)
 		
 func _on_auto_save_timer_timeout() -> void:
@@ -221,3 +230,8 @@ func _on_auto_save_timer_timeout() -> void:
 
 func _on_button_mouse_entered() -> void:
 	$ButtonHoverSFX.play()
+
+func _on_cheat_button_pressed() -> void:
+	if Global.sand_dim_digit_final > 5:
+		Global.sand_dim_digit_final -= 5
+		print(str(Global.sand_dim_digit_final))
